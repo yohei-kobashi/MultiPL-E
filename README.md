@@ -138,6 +138,28 @@ alongside the `.json.gz` files that were created during generation:
 ls tutorial/*/*.results.json.gz
 ```
 
+#### Execution with Singularity
+
+If your environment uses Singularity rather than Docker or Podman, first pull
+the container image:
+
+```bash
+singularity pull docker://ghcr.io/nuprl/multipl-e-evaluation
+```
+
+This creates `multipl-e-evaluation_latest.sif`. Run evaluation inside the
+container with:
+
+```bash
+mkdir sing_home
+singularity exec \
+    --home $(pwd)/sing_home:/home/$USER \
+    --network none \
+    --bind ./tutorial:/tutorial:rw \
+    multipl-e-evaluation_latest.sif \
+    python3 src/main.py --dir /tutorial --output-dir /tutorial --recursive
+```
+
 #### Execution via FastAPI
 
 The evaluation container can also run as a web service. The container
@@ -146,6 +168,16 @@ accepts a single completion per request. Start the server with:
 
 ```bash
 podman run --rm -p 9090:9090 multipl-e-eval
+```
+
+##### With Singularity
+
+```bash
+singularity exec \
+    --home $(pwd)/sing_home:/home/$USER \
+    --bind ./tutorial:/tutorial:rw \
+    multipl-e-evaluation_latest.sif \
+    uvicorn api:app --host 0.0.0.0 --port 9090
 ```
 
 Then send a POST request containing the code to evaluate:
