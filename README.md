@@ -110,12 +110,19 @@ may do something that breaks your system. The container mitigates that risk.
 
 #### Execution with a Container
 
-When you first run evaluation, you need to pull and tag the [execution container](https://github.com/nuprl/MultiPL-E/pkgs/container/multipl-e-evaluation):
+When you first run evaluation, you need to pull and tag the [execution container](https://github.com/nuprl/MultiPL-E/pkgs/container/multipl-e-evaluation), or build it yourself from the sources:
 
 
 ```bash
 podman pull ghcr.io/nuprl/multipl-e-evaluation
 podman tag ghcr.io/nuprl/multipl-e-evaluation multipl-e-eval
+```
+
+To build the container locally instead of pulling it, run:
+
+```bash
+make -C evaluation build
+podman tag multipl-e-evaluation multipl-e-eval
 ```
 
 The following command will run execution on the generated completions:
@@ -130,6 +137,27 @@ alongside the `.json.gz` files that were created during generation:
 ```
 ls tutorial/*/*.results.json.gz
 ```
+
+#### Execution via FastAPI
+
+The evaluation container can also run as a web service. The container
+entrypoint launches a FastAPI server that listens on port `9090` and
+accepts a single completion per request. Start the server with:
+
+```bash
+podman run --rm -p 9090:9090 multipl-e-eval
+```
+
+Then send a POST request containing the code to evaluate:
+
+```bash
+curl -X POST http://localhost:9090/evaluate \
+  -H 'Content-Type: application/json' \
+  -d '{"language": "python", "prompt": "", "completion": "print(1)", "tests": ""}'
+```
+
+The server returns a JSON object with fields such as `stdout`, `stderr`
+and `status` describing the execution result.
 
 #### Execution without a Container
 
