@@ -110,12 +110,19 @@ may do something that breaks your system. The container mitigates that risk.
 
 #### Execution with a Container
 
-When you first run evaluation, you need to pull and tag the [execution container](https://github.com/nuprl/MultiPL-E/pkgs/container/multipl-e-evaluation):
+When you first run evaluation, you need to pull and tag the [execution container](https://github.com/nuprl/MultiPL-E/pkgs/container/multipl-e-evaluation), or build it yourself from the sources:
 
 
 ```bash
 podman pull ghcr.io/nuprl/multipl-e-evaluation
 podman tag ghcr.io/nuprl/multipl-e-evaluation multipl-e-eval
+```
+
+To build the container locally instead of pulling it, run:
+
+```bash
+make -C evaluation build
+podman tag multipl-e-evaluation multipl-e-eval
 ```
 
 The following command will run execution on the generated completions:
