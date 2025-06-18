@@ -138,6 +138,40 @@ alongside the `.json.gz` files that were created during generation:
 ls tutorial/*/*.results.json.gz
 ```
 
+#### Execution with Singularity
+
+To create a Singularity container, first prepare a Docker archive locally using
+Podman:
+
+```bash
+podman pull ghcr.io/nuprl/multipl-e-evaluation:latest
+podman save --format docker-archive -o multipl-e-eval.tar \
+  ghcr.io/nuprl/multipl-e-evaluation:latest
+```
+
+Copy `multipl-e-eval.tar` to the machine where you run evaluation and build a
+sandboxed image:
+
+```bash
+scp multipl-e-eval.tar miyabi:~/MultiPL-E/
+cd ~/MultiPL-E
+singularity build --sandbox multipl-e-eval_sandbox \
+  docker-archive://multipl-e-eval.tar
+```
+
+Run the evaluator using the sandbox directory:
+
+```bash
+singularity run \
+  --cleanenv \
+  --bind $(pwd)/tutorial:/tutorial \
+  --pwd /code \
+  multipl-e-eval_sandbox \
+  --dir /tutorial \
+  --output-dir /tutorial \
+  --recursive
+```
+
 #### Execution via FastAPI
 
 The evaluation container can also run as a web service. The container
@@ -146,6 +180,16 @@ accepts a single completion per request. Start the server with:
 
 ```bash
 podman run --rm -p 9090:9090 multipl-e-eval
+```
+
+##### With Singularity
+
+```bash
+singularity run \
+    --cleanenv \
+    --bind $(pwd)/tutorial:/tutorial \
+    --pwd /code \
+    multipl-e-eval_sandbox
 ```
 
 Then send a POST request containing the code to evaluate:
