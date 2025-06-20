@@ -1,8 +1,8 @@
 SINGULARITY_EXEC?=singularity
 
 build: Dockerfile Adb.dockerfile
-	${SINGULARITY_EXEC} build multipl-e-evaluation.sif Dockerfile
-	${SINGULARITY_EXEC} build multipl-e-adb.sif Adb.dockerfile
+       ${SINGULARITY_EXEC} build --fakeroot multipl-e-evaluation.sif Dockerfile
+       ${SINGULARITY_EXEC} build --fakeroot multipl-e-adb.sif Adb.dockerfile
 
 test: build
 	${SINGULARITY_EXEC} exec \
