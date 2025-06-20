@@ -159,7 +159,7 @@ To build the container locally instead of pulling it, run:
 cd evaluation
 make build
 podman save --format docker-archive -o multipl-e-eval.tar \
-  ghcr.io/nuprl/multipl-e:adb
+  localhost/multipl-e-evaluation
 ```
 
 ```bash

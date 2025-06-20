@@ -28,11 +28,8 @@ RUN apt-get install -y nodejs
 RUN npm install -g typescript
 
 # Dlang
-RUN wget https://netcologne.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EDC4FB09C3AEEDD0
-RUN apt-get update
-RUN apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
-RUN apt-get update && apt-get install -yqq dmd-compiler dub
+RUN apt-get update -yqq && \
+    apt-get install -yqq ldc dub
 
 # C#
 RUN apt install gnupg ca-certificates
@@ -96,9 +93,12 @@ ENV PATH="/clojure/bin:${PATH}"
 RUN clojure -P
 
 # Dart
+RUN apt-get install unzip
+RUN wget https://storage.googleapis.com/dart-archive/channels/stable/release/3.8.1/sdk/dartsdk-linux-arm64-release.zip
+RUN unzip dartsdk-linux-arm64-release.zip -d /usr/local/
 RUN wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg  --dearmor -o /usr/share/keyrings/dart.gpg
-RUN echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | tee /etc/apt/sources.list.d/dart_stable.list
-RUN apt-get update -yqq && apt-get install -yqq dart
+ENV PATH="${PATH}:/usr/local/dart-sdk/bin/"
+ENV PATH="${PATH}:/root/.pub-cache/bin"
 
 # Coq
 # RUN apt-get install -yqq coq
