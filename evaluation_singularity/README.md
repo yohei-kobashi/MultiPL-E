@@ -12,7 +12,7 @@ This directory contains code to evaluate all languages supported by MultiPL-E.
 
 ## Usage
 
-The `build` command builds the container:
+The `build` command builds the container using Singularity:
 
 ```bash
 make build
@@ -22,27 +22,18 @@ To run the container, place all of the completion files under a directory, then 
 Use the `--volume` option to create directory mappings.
 
 ```bash
-	docker run --rm --network none 
-		--volume ${PWD}/inputs:/inputs:ro \
-		--volume ${PWD}/outputs:/outputs:rw \
-		multipl-e-evaluation \
-                --dir $INPUT_DIR \
-                --output-dir $OUTPUT_DIR
+singularity exec \
+    --network none \
+    --bind ${PWD}/inputs:/inputs:ro \
+    --bind ${PWD}/outputs:/outputs:rw \
+    multipl-e-evaluation.sif \
+    python3 main.py --dir $INPUT_DIR --output-dir $OUTPUT_DIR
 ```
 
 The `$INPUT_DIR` argument should be a directory with completions. See the `test_inputs` for an example.
 The `$OUTPUT_DIR` argument is the directory where results are generated.
 
 
-## Specifying alternate docker instance
-
-The docker (or podman) instance can be specified:
-
-```bash
-make DOCKER_EXEC="docker" test
-```
-
-(We use Podman by default.)
 
 ## Testing mode
 
