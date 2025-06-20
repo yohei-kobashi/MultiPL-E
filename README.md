@@ -121,8 +121,9 @@ podman tag ghcr.io/nuprl/multipl-e-evaluation multipl-e-eval
 To build the container locally instead of pulling it, run:
 
 ```bash
-make -C evaluation build
-podman tag multipl-e-evaluation multipl-e-eval
+cd evaluation
+make build
+podman tag ghcr.io/nuprl/multipl-e multipl-e-eval
 ```
 
 The following command will run execution on the generated completions:
@@ -151,6 +152,15 @@ podman save --format docker-archive -o multipl-e-eval.tar \
 
 Copy `multipl-e-eval.tar` to the machine where you run evaluation and build a
 sandboxed image:
+
+To build the container locally instead of pulling it, run:
+
+```bash
+cd evaluation
+make build
+podman save --format docker-archive -o multipl-e-eval.tar \
+  ghcr.io/nuprl/multipl-e:adb
+```
 
 ```bash
 scp multipl-e-eval.tar miyabi:~/MultiPL-E/
