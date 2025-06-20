@@ -12,9 +12,7 @@ This directory contains code to evaluate all languages supported by MultiPL-E.
 
 ## Usage
 
-The `build` command builds the container using Singularity. It
-invokes `singularity build --fakeroot` so the build does not
-require root privileges:
+The `build` command builds the container using Singularity:
 
 ```bash
 make build
