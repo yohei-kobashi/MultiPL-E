@@ -28,8 +28,8 @@ RUN apt-get install -y nodejs
 RUN npm install -g typescript
 
 # Dlang
-RUN apt-get update -yqq && \
-    apt-get install -yqq ldc dub
+RUN apt-get update -yqq
+RUN apt-get install -yqq ldc dub
 
 # C#
 RUN apt install gnupg ca-certificates
@@ -96,7 +96,6 @@ RUN clojure -P
 RUN apt-get install unzip
 RUN wget https://storage.googleapis.com/dart-archive/channels/stable/release/3.8.1/sdk/dartsdk-linux-arm64-release.zip
 RUN unzip dartsdk-linux-arm64-release.zip -d /usr/local/
-RUN wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg  --dearmor -o /usr/share/keyrings/dart.gpg
 ENV PATH="${PATH}:/usr/local/dart-sdk/bin/"
 ENV PATH="${PATH}:/root/.pub-cache/bin"
 
