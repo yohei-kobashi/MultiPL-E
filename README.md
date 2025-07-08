@@ -188,7 +188,8 @@ singularity run \
 
 The evaluation container can also run as a web service. The container
 entrypoint launches a FastAPI server that listens on port `9090` and
-accepts a single completion per request. Start the server with:
+accepts completions in the same JSON format used by `evaluation.main`.
+Start the server with:
 
 ```bash
 podman run --rm -p 9090:9090 multipl-e-eval
@@ -204,12 +205,13 @@ singularity run \
     multipl-e-eval_sandbox
 ```
 
-Then send a POST request containing the code to evaluate:
+Then send a POST request containing the code to evaluate.  The body mirrors
+the JSON files used by the evaluation script:
 
 ```bash
 curl -X POST http://localhost:9090/evaluate \
   -H 'Content-Type: application/json' \
-  -d '{"language": "python", "prompt": "", "completion": "print(1)", "tests": ""}'
+  -d '{"language": "python", "prompt": "", "tests": "", "completions": ["print(1)"]}'
 ```
 
 The server returns a JSON object with fields such as `stdout`, `stderr`
