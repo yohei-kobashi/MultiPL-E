@@ -54,7 +54,7 @@ def for_file(path: Path):
         with open(path, 'r') as f:
             data = json.load(f)
 
-    if data is None:
+    if data["results"] is None:
         return None
     n = len(data["results"])
     c = len([True for r in data["results"] if r["status"]

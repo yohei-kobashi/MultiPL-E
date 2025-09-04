@@ -5,13 +5,16 @@ MultiPL-E を用いたコード生成結果に対して，
 
 ## 0. 事前準備
 - testコードの生成を行う． MultiPL-E/README.md のGenerationを行う．
-    - automodel_vllm.pyでテストした
+    - automodel_vllm.pyでテストした (詳細notionページを参照: コード翻訳LLM開発/MultiPL-E評価のためのコード生成)
+    - TODO: miyabiを用いたコード生成
 
 - 出力される1fileの仕様
 ```
 1problem = 1file(.json.gz)としてファイルになっている．
 .json.gzが持つ - data-keys: ['name', 'language', 'temperature', 'top_p', 'max_tokens', 'prompt', 'tests', 'completions', 'stop_tokens', 'tokens_info']
 ```
+
+- 
 
 ## 1. 生成されたコードを，AWS上のMultiPL-E評価結果の取得
 - 以下のコマンドにより，生成されたコードをAWSのMultiPL-E 評価サーバで評価を行う．結果は，--output_base_dir/<input_dir_name> として保存．

@@ -90,7 +90,7 @@ class SendQueryToMultiEvalServer():
 
         # --------------------------- Request Sucess
         try:
-            res = requests.post(url=_url, headers=headers, data=json.dumps(query_d), timeout=30)
+            res = requests.post(url=_url, headers=headers, data=json.dumps(query_d), timeout=610)   # NOTE: timeout >= N completion * 1 timeout of evaluating completion
             self.log.debug(f"res:{res}")
 
             # Case: Success
