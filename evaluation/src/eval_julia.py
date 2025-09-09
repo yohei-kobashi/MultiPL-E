@@ -2,7 +2,7 @@ from safe_subprocess import run
 from pathlib import Path
 
 def eval_script(path: Path):
-    result = run(["julia", str(path)], timeout_seconds=5)
+    result = run(["env", "OPENBLAS_NUM_THREADS=1", "julia", "-t", "1", str(path)], timeout_seconds=30)
     if result.timeout:
         status = "Timeout"
     elif result.exit_code == 0:
