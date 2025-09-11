@@ -34,6 +34,42 @@ class SendQueryToMultiEvalServer():
             self.lang2url = json.load(f)["urls"]
         self.log.debug(f"set lang2url using: {url_json_path}")
 
+    def check_eval_server_health(self, first_json_path, try_num=5):
+        """Check the health of the evaluation server.
+        NOTE: awsサーバは初回アクセス時に起動していない場合があるため，サーバ起動確認を行う．
+        """
+        SLEEP_TIME = 10
+        self.log.debug(f"Checking server health using: {first_json_path}")
+        with open_json(first_json_path, "r") as f:
+            data = json.load(f)
+            query_lang = data.get("language", None)
+        if query_lang is None:
+            self.log.error(f"Error: No language found in JSON: {first_json_path}")
+            return False
+
+        base_url = self.lang2url.get(query_lang, None)
+        if base_url is None:
+            self.log.error(f"Error: No server URL for language: {query_lang}")
+            return False
+
+        health_url = f"{base_url}/healthz"
+        for i in range(try_num):
+            print(f"Health check attempt {i+1}/{try_num} for {health_url}")
+            try:
+                res = requests.get(url=health_url, timeout=5)
+                if res.status_code == requests.codes.ok:
+                    self.log.info(f"Server is healthy: {health_url}")
+                    return True
+                else:
+                    self.log.warning(f"Server health check failed: {health_url}, status: {res.status_code}")
+            except requests.RequestException as e:
+                self.log.error(f"Error checking server health: {e}")
+            print(f"Retrying in {SLEEP_TIME} seconds...")
+            time.sleep(SLEEP_TIME)
+
+        self.log.error(f"Server health check failed after {try_num} attempts.")
+        return False
+
     def send_query(self, query_d:dict):
         """
         Args:
@@ -91,7 +127,7 @@ class SendQueryToMultiEvalServer():
         # --------------------------- Request Sucess
         try:
             res = requests.post(url=_url, headers=headers, data=json.dumps(query_d), timeout=610)   # NOTE: timeout >= N completion * 1 timeout of evaluating completion
-            self.log.debug(f"res:{res}")
+            self.log.debug(f"language: {language}, res:{res}")
 
             # Case: Success
             if res.status_code == requests.codes.ok:
@@ -156,6 +192,7 @@ class SendQueryToMultiEvalServer():
 
     def process_dir(self, input_dir:str, output_dir:str, num_workers=1):
         """input_dir に含まれるcompletionコードを持つjson/json.gzを使用し，multipl-e 評価サーバに投げ，結果を output_dir に保存する．
+        serverにhealth問い合わせを行い，serverを起動状態を確認する. serverのhealth確認に使用するURLはinput_dirに先頭のjson/json.gzを利用するため, input_dirは単一の言語を想定.
         """
 
         # -----------------------------------------------------------------------------------------------------------
@@ -168,6 +205,13 @@ class SendQueryToMultiEvalServer():
         json_paths = list(Path(input_dir).glob("*.json")) + list(Path(input_dir).glob("*.json.gz"))  # list[Path]
         print(f"start evaluation (query to Multipl-E server). process_dir: {input_dir}, num: {len(json_paths)}")
 
+        # Eval Server Health check using first json file.
+        is_eval_server_alive = self.check_eval_server_health(json_paths[0], try_num=5)
+        if is_eval_server_alive is False:
+            print(f"[Error] Evaluation server seems down. Please check the server status. input_dir: {input_dir}")
+            return -1
+
+        # Process JSON files
         with ProcessPoolExecutor(max_workers=num_workers) as executor:
             futures = executor.map(self.process_json, [(json_file, output_dir) for json_file in json_paths])
             for _ in futures:
@@ -238,6 +282,7 @@ def test():
     print(f"query_result keys: {list(query_result.keys())}")
 
 if __name__ == "__main__":
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG) # temporary setting
     get_eval_results()
 
     # test()  # debug
