@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -q short-g
+#PBS -q regular-g
 #PBS -l select=1
 #PBS -W group_list=go25
 #PBS -j oe
