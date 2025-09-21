@@ -29,7 +29,6 @@ N_SAMPLES=20
 OUT_ROOT="tutorial_0826"
 
 DATASETS_AND_LANGS=(
-  "mbpp,swift"
   "mbpp,ts"
 )
 
