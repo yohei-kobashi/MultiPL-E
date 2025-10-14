@@ -30,6 +30,7 @@ import eval_v
 import eval_lean
 import eval_dart
 import tempfile
+import eval_delphi
 
 
 EVALUATORS = {
@@ -66,6 +67,7 @@ EVALUATORS = {
     "coq": (eval_v.eval_script, ".v"),
     "lean": (eval_lean.eval_script, ".lean"),
     "dart": (eval_dart.eval_script, ".dart"),
+    "delphi": (eval_delphi.eval_script, ".pas"),
 }
 
 def eval_string_script(language, program):

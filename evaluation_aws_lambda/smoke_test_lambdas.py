@@ -77,6 +77,8 @@ def program_for(lang: str) -> str:
         "elixir": 'IO.puts("OK")\n',
         # Ada must define procedure main so gnatchop emits main.adb for our evaluator
         "ada": 'with Ada.Text_IO; use Ada.Text_IO;\nprocedure main is\nbegin\n  Put_Line("OK");\nend main;\n',
+        # Delphi / Free Pascal
+        "delphi": "program Test;\nbegin\n  writeln('OK');\nend.\n",
 
         # Proof/verification oriented
         # Coq (key is `v` here, evaluator compiles with `coqc`)
@@ -320,6 +322,14 @@ def triad_for(lang: str) -> Optional[Tuple[str, str, str]]:
             "Definition add (x y : nat) := x + y.\n",
             "",
             "Example t : add 2 3 = 5.\nProof. reflexivity. Qed.\n",
+        ),
+        "delphi": (
+            # prompt (include program header and function signature)
+            "program Test;\n\nfunction add(x, y: LongInt): LongInt;\n",
+            # completion (function body fragment)
+            "begin\n  add := x + y;\nend;\n",
+            # tests (program body)
+            "begin\n  if add(2, 3) <> 5 then halt(1);\n  writeln('OK');\nend.\n",
         ),
     }
     return m.get(lang)
