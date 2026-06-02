@@ -18,13 +18,13 @@ The response mirrors the structure produced by ``evaluation.src.main`` where
 each completion.
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import time
 import os
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from containerized_eval import eval_string_script
+from containerized_eval import eval_string_script, eval_source_with_io
 import traceback
 
 # ==== Lambda-specific settings (configurable via environment variables) ====
@@ -37,11 +37,15 @@ class EvalRequest(BaseModel):
     """Request model matching ``evaluation.src.main`` input files."""
 
     language: str
-    prompt: str
-    tests: str
-    completions: list[str]
+    prompt: str | None = None
+    tests: str | None = None
+    completions: list[str] | None = None
+    source_code: str | None = None
+    input: str | None = None
+    output: list[str] | None = None
     name: str | None = None
     stop_tokens: list[str] | None = None
+    eval_timeout: float | None = None
 
     class Config:
         extra = "allow"
@@ -75,44 +79,96 @@ async def evaluate(req: EvalRequest):
     """
     loop = asyncio.get_running_loop()
     results = []
+    eval_timeout = EVAL_TIMEOUT if req.eval_timeout is None else float(req.eval_timeout)
 
-    # Note: stop_tokens is passed through as-is if used by containerized_eval
-    for completion in req.completions:
-        # Construct the program: prompt + completion + tests
-        program = req.prompt + completion + "\n" + req.tests
+    if (
+        req.completions is not None
+        and req.prompt is not None
+        and req.tests is not None
+    ):
+        # Note: stop_tokens is passed through as-is if used by containerized_eval
+        for completion in req.completions:
+            # Construct the program: prompt + completion + tests
+            program = req.prompt + completion + "\n" + req.tests
+            try:
+                async with semaphore:
+                    result = await asyncio.wait_for(
+                        loop.run_in_executor(
+                            executor, eval_string_script, req.language, program
+                        ),
+                        timeout=eval_timeout,
+                    )
+            except asyncio.TimeoutError:
+                result = {
+                    "program": program,
+                    "stdout": "",
+                    "stderr": f"Timeout after {eval_timeout} seconds (api wait_for)",
+                    "exit_code": -1,
+                    "status": "Timeout",
+                }
+            except Exception:
+                result = {
+                    "program": program,
+                    "stdout": "",
+                    "stderr": traceback.format_exc()[:8000],
+                    "exit_code": -1,
+                    "status": "Exception",
+                }
+            # Add timestamp
+            result["timestamp"] = int(time.time())
+            results.append(result)
+
+        response = req.dict()
+        response.pop("completions", None)
+        response["results"] = results
+        return response
+
+    if (
+        req.source_code is not None
+        and req.input is not None
+        and req.output is not None
+    ):
         try:
             async with semaphore:
                 result = await asyncio.wait_for(
                     loop.run_in_executor(
-                        executor, eval_string_script, req.language, program
+                        executor,
+                        eval_source_with_io,
+                        req.language,
+                        req.source_code,
+                        req.input,
+                        req.output,
                     ),
-                    timeout=EVAL_TIMEOUT,
+                    timeout=eval_timeout,
                 )
         except asyncio.TimeoutError:
             result = {
-                "program": program,
+                "program": req.source_code,
                 "stdout": "",
-                "stderr": "Timeout",
+                "stderr": f"Timeout after {eval_timeout} seconds (api wait_for)",
                 "exit_code": -1,
                 "status": "Timeout",
             }
         except Exception:
             result = {
-                "program": program,
+                "program": req.source_code,
                 "stdout": "",
                 "stderr": traceback.format_exc()[:8000],
                 "exit_code": -1,
                 "status": "Exception",
             }
-        # Add timestamp
         result["timestamp"] = int(time.time())
-        results.append(result)
+        response = req.dict()
+        response["results"] = [result]
+        return response
 
-    # Prepare the response (replace completions with results)
-    response = req.dict()
-    response.pop("completions", None)
-    response["results"] = results
-    return response
+    raise HTTPException(
+        status_code=400,
+        detail=(
+            "Invalid request payload: provide either prompt/tests/completions "
+            "or source_code/input/output."
+        ),
+    )
 
 # ==== Single-line addition for Lambda (RIC + Mangum) ====
 from mangum import Mangum

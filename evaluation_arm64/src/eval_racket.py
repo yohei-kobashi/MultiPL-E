@@ -6,6 +6,19 @@ from pathlib import Path
 from safe_subprocess import run
 from libeval import run_without_exn
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+#lang racket
+(define (add x y) (+ x y))
+
+- tests:
+(require rackunit)
+(check-equal? (add 2 3) 5)
+(displayln "OK")
+"""
+
 
 def eval_script(path: Path):
     result = run(["racket", str(path)])

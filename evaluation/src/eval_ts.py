@@ -1,6 +1,17 @@
 from pathlib import Path
 from safe_subprocess import run
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+function add(x: number, y: number): number { return x + y; }
+
+- tests:
+console.assert(add(2, 3) === 5);
+console.log('OK');
+"""
+
 
 def eval_script(path: Path):
     r = run(["tsc", "--target", "esnext", str(path)], timeout_seconds=15)

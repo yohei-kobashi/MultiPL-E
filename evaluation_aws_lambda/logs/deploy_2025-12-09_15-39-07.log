@@ -1,0 +1,368 @@
++ [2025-12-09 15:39:07] ./deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_15-39-07.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-12-09 15:39:07] ./deploy.sh:44: trap on_exit EXIT
++ [2025-12-09 15:39:07] ./deploy.sh:51: trap on_err ERR
++ [2025-12-09 15:39:07] ./deploy.sh:54: : ap-northeast-1
++ [2025-12-09 15:39:07] ./deploy.sh:55: : 288761745376_developer
++ [2025-12-09 15:39:07] ./deploy.sh:56: : multipl-e-api-lambda
++ [2025-12-09 15:39:07] ./deploy.sh:57: : v1
++ [2025-12-09 15:39:07] ./deploy.sh:58: : eval-fastapi-v2
++ [2025-12-09 15:39:07] ./deploy.sh:59: : x86_64
++ [2025-12-09 15:39:07] ./deploy.sh:60: : docker
++ [2025-12-09 15:39:07] ./deploy.sh:62: : 10240
++ [2025-12-09 15:39:07] ./deploy.sh:63: : 900
++ [2025-12-09 15:39:07] ./deploy.sh:65: : lambda-eval-exec-role
++ [2025-12-09 15:39:07] ./deploy.sh:68: [[ 1 -gt 0 ]]
++ [2025-12-09 15:39:07] ./deploy.sh:69: LANGS=("$@")
+++ [2025-12-09 15:39:07] ./deploy.sh:81: date '+%Y-%m-%d %H:%M:%S'
++ [2025-12-09 15:39:07] ./deploy.sh:81: echo '[INFO] ===== Deployment started at 2025-12-09 15:39:07 ====='
+[INFO] ===== Deployment started at 2025-12-09 15:39:07 =====
++ [2025-12-09 15:39:07] ./deploy.sh:82: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_15-39-07.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_15-39-07.log
++ [2025-12-09 15:39:07] ./deploy.sh:83: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-12-09 15:39:07] ./deploy.sh:84: echo '[INFO] Detected languages: php'
+[INFO] Detected languages: php
++ [2025-12-09 15:39:07] ./deploy.sh:85: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-12-09 15:39:07] ./deploy.sh:86: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-12-09 15:39:08] ./deploy.sh:87: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-12-09 15:39:08] ./deploy.sh:88: git rev-parse --short HEAD
++ [2025-12-09 15:39:08] ./deploy.sh:88: xargs '-I{}' echo 'git-sha: {}'
+git-sha: 58f6d0b0
++ [2025-12-09 15:39:08] ./deploy.sh:91: export AWS_PAGER=
++ [2025-12-09 15:39:08] ./deploy.sh:91: AWS_PAGER=
++ [2025-12-09 15:39:08] ./deploy.sh:93: export AWS_PROFILE=288761745376_developer
++ [2025-12-09 15:39:08] ./deploy.sh:93: AWS_PROFILE=288761745376_developer
++ [2025-12-09 15:39:08] ./deploy.sh:94: ACCOUNT_ID_OUTPUT=
++ [2025-12-09 15:39:08] ./deploy.sh:95: ACCOUNT_ID=
+++ [2025-12-09 15:39:08] ./deploy.sh:99: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 15:39:09] ./deploy.sh:99: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-12-09 15:39:09] ./deploy.sh:108: ACCOUNT_ID=288761745376
++ [2025-12-09 15:39:09] ./deploy.sh:109: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-09 15:39:09] ./deploy.sh:112: [[ -z '' ]]
++ [2025-12-09 15:39:09] ./deploy.sh:113: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-12-09 15:39:09] ./deploy.sh:117: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-09 15:39:09] ./deploy.sh:117: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-09 15:39:09] ./deploy.sh:119: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-09 15:39:09] ./deploy.sh:120: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 15:39:09] ./deploy.sh:120: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
+Login Succeeded
++ [2025-12-09 15:39:10] ./deploy.sh:123: BASE_TAG=base-v1
++ [2025-12-09 15:39:10] ./deploy.sh:124: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-12-09 15:39:10] ./deploy.sh:125: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-12-09 15:39:10] ./deploy.sh:126: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 6.22kB done
+#5 DONE 0.0s
+
+#6 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#6 CACHED
+
+#7 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#8 CACHED
+
+#9 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#9 CACHED
+
+#10 [6/7] WORKDIR /var/task
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers 0.0s done
+#12 writing image sha256:51edf44130c09effb316468b7ecbfbb9b3209d003306ab3ef2fc1129b9138f97 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.1s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer f212f49fb04a
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5 0.1s
+#13 pushing layer ee9412008f1c
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer f212f49fb04a 215.04kB / 164.37kB 0.2s
+#13 pushing layer f212f49fb04a 0.8s done
+#13 pushing layer a9895ee477e5 2.0s done
+#13 pushing layer 86e9b58cec28 2.0s done
+#13 pushing layer ee9412008f1c 2.0s done
+#13 pushing layer 6e6ff92b1cc8 2.0s done
+#13 pushing layer 8810007f7e31 2.0s done
+#13 pushing layer 90a2bf02e851 2.0s done
+#13 DONE 2.3s
++ [2025-12-09 15:39:13] ./deploy.sh:134: declare -A URLS
++ [2025-12-09 15:39:13] ./deploy.sh:136: for lang in "${LANGS[@]}"
++ [2025-12-09 15:39:13] ./deploy.sh:137: DOCKERFILE_PATH=lang/php/Dockerfile
++ [2025-12-09 15:39:13] ./deploy.sh:138: [[ -f lang/php/Dockerfile ]]
++ [2025-12-09 15:39:13] ./deploy.sh:140: IMAGE_TAG=php-v1
++ [2025-12-09 15:39:13] ./deploy.sh:141: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1
++ [2025-12-09 15:39:13] ./deploy.sh:142: FUNC_NAME=eval-fastapi-v2-php
++ [2025-12-09 15:39:13] ./deploy.sh:144: echo '\n=== Building php image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building php image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2025-12-09 15:39:13] ./deploy.sh:145: docker buildx build --platform linux/amd64 -f lang/php/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 538B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 DONE 0.0s
+
+#5 [2/3] RUN apt-get update -yqq  && apt-get install -yqq --no-install-recommends php-cli  && rm -rf /var/lib/apt/lists/*
+#5 37.05 debconf: delaying package configuration, since apt-utils is not installed
+#5 37.11 Selecting previously unselected package libargon2-1:amd64.
+#5 37.11 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 37.17 Preparing to unpack .../00-libargon2-1_0~20171227-0.3_amd64.deb ...
+#5 37.18 Unpacking libargon2-1:amd64 (0~20171227-0.3) ...
+#5 37.21 Selecting previously unselected package libmd0:amd64.
+#5 37.21 Preparing to unpack .../01-libmd0_1.0.4-1build1_amd64.deb ...
+#5 37.22 Unpacking libmd0:amd64 (1.0.4-1build1) ...
+#5 37.25 Selecting previously unselected package libbsd0:amd64.
+#5 37.25 Preparing to unpack .../02-libbsd0_0.11.5-1_amd64.deb ...
+#5 37.25 Unpacking libbsd0:amd64 (0.11.5-1) ...
+#5 37.29 Selecting previously unselected package libicu70:amd64.
+#5 37.29 Preparing to unpack .../03-libicu70_70.1-2_amd64.deb ...
+#5 37.29 Unpacking libicu70:amd64 (70.1-2) ...
+#5 37.45 Selecting previously unselected package libxml2:amd64.
+#5 37.45 Preparing to unpack .../04-libxml2_2.9.13+dfsg-1ubuntu0.10_amd64.deb ...
+#5 37.45 Unpacking libxml2:amd64 (2.9.13+dfsg-1ubuntu0.10) ...
+#5 37.49 Selecting previously unselected package tzdata.
+#5 37.49 Preparing to unpack .../05-tzdata_2025b-0ubuntu0.22.04.1_all.deb ...
+#5 37.50 Unpacking tzdata (2025b-0ubuntu0.22.04.1) ...
+#5 37.68 Selecting previously unselected package ucf.
+#5 37.68 Preparing to unpack .../06-ucf_3.0043_all.deb ...
+#5 37.68 Moving old data out of the way
+#5 37.68 Unpacking ucf (3.0043) ...
+#5 37.72 Selecting previously unselected package libedit2:amd64.
+#5 37.72 Preparing to unpack .../07-libedit2_3.1-20210910-1build1_amd64.deb ...
+#5 37.73 Unpacking libedit2:amd64 (3.1-20210910-1build1) ...
+#5 37.76 Selecting previously unselected package libmagic-mgc.
+#5 37.76 Preparing to unpack .../08-libmagic-mgc_1%3a5.41-3ubuntu0.1_amd64.deb ...
+#5 37.76 Unpacking libmagic-mgc (1:5.41-3ubuntu0.1) ...
+#5 37.83 Selecting previously unselected package libmagic1:amd64.
+#5 37.83 Preparing to unpack .../09-libmagic1_1%3a5.41-3ubuntu0.1_amd64.deb ...
+#5 37.83 Unpacking libmagic1:amd64 (1:5.41-3ubuntu0.1) ...
+#5 37.87 Selecting previously unselected package psmisc.
+#5 37.87 Preparing to unpack .../10-psmisc_23.4-2build3_amd64.deb ...
+#5 37.87 Unpacking psmisc (23.4-2build3) ...
+#5 37.91 Selecting previously unselected package libsodium23:amd64.
+#5 37.91 Preparing to unpack .../11-libsodium23_1.0.18-1build2_amd64.deb ...
+#5 37.92 Unpacking libsodium23:amd64 (1.0.18-1build2) ...
+#5 37.96 Selecting previously unselected package mailcap.
+#5 37.96 Preparing to unpack .../12-mailcap_3.70+nmu1ubuntu1_all.deb ...
+#5 37.97 Unpacking mailcap (3.70+nmu1ubuntu1) ...
+#5 38.01 Selecting previously unselected package mime-support.
+#5 38.01 Preparing to unpack .../13-mime-support_3.66_all.deb ...
+#5 38.02 Unpacking mime-support (3.66) ...
+#5 38.06 Selecting previously unselected package php-common.
+#5 38.06 Preparing to unpack .../14-php-common_2%3a92ubuntu1_all.deb ...
+#5 38.06 Unpacking php-common (2:92ubuntu1) ...
+#5 38.10 Selecting previously unselected package php8.1-common.
+#5 38.11 Preparing to unpack .../15-php8.1-common_8.1.2-1ubuntu2.22_amd64.deb ...
+#5 38.11 Unpacking php8.1-common (8.1.2-1ubuntu2.22) ...
+#5 38.19 Selecting previously unselected package php8.1-opcache.
+#5 38.19 Preparing to unpack .../16-php8.1-opcache_8.1.2-1ubuntu2.22_amd64.deb ...
+#5 38.19 Unpacking php8.1-opcache (8.1.2-1ubuntu2.22) ...
+#5 38.24 Selecting previously unselected package php8.1-readline.
+#5 38.24 Preparing to unpack .../17-php8.1-readline_8.1.2-1ubuntu2.22_amd64.deb ...
+#5 38.25 Unpacking php8.1-readline (8.1.2-1ubuntu2.22) ...
+#5 38.29 Selecting previously unselected package php8.1-cli.
+#5 38.29 Preparing to unpack .../18-php8.1-cli_8.1.2-1ubuntu2.22_amd64.deb ...
+#5 38.29 Unpacking php8.1-cli (8.1.2-1ubuntu2.22) ...
+#5 38.36 Selecting previously unselected package php-cli.
+#5 38.36 Preparing to unpack .../19-php-cli_2%3a8.1+92ubuntu1_all.deb ...
+#5 38.36 Unpacking php-cli (2:8.1+92ubuntu1) ...
+#5 38.40 Setting up libsodium23:amd64 (1.0.18-1build2) ...
+#5 38.42 Setting up libmagic-mgc (1:5.41-3ubuntu0.1) ...
+#5 38.43 Setting up psmisc (23.4-2build3) ...
+#5 38.44 Setting up libargon2-1:amd64 (0~20171227-0.3) ...
+#5 38.45 Setting up libmagic1:amd64 (1:5.41-3ubuntu0.1) ...
+#5 38.48 Setting up tzdata (2025b-0ubuntu0.22.04.1) ...
+#5 38.54 
+#5 38.54 Current default time zone: 'Etc/UTC'
+#5 38.54 Local time is now:      Tue Dec  9 06:39:52 UTC 2025.
+#5 38.54 Universal Time is now:  Tue Dec  9 06:39:52 UTC 2025.
+#5 38.54 Run 'dpkg-reconfigure tzdata' if you wish to change it.
+#5 38.54 
+#5 38.56 Setting up ucf (3.0043) ...
+#5 38.62 Setting up libmd0:amd64 (1.0.4-1build1) ...
+#5 38.64 Setting up libbsd0:amd64 (0.11.5-1) ...
+#5 38.65 Setting up mailcap (3.70+nmu1ubuntu1) ...
+#5 38.69 Setting up libicu70:amd64 (70.1-2) ...
+#5 38.71 Setting up php-common (2:92ubuntu1) ...
+#5 38.85 Setting up mime-support (3.66) ...
+#5 38.86 Setting up php8.1-common (8.1.2-1ubuntu2.22) ...
+#5 39.00 
+#5 39.00 Creating config file /etc/php/8.1/mods-available/calendar.ini with new version
+#5 39.18 
+#5 39.18 Creating config file /etc/php/8.1/mods-available/ctype.ini with new version
+#5 39.34 
+#5 39.34 Creating config file /etc/php/8.1/mods-available/exif.ini with new version
+#5 39.51 
+#5 39.51 Creating config file /etc/php/8.1/mods-available/fileinfo.ini with new version
+#5 39.68 
+#5 39.68 Creating config file /etc/php/8.1/mods-available/ffi.ini with new version
+#5 39.89 
+#5 39.89 Creating config file /etc/php/8.1/mods-available/ftp.ini with new version
+#5 40.09 
+#5 40.09 Creating config file /etc/php/8.1/mods-available/gettext.ini with new version
+#5 40.26 
+#5 40.26 Creating config file /etc/php/8.1/mods-available/iconv.ini with new version
+#5 40.43 
+#5 40.43 Creating config file /etc/php/8.1/mods-available/pdo.ini with new version
+#5 40.59 
+#5 40.59 Creating config file /etc/php/8.1/mods-available/phar.ini with new version
+#5 40.76 
+#5 40.76 Creating config file /etc/php/8.1/mods-available/posix.ini with new version
+#5 40.94 
+#5 40.94 Creating config file /etc/php/8.1/mods-available/shmop.ini with new version
+#5 41.11 
+#5 41.11 Creating config file /etc/php/8.1/mods-available/sockets.ini with new version
+#5 41.32 
+#5 41.32 Creating config file /etc/php/8.1/mods-available/sysvmsg.ini with new version
+#5 41.57 
+#5 41.57 Creating config file /etc/php/8.1/mods-available/sysvsem.ini with new version
+#5 41.80 
+#5 41.80 Creating config file /etc/php/8.1/mods-available/sysvshm.ini with new version
+#5 42.03 
+#5 42.03 Creating config file /etc/php/8.1/mods-available/tokenizer.ini with new version
+#5 42.19 Setting up libedit2:amd64 (3.1-20210910-1build1) ...
+#5 42.20 Setting up php8.1-readline (8.1.2-1ubuntu2.22) ...
+#5 42.30 
+#5 42.30 Creating config file /etc/php/8.1/mods-available/readline.ini with new version
+#5 42.40 Setting up libxml2:amd64 (2.9.13+dfsg-1ubuntu0.10) ...
+#5 42.41 Setting up php8.1-opcache (8.1.2-1ubuntu2.22) ...
+#5 42.50 
+#5 42.50 Creating config file /etc/php/8.1/mods-available/opcache.ini with new version
+#5 42.61 Setting up php8.1-cli (8.1.2-1ubuntu2.22) ...
+#5 42.62 update-alternatives: using /usr/bin/php8.1 to provide /usr/bin/php (php) in auto mode
+#5 42.62 update-alternatives: warning: skip creation of /usr/share/man/man1/php.1.gz because associated file /usr/share/man/man1/php8.1.1.gz (of link group php) doesn't exist
+#5 42.62 update-alternatives: using /usr/bin/phar8.1 to provide /usr/bin/phar (phar) in auto mode
+#5 42.62 update-alternatives: warning: skip creation of /usr/share/man/man1/phar.1.gz because associated file /usr/share/man/man1/phar8.1.1.gz (of link group phar) doesn't exist
+#5 42.63 update-alternatives: using /usr/bin/phar.phar8.1 to provide /usr/bin/phar.phar (phar.phar) in auto mode
+#5 42.63 update-alternatives: warning: skip creation of /usr/share/man/man1/phar.phar.1.gz because associated file /usr/share/man/man1/phar.phar8.1.1.gz (of link group phar.phar) doesn't exist
+#5 42.72 
+#5 42.72 Creating config file /etc/php/8.1/cli/php.ini with new version
+#5 43.21 Setting up php-cli (2:8.1+92ubuntu1) ...
+#5 43.22 update-alternatives: using /usr/bin/php.default to provide /usr/bin/php (php) in auto mode
+#5 43.22 update-alternatives: warning: skip creation of /usr/share/man/man1/php.1.gz because associated file /usr/share/man/man1/php.default.1.gz (of link group php) doesn't exist
+#5 43.22 update-alternatives: using /usr/bin/phar.default to provide /usr/bin/phar (phar) in auto mode
+#5 43.22 update-alternatives: warning: skip creation of /usr/share/man/man1/phar.1.gz because associated file /usr/share/man/man1/phar.default.1.gz (of link group phar) doesn't exist
+#5 43.23 update-alternatives: using /usr/bin/phar.phar.default to provide /usr/bin/phar.phar (phar.phar) in auto mode
+#5 43.23 update-alternatives: warning: skip creation of /usr/share/man/man1/phar.phar.1.gz because associated file /usr/share/man/man1/phar.phar.default.1.gz (of link group phar.phar) doesn't exist
+#5 43.24 Processing triggers for libc-bin (2.35-0ubuntu3.10) ...
+#5 43.26 Processing triggers for php8.1-cli (8.1.2-1ubuntu2.22) ...
+#5 DONE 43.4s
+
+#6 [3/3] RUN php -v  && printf '<?php echo "ok\n"; ?>' > /tmp/p.php  && php /tmp/p.php | grep -q '^ok$'  && rm -f /tmp/p.php
+#6 0.392 PHP 8.1.2-1ubuntu2.22 (cli) (built: Jul 15 2025 12:11:22) (NTS)
+#6 0.392 Copyright (c) The PHP Group
+#6 0.392 Zend Engine v4.1.2, Copyright (c) Zend Technologies
+#6 0.392     with Zend OPcache v8.1.2-1ubuntu2.22, Copyright (c), by Zend Technologies
+#6 DONE 0.4s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 0.4s done
+#7 writing image sha256:2f522b4521158f23297d5d35f31958f5a3f49544e2d7123243a0089b39d11f9c done
+#7 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 done
+#7 DONE 0.4s
+
+#8 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 with docker
+#8 pushing layer fe3430852669
+#8 pushing layer 189c08353900
+#8 pushing layer f212f49fb04a 0.1s
+#8 pushing layer 86e9b58cec28 0.1s
+#8 pushing layer a9895ee477e5
+#8 pushing layer ee9412008f1c
+#8 pushing layer 6e6ff92b1cc8
+#8 pushing layer 8810007f7e31
+#8 pushing layer 90a2bf02e851
+#8 pushing layer 189c08353900 3.89MB / 66.58MB 0.5s
+#8 pushing layer 189c08353900 11.67MB / 66.58MB 0.8s
+#8 pushing layer 189c08353900 16.07MB / 66.58MB 0.9s
+#8 pushing layer 189c08353900 23.25MB / 66.58MB 1.4s
+#8 pushing layer fe3430852669 1.6s done
+#8 pushing layer 189c08353900 27.15MB / 66.58MB 2.3s
+#8 pushing layer 189c08353900 31.05MB / 66.58MB 2.8s
+#8 pushing layer 189c08353900 34.95MB / 66.58MB 3.2s
+#8 pushing layer 189c08353900 38.85MB / 66.58MB 3.7s
+#8 pushing layer 189c08353900 44.42MB / 66.58MB 4.3s
+#8 pushing layer 189c08353900 48.88MB / 66.58MB 4.7s
+#8 pushing layer 189c08353900 53.32MB / 66.58MB 5.4s
+#8 pushing layer 189c08353900 58.30MB / 66.58MB 6.3s
+#8 pushing layer 189c08353900 64.18MB / 66.58MB 7.1s
+#8 pushing layer 189c08353900 68.31MB / 66.58MB 7.5s
+#8 pushing layer 189c08353900 8.7s done
+#8 pushing layer f212f49fb04a 9.8s done
+#8 pushing layer 86e9b58cec28 9.8s done
+#8 pushing layer a9895ee477e5 9.8s done
+#8 pushing layer ee9412008f1c 9.8s done
+#8 pushing layer 6e6ff92b1cc8 9.8s done
+#8 pushing layer 8810007f7e31 9.8s done
+#8 pushing layer 90a2bf02e851 9.8s done
+#8 DONE 10.1s
++ [2025-12-09 15:40:09] ./deploy.sh:153: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1
+++ [2025-12-09 15:40:09] ./deploy.sh:158: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=php-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2025-12-09 15:40:11] ./deploy.sh:158: DIGEST=sha256:bd0e4dd6d994160b779205d83a82ab3cb4bdbb1e67e7adae0bd395b5b09d5446
++ [2025-12-09 15:40:11] ./deploy.sh:160: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:bd0e4dd6d994160b779205d83a82ab3cb4bdbb1e67e7adae0bd395b5b09d5446
++ [2025-12-09 15:40:11] ./deploy.sh:161: aws lambda get-function --function-name eval-fastapi-v2-php --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 15:40:12] ./deploy.sh:176: echo 'Updating Lambda function eval-fastapi-v2-php to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:bd0e4dd6d994160b779205d83a82ab3cb4bdbb1e67e7adae0bd395b5b09d5446'
+Updating Lambda function eval-fastapi-v2-php to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:bd0e4dd6d994160b779205d83a82ab3cb4bdbb1e67e7adae0bd395b5b09d5446
++ [2025-12-09 15:40:12] ./deploy.sh:177: aws lambda update-function-code --function-name eval-fastapi-v2-php --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:bd0e4dd6d994160b779205d83a82ab3cb4bdbb1e67e7adae0bd395b5b09d5446 --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 15:40:13] ./deploy.sh:182: echo 'Waiting for function update to complete: eval-fastapi-v2-php'
+Waiting for function update to complete: eval-fastapi-v2-php
++ [2025-12-09 15:40:13] ./deploy.sh:183: aws lambda wait function-updated --function-name eval-fastapi-v2-php --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 15:40:24] ./deploy.sh:187: echo 'Ensuring Function URL for: eval-fastapi-v2-php'
+Ensuring Function URL for: eval-fastapi-v2-php
++ [2025-12-09 15:40:24] ./deploy.sh:188: FUNC_URL=
+++ [2025-12-09 15:40:24] ./deploy.sh:189: aws lambda get-function-url-config --function-name eval-fastapi-v2-php --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2025-12-09 15:40:25] ./deploy.sh:189: FUNC_URL=https://wysdglgjwakbg44hcibxdpmlda0xrdrm.lambda-url.ap-northeast-1.on.aws/
++ [2025-12-09 15:40:25] ./deploy.sh:190: :
++ [2025-12-09 15:40:25] ./deploy.sh:208: URLS["$lang"]=https://wysdglgjwakbg44hcibxdpmlda0xrdrm.lambda-url.ap-northeast-1.on.aws/
++ [2025-12-09 15:40:25] ./deploy.sh:209: echo 'Function URL (php): https://wysdglgjwakbg44hcibxdpmlda0xrdrm.lambda-url.ap-northeast-1.on.aws/'
+Function URL (php): https://wysdglgjwakbg44hcibxdpmlda0xrdrm.lambda-url.ap-northeast-1.on.aws/
++ [2025-12-09 15:40:25] ./deploy.sh:213: set +x
+\n================ Deployment Summary ================
+php        https://wysdglgjwakbg44hcibxdpmlda0xrdrm.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2025-12-09 15:40:25
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_15-39-07.log

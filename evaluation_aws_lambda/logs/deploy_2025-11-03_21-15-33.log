@@ -1,0 +1,548 @@
++ [2025-11-03 21:15:33] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-03_21-15-33.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-11-03 21:15:33] deploy.sh:44: trap on_exit EXIT
++ [2025-11-03 21:15:33] deploy.sh:51: trap on_err ERR
++ [2025-11-03 21:15:33] deploy.sh:54: : ap-northeast-1
++ [2025-11-03 21:15:33] deploy.sh:55: : 288761745376_developer
++ [2025-11-03 21:15:33] deploy.sh:56: : multipl-e-api-lambda
++ [2025-11-03 21:15:33] deploy.sh:57: : v1
++ [2025-11-03 21:15:33] deploy.sh:58: : eval-fastapi-v2
++ [2025-11-03 21:15:33] deploy.sh:59: : x86_64
++ [2025-11-03 21:15:33] deploy.sh:60: : docker
++ [2025-11-03 21:15:33] deploy.sh:62: : 10240
++ [2025-11-03 21:15:33] deploy.sh:63: : 900
++ [2025-11-03 21:15:33] deploy.sh:65: : lambda-eval-exec-role
++ [2025-11-03 21:15:33] deploy.sh:68: [[ 1 -gt 0 ]]
++ [2025-11-03 21:15:33] deploy.sh:69: LANGS=("$@")
+++ [2025-11-03 21:15:33] deploy.sh:81: date '+%Y-%m-%d %H:%M:%S'
++ [2025-11-03 21:15:33] deploy.sh:81: echo '[INFO] ===== Deployment started at 2025-11-03 21:15:33 ====='
+[INFO] ===== Deployment started at 2025-11-03 21:15:33 =====
++ [2025-11-03 21:15:33] deploy.sh:82: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-03_21-15-33.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-03_21-15-33.log
++ [2025-11-03 21:15:33] deploy.sh:83: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-11-03 21:15:33] deploy.sh:84: echo '[INFO] Detected languages: kotlin'
+[INFO] Detected languages: kotlin
++ [2025-11-03 21:15:33] deploy.sh:85: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-11-03 21:15:33] deploy.sh:86: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-11-03 21:15:34] deploy.sh:87: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-11-03 21:15:34] deploy.sh:88: xargs '-I{}' echo 'git-sha: {}'
++ [2025-11-03 21:15:34] deploy.sh:88: git rev-parse --short HEAD
+git-sha: 58f6d0b0
++ [2025-11-03 21:15:34] deploy.sh:91: export AWS_PAGER=
++ [2025-11-03 21:15:34] deploy.sh:91: AWS_PAGER=
++ [2025-11-03 21:15:34] deploy.sh:93: export AWS_PROFILE=288761745376_developer
++ [2025-11-03 21:15:34] deploy.sh:93: AWS_PROFILE=288761745376_developer
++ [2025-11-03 21:15:34] deploy.sh:94: ACCOUNT_ID_OUTPUT=
++ [2025-11-03 21:15:34] deploy.sh:95: ACCOUNT_ID=
+++ [2025-11-03 21:15:34] deploy.sh:99: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-03 21:15:35] deploy.sh:99: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-11-03 21:15:35] deploy.sh:108: ACCOUNT_ID=288761745376
++ [2025-11-03 21:15:35] deploy.sh:109: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-11-03 21:15:35] deploy.sh:112: [[ -z '' ]]
++ [2025-11-03 21:15:35] deploy.sh:113: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-11-03 21:15:35] deploy.sh:117: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-11-03 21:15:35] deploy.sh:117: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-11-03 21:15:35] deploy.sh:119: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-11-03 21:15:35] deploy.sh:120: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-03 21:15:35] deploy.sh:120: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
+Login Succeeded
++ [2025-11-03 21:15:36] deploy.sh:123: BASE_TAG=base-v1
++ [2025-11-03 21:15:36] deploy.sh:124: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-11-03 21:15:36] deploy.sh:125: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-11-03 21:15:36] deploy.sh:126: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.33kB done
+#5 DONE 0.0s
+
+#6 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#6 CACHED
+
+#7 [6/7] WORKDIR /var/task
+#7 CACHED
+
+#8 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#8 CACHED
+
+#9 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#9 CACHED
+
+#10 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 writing image sha256:29e82dfc38528c1b34df616ecbf3bd8e97830f5b4e8b52706531247074d73997 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.0s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer bad6d7708832
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5
+#13 pushing layer ee9412008f1c 0.1s
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer a9895ee477e5 0.5s done
+#13 pushing layer bad6d7708832 0.5s done
+#13 pushing layer 86e9b58cec28 0.5s done
+#13 pushing layer ee9412008f1c 0.5s done
+#13 pushing layer 6e6ff92b1cc8 0.5s done
+#13 pushing layer 8810007f7e31 0.5s done
+#13 pushing layer 90a2bf02e851 0.5s done
+#13 DONE 0.8s
++ [2025-11-03 21:15:39] deploy.sh:134: declare -A URLS
++ [2025-11-03 21:15:39] deploy.sh:136: for lang in "${LANGS[@]}"
++ [2025-11-03 21:15:39] deploy.sh:137: DOCKERFILE_PATH=lang/kotlin/Dockerfile
++ [2025-11-03 21:15:39] deploy.sh:138: [[ -f lang/kotlin/Dockerfile ]]
++ [2025-11-03 21:15:39] deploy.sh:140: IMAGE_TAG=kotlin-v1
++ [2025-11-03 21:15:39] deploy.sh:141: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1
++ [2025-11-03 21:15:39] deploy.sh:142: FUNC_NAME=eval-fastapi-v2-kotlin
++ [2025-11-03 21:15:39] deploy.sh:144: echo '\n=== Building kotlin image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building kotlin image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2025-11-03 21:15:39] deploy.sh:145: docker buildx build --platform linux/amd64 -f lang/kotlin/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.18kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 CACHED
+
+#5 [2/4] RUN apt-get update -yqq  && apt-get install -yqq --no-install-recommends default-jdk-headless  && rm -rf /var/lib/apt/lists/*
+#5 50.00 debconf: delaying package configuration, since apt-utils is not installed
+#5 50.08 Selecting previously unselected package libdbus-1-3:amd64.
+#5 50.08 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 50.18 Preparing to unpack .../00-libdbus-1-3_1.12.20-2ubuntu4.1_amd64.deb ...
+#5 50.21 Unpacking libdbus-1-3:amd64 (1.12.20-2ubuntu4.1) ...
+#5 50.30 Selecting previously unselected package ucf.
+#5 50.30 Preparing to unpack .../01-ucf_3.0043_all.deb ...
+#5 50.31 Moving old data out of the way
+#5 50.31 Unpacking ucf (3.0043) ...
+#5 50.38 Selecting previously unselected package libpng16-16:amd64.
+#5 50.38 Preparing to unpack .../02-libpng16-16_1.6.37-3build5_amd64.deb ...
+#5 50.38 Unpacking libpng16-16:amd64 (1.6.37-3build5) ...
+#5 50.44 Selecting previously unselected package java-common.
+#5 50.44 Preparing to unpack .../03-java-common_0.72build2_all.deb ...
+#5 50.45 Unpacking java-common (0.72build2) ...
+#5 50.50 Selecting previously unselected package libavahi-common-data:amd64.
+#5 50.50 Preparing to unpack .../04-libavahi-common-data_0.8-5ubuntu5.2_amd64.deb ...
+#5 50.50 Unpacking libavahi-common-data:amd64 (0.8-5ubuntu5.2) ...
+#5 50.53 Selecting previously unselected package libavahi-common3:amd64.
+#5 50.53 Preparing to unpack .../05-libavahi-common3_0.8-5ubuntu5.2_amd64.deb ...
+#5 50.54 Unpacking libavahi-common3:amd64 (0.8-5ubuntu5.2) ...
+#5 50.58 Selecting previously unselected package libavahi-client3:amd64.
+#5 50.58 Preparing to unpack .../06-libavahi-client3_0.8-5ubuntu5.2_amd64.deb ...
+#5 50.59 Unpacking libavahi-client3:amd64 (0.8-5ubuntu5.2) ...
+#5 50.64 Selecting previously unselected package libcups2:amd64.
+#5 50.64 Preparing to unpack .../07-libcups2_2.4.1op1-1ubuntu4.12_amd64.deb ...
+#5 50.65 Unpacking libcups2:amd64 (2.4.1op1-1ubuntu4.12) ...
+#5 50.70 Selecting previously unselected package libfreetype6:amd64.
+#5 50.71 Preparing to unpack .../08-libfreetype6_2.11.1+dfsg-1ubuntu0.3_amd64.deb ...
+#5 50.71 Unpacking libfreetype6:amd64 (2.11.1+dfsg-1ubuntu0.3) ...
+#5 50.75 Selecting previously unselected package fonts-dejavu-core.
+#5 50.75 Preparing to unpack .../09-fonts-dejavu-core_2.37-2build1_all.deb ...
+#5 50.76 Unpacking fonts-dejavu-core (2.37-2build1) ...
+#5 50.89 Selecting previously unselected package fontconfig-config.
+#5 50.89 Preparing to unpack .../10-fontconfig-config_2.13.1-4.2ubuntu5_all.deb ...
+#5 50.90 Unpacking fontconfig-config (2.13.1-4.2ubuntu5) ...
+#5 50.95 Selecting previously unselected package libfontconfig1:amd64.
+#5 50.95 Preparing to unpack .../11-libfontconfig1_2.13.1-4.2ubuntu5_amd64.deb ...
+#5 50.96 Unpacking libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+#5 51.00 Selecting previously unselected package liblcms2-2:amd64.
+#5 51.00 Preparing to unpack .../12-liblcms2-2_2.12~rc1-2build2_amd64.deb ...
+#5 51.01 Unpacking liblcms2-2:amd64 (2.12~rc1-2build2) ...
+#5 51.06 Selecting previously unselected package libjpeg-turbo8:amd64.
+#5 51.06 Preparing to unpack .../13-libjpeg-turbo8_2.1.2-0ubuntu1_amd64.deb ...
+#5 51.07 Unpacking libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+#5 51.11 Selecting previously unselected package libjpeg8:amd64.
+#5 51.11 Preparing to unpack .../14-libjpeg8_8c-2ubuntu10_amd64.deb ...
+#5 51.12 Unpacking libjpeg8:amd64 (8c-2ubuntu10) ...
+#5 51.17 Selecting previously unselected package libnspr4:amd64.
+#5 51.17 Preparing to unpack .../15-libnspr4_2%3a4.35-0ubuntu0.22.04.1_amd64.deb ...
+#5 51.18 Unpacking libnspr4:amd64 (2:4.35-0ubuntu0.22.04.1) ...
+#5 51.22 Selecting previously unselected package libnss3:amd64.
+#5 51.22 Preparing to unpack .../16-libnss3_2%3a3.98-0ubuntu0.22.04.2_amd64.deb ...
+#5 51.23 Unpacking libnss3:amd64 (2:3.98-0ubuntu0.22.04.2) ...
+#5 51.35 Selecting previously unselected package libasound2-data.
+#5 51.35 Preparing to unpack .../17-libasound2-data_1.2.6.1-1ubuntu1_all.deb ...
+#5 51.36 Unpacking libasound2-data (1.2.6.1-1ubuntu1) ...
+#5 51.41 Selecting previously unselected package libasound2:amd64.
+#5 51.41 Preparing to unpack .../18-libasound2_1.2.6.1-1ubuntu1_amd64.deb ...
+#5 51.42 Unpacking libasound2:amd64 (1.2.6.1-1ubuntu1) ...
+#5 51.45 Selecting previously unselected package libgraphite2-3:amd64.
+#5 51.45 Preparing to unpack .../19-libgraphite2-3_1.3.14-1build2_amd64.deb ...
+#5 51.46 Unpacking libgraphite2-3:amd64 (1.3.14-1build2) ...
+#5 51.50 Selecting previously unselected package libharfbuzz0b:amd64.
+#5 51.50 Preparing to unpack .../20-libharfbuzz0b_2.7.4-1ubuntu3.2_amd64.deb ...
+#5 51.50 Unpacking libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+#5 51.54 Selecting previously unselected package libpcsclite1:amd64.
+#5 51.54 Preparing to unpack .../21-libpcsclite1_1.9.5-3ubuntu1_amd64.deb ...
+#5 51.55 Unpacking libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+#5 51.59 Selecting previously unselected package openjdk-11-jre-headless:amd64.
+#5 51.59 Preparing to unpack .../22-openjdk-11-jre-headless_11.0.28+6-1ubuntu1~22.04.1_amd64.deb ...
+#5 51.60 Unpacking openjdk-11-jre-headless:amd64 (11.0.28+6-1ubuntu1~22.04.1) ...
+#5 52.28 Selecting previously unselected package default-jre-headless.
+#5 52.28 Preparing to unpack .../23-default-jre-headless_2%3a1.11-72build2_amd64.deb ...
+#5 52.28 Unpacking default-jre-headless (2:1.11-72build2) ...
+#5 52.33 Selecting previously unselected package ca-certificates-java.
+#5 52.33 Preparing to unpack .../24-ca-certificates-java_20190909ubuntu1.2_all.deb ...
+#5 52.34 Unpacking ca-certificates-java (20190909ubuntu1.2) ...
+#5 52.41 Selecting previously unselected package openjdk-11-jdk-headless:amd64.
+#5 52.41 Preparing to unpack .../25-openjdk-11-jdk-headless_11.0.28+6-1ubuntu1~22.04.1_amd64.deb ...
+#5 52.42 Unpacking openjdk-11-jdk-headless:amd64 (11.0.28+6-1ubuntu1~22.04.1) ...
+#5 52.76 Selecting previously unselected package default-jdk-headless.
+#5 52.77 Preparing to unpack .../26-default-jdk-headless_2%3a1.11-72build2_amd64.deb ...
+#5 52.77 Unpacking default-jdk-headless (2:1.11-72build2) ...
+#5 52.81 Setting up libgraphite2-3:amd64 (1.3.14-1build2) ...
+#5 52.82 Setting up liblcms2-2:amd64 (2.12~rc1-2build2) ...
+#5 52.84 Setting up java-common (0.72build2) ...
+#5 52.86 Setting up libasound2-data (1.2.6.1-1ubuntu1) ...
+#5 52.87 Setting up libnspr4:amd64 (2:4.35-0ubuntu0.22.04.1) ...
+#5 52.88 Setting up libavahi-common-data:amd64 (0.8-5ubuntu5.2) ...
+#5 52.89 Setting up libdbus-1-3:amd64 (1.12.20-2ubuntu4.1) ...
+#5 52.91 Setting up libpng16-16:amd64 (1.6.37-3build5) ...
+#5 52.92 Setting up fonts-dejavu-core (2.37-2build1) ...
+#5 52.96 Setting up libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+#5 52.97 Setting up ucf (3.0043) ...
+#5 53.05 Setting up libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+#5 53.06 Setting up libasound2:amd64 (1.2.6.1-1ubuntu1) ...
+#5 53.07 Setting up libjpeg8:amd64 (8c-2ubuntu10) ...
+#5 53.08 Setting up fontconfig-config (2.13.1-4.2ubuntu5) ...
+#5 53.30 Setting up libavahi-common3:amd64 (0.8-5ubuntu5.2) ...
+#5 53.31 Setting up libnss3:amd64 (2:3.98-0ubuntu0.22.04.2) ...
+#5 53.32 Setting up libfreetype6:amd64 (2.11.1+dfsg-1ubuntu0.3) ...
+#5 53.34 Setting up libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+#5 53.35 Setting up libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+#5 53.36 Setting up libavahi-client3:amd64 (0.8-5ubuntu5.2) ...
+#5 53.37 Setting up libcups2:amd64 (2.4.1op1-1ubuntu4.12) ...
+#5 53.38 Setting up default-jre-headless (2:1.11-72build2) ...
+#5 53.39 Setting up openjdk-11-jre-headless:amd64 (11.0.28+6-1ubuntu1~22.04.1) ...
+#5 53.55 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/java to provide /usr/bin/java (java) in auto mode
+#5 53.56 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs to provide /usr/bin/jjs (jjs) in auto mode
+#5 53.56 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/keytool to provide /usr/bin/keytool (keytool) in auto mode
+#5 53.57 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/rmid to provide /usr/bin/rmid (rmid) in auto mode
+#5 53.57 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/rmiregistry to provide /usr/bin/rmiregistry (rmiregistry) in auto mode
+#5 53.57 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/pack200 to provide /usr/bin/pack200 (pack200) in auto mode
+#5 53.58 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/unpack200 to provide /usr/bin/unpack200 (unpack200) in auto mode
+#5 53.58 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/lib/jexec to provide /usr/bin/jexec (jexec) in auto mode
+#5 53.89 Setting up openjdk-11-jdk-headless:amd64 (11.0.28+6-1ubuntu1~22.04.1) ...
+#5 53.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jar to provide /usr/bin/jar (jar) in auto mode
+#5 53.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jarsigner to provide /usr/bin/jarsigner (jarsigner) in auto mode
+#5 53.92 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/javac to provide /usr/bin/javac (javac) in auto mode
+#5 53.92 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/javadoc to provide /usr/bin/javadoc (javadoc) in auto mode
+#5 53.93 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/javap to provide /usr/bin/javap (javap) in auto mode
+#5 53.93 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jcmd to provide /usr/bin/jcmd (jcmd) in auto mode
+#5 53.93 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jdb to provide /usr/bin/jdb (jdb) in auto mode
+#5 53.94 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jdeprscan to provide /usr/bin/jdeprscan (jdeprscan) in auto mode
+#5 53.94 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jdeps to provide /usr/bin/jdeps (jdeps) in auto mode
+#5 53.94 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jfr to provide /usr/bin/jfr (jfr) in auto mode
+#5 53.95 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jimage to provide /usr/bin/jimage (jimage) in auto mode
+#5 53.95 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jinfo to provide /usr/bin/jinfo (jinfo) in auto mode
+#5 53.95 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jlink to provide /usr/bin/jlink (jlink) in auto mode
+#5 53.96 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jmap to provide /usr/bin/jmap (jmap) in auto mode
+#5 53.96 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jmod to provide /usr/bin/jmod (jmod) in auto mode
+#5 53.97 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jps to provide /usr/bin/jps (jps) in auto mode
+#5 53.97 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jrunscript to provide /usr/bin/jrunscript (jrunscript) in auto mode
+#5 53.97 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jshell to provide /usr/bin/jshell (jshell) in auto mode
+#5 53.98 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jstack to provide /usr/bin/jstack (jstack) in auto mode
+#5 53.98 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jstat to provide /usr/bin/jstat (jstat) in auto mode
+#5 53.99 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jstatd to provide /usr/bin/jstatd (jstatd) in auto mode
+#5 53.99 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/rmic to provide /usr/bin/rmic (rmic) in auto mode
+#5 54.00 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/serialver to provide /usr/bin/serialver (serialver) in auto mode
+#5 54.00 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jaotc to provide /usr/bin/jaotc (jaotc) in auto mode
+#5 54.00 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jhsdb to provide /usr/bin/jhsdb (jhsdb) in auto mode
+#5 54.01 Setting up default-jdk-headless (2:1.11-72build2) ...
+#5 54.03 Setting up ca-certificates-java (20190909ubuntu1.2) ...
+#5 54.07 head: cannot open '/etc/ssl/certs/java/cacerts' for reading: No such file or directory
+#5 54.23 Adding debian:HARICA_TLS_ECC_Root_CA_2021.pem
+#5 54.24 Adding debian:T-TeleSec_GlobalRoot_Class_2.pem
+#5 54.24 Adding debian:ANF_Secure_Server_Root_CA.pem
+#5 54.25 Adding debian:NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+#5 54.25 Adding debian:HARICA_TLS_RSA_Root_CA_2021.pem
+#5 54.25 Adding debian:GlobalSign_ECC_Root_CA_-_R4.pem
+#5 54.26 Adding debian:Starfield_Class_2_CA.pem
+#5 54.26 Adding debian:Certum_Trusted_Network_CA.pem
+#5 54.26 Adding debian:CFCA_EV_ROOT.pem
+#5 54.26 Adding debian:Go_Daddy_Class_2_CA.pem
+#5 54.27 Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+#5 54.27 Adding debian:SSL.com_TLS_RSA_Root_CA_2022.pem
+#5 54.27 Adding debian:Certum_EC-384_CA.pem
+#5 54.27 Adding debian:Izenpe.com.pem
+#5 54.27 Adding debian:GLOBALTRUST_2020.pem
+#5 54.28 Adding debian:GTS_Root_R4.pem
+#5 54.28 Adding debian:D-TRUST_Root_Class_3_CA_2_2009.pem
+#5 54.28 Adding debian:CommScope_Public_Trust_ECC_Root-02.pem
+#5 54.29 Adding debian:Hongkong_Post_Root_CA_3.pem
+#5 54.29 Adding debian:Trustwave_Global_ECC_P256_Certification_Authority.pem
+#5 54.29 Adding debian:DigiCert_TLS_RSA4096_Root_G5.pem
+#5 54.30 Adding debian:T-TeleSec_GlobalRoot_Class_3.pem
+#5 54.30 Adding debian:Baltimore_CyberTrust_Root.pem
+#5 54.30 Adding debian:USERTrust_RSA_Certification_Authority.pem
+#5 54.30 Adding debian:OISTE_WISeKey_Global_Root_GB_CA.pem
+#5 54.31 Adding debian:Entrust_Root_Certification_Authority_-_G2.pem
+#5 54.31 Adding debian:DigiCert_Assured_ID_Root_CA.pem
+#5 54.31 Adding debian:BJCA_Global_Root_CA2.pem
+#5 54.31 Adding debian:OISTE_WISeKey_Global_Root_GC_CA.pem
+#5 54.31 Adding debian:ePKI_Root_Certification_Authority.pem
+#5 54.31 Adding debian:certSIGN_Root_CA_G2.pem
+#5 54.32 Adding debian:vTrus_Root_CA.pem
+#5 54.32 Adding debian:XRamp_Global_CA_Root.pem
+#5 54.32 Adding debian:Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+#5 54.32 Adding debian:DigiCert_TLS_ECC_P384_Root_G5.pem
+#5 54.32 Adding debian:CommScope_Public_Trust_ECC_Root-01.pem
+#5 54.33 Adding debian:AC_RAIZ_FNMT-RCM.pem
+#5 54.33 Adding debian:emSign_Root_CA_-_G1.pem
+#5 54.33 Adding debian:BJCA_Global_Root_CA1.pem
+#5 54.33 Adding debian:AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+#5 54.33 Adding debian:TWCA_Root_Certification_Authority.pem
+#5 54.33 Adding debian:Amazon_Root_CA_2.pem
+#5 54.34 Adding debian:QuoVadis_Root_CA_1_G3.pem
+#5 54.34 Adding debian:Microsoft_RSA_Root_Certificate_Authority_2017.pem
+#5 54.34 Adding debian:QuoVadis_Root_CA_2.pem
+#5 54.34 Adding debian:CA_Disig_Root_R2.pem
+#5 54.34 Adding debian:emSign_ECC_Root_CA_-_G3.pem
+#5 54.35 Adding debian:TeliaSonera_Root_CA_v1.pem
+#5 54.35 Adding debian:CommScope_Public_Trust_RSA_Root-02.pem
+#5 54.35 Adding debian:Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+#5 54.35 Adding debian:SSL.com_Root_Certification_Authority_RSA.pem
+#5 54.35 Adding debian:Starfield_Services_Root_Certificate_Authority_-_G2.pem
+#5 54.35 Adding debian:Security_Communication_RootCA3.pem
+#5 54.36 Adding debian:Certainly_Root_E1.pem
+#5 54.36 Adding debian:SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+#5 54.36 Adding debian:DigiCert_Trusted_Root_G4.pem
+#5 54.36 Adding debian:Amazon_Root_CA_3.pem
+#5 54.36 Adding debian:TrustAsia_Global_Root_CA_G3.pem
+#5 54.37 Adding debian:COMODO_Certification_Authority.pem
+#5 54.37 Adding debian:DigiCert_Assured_ID_Root_G3.pem
+#5 54.37 Adding debian:UCA_Global_G2_Root.pem
+#5 54.37 Adding debian:Trustwave_Global_ECC_P384_Certification_Authority.pem
+#5 54.37 Adding debian:e-Szigno_Root_CA_2017.pem
+#5 54.38 Adding debian:DigiCert_Assured_ID_Root_G2.pem
+#5 54.38 Adding debian:QuoVadis_Root_CA_3.pem
+#5 54.38 Adding debian:Certigna.pem
+#5 54.38 Adding debian:SecureSign_RootCA11.pem
+#5 54.38 Adding debian:IdenTrust_Public_Sector_Root_CA_1.pem
+#5 54.38 Adding debian:Security_Communication_ECC_RootCA1.pem
+#5 54.39 Adding debian:Secure_Global_CA.pem
+#5 54.39 Adding debian:QuoVadis_Root_CA_2_G3.pem
+#5 54.39 Adding debian:ISRG_Root_X1.pem
+#5 54.39 Adding debian:AffirmTrust_Premium_ECC.pem
+#5 54.39 Adding debian:DigiCert_High_Assurance_EV_Root_CA.pem
+#5 54.39 Adding debian:AffirmTrust_Networking.pem
+#5 54.40 Adding debian:GlobalSign_ECC_Root_CA_-_R5.pem
+#5 54.40 Adding debian:Buypass_Class_2_Root_CA.pem
+#5 54.40 Adding debian:Microsec_e-Szigno_Root_CA_2009.pem
+#5 54.40 Adding debian:Atos_TrustedRoot_2011.pem
+#5 54.40 Adding debian:COMODO_ECC_Certification_Authority.pem
+#5 54.41 Adding debian:AffirmTrust_Commercial.pem
+#5 54.41 Adding debian:D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+#5 54.41 Adding debian:Actalis_Authentication_Root_CA.pem
+#5 54.41 Adding debian:NAVER_Global_Root_Certification_Authority.pem
+#5 54.41 Adding debian:SSL.com_EV_Root_Certification_Authority_ECC.pem
+#5 54.42 Adding debian:vTrus_ECC_Root_CA.pem
+#5 54.42 Adding debian:D-TRUST_BR_Root_CA_1_2020.pem
+#5 54.42 Adding debian:QuoVadis_Root_CA_3_G3.pem
+#5 54.42 Adding debian:Buypass_Class_3_Root_CA.pem
+#5 54.42 Adding debian:DigiCert_Global_Root_G2.pem
+#5 54.42 Adding debian:Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+#5 54.43 Adding debian:AffirmTrust_Premium.pem
+#5 54.43 Adding debian:D-TRUST_EV_Root_CA_1_2020.pem
+#5 54.43 Adding debian:UCA_Extended_Validation_Root.pem
+#5 54.43 Adding debian:CommScope_Public_Trust_RSA_Root-01.pem
+#5 54.43 Adding debian:USERTrust_ECC_Certification_Authority.pem
+#5 54.44 Adding debian:Microsoft_ECC_Root_Certificate_Authority_2017.pem
+#5 54.44 Adding debian:Sectigo_Public_Server_Authentication_Root_R46.pem
+#5 54.44 Adding debian:Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+#5 54.44 Adding debian:Entrust_Root_Certification_Authority_-_G4.pem
+#5 54.44 Adding debian:Sectigo_Public_Server_Authentication_Root_E46.pem
+#5 54.45 Adding debian:emSign_Root_CA_-_C1.pem
+#5 54.45 Adding debian:Comodo_AAA_Services_root.pem
+#5 54.45 Adding debian:GlobalSign_Root_R46.pem
+#5 54.45 Adding debian:Entrust_Root_Certification_Authority_-_EC1.pem
+#5 54.45 Adding debian:ISRG_Root_X2.pem
+#5 54.46 Adding debian:ACCVRAIZ1.pem
+#5 54.46 Adding debian:Starfield_Root_Certificate_Authority_-_G2.pem
+#5 54.46 Adding debian:SZAFIR_ROOT_CA2.pem
+#5 54.46 Adding debian:Security_Communication_RootCA2.pem
+#5 54.46 Adding debian:GlobalSign_Root_CA.pem
+#5 54.47 Adding debian:GlobalSign_Root_E46.pem
+#5 54.47 Adding debian:Entrust_Root_Certification_Authority.pem
+#5 54.47 Adding debian:DigiCert_Global_Root_G3.pem
+#5 54.47 Adding debian:Certum_Trusted_Root_CA.pem
+#5 54.47 Adding debian:GTS_Root_R1.pem
+#5 54.47 Adding debian:SwissSign_Silver_CA_-_G2.pem
+#5 54.48 Adding debian:SSL.com_Root_Certification_Authority_ECC.pem
+#5 54.48 Adding debian:DigiCert_Global_Root_CA.pem
+#5 54.48 Adding debian:Amazon_Root_CA_4.pem
+#5 54.48 Adding debian:GTS_Root_R2.pem
+#5 54.48 Adding debian:HiPKI_Root_CA_-_G1.pem
+#5 54.48 Adding debian:Certigna_Root_CA.pem
+#5 54.48 Adding debian:emSign_ECC_Root_CA_-_C3.pem
+#5 54.48 Adding debian:GlobalSign_Root_CA_-_R6.pem
+#5 54.48 Adding debian:Security_Communication_Root_CA.pem
+#5 54.49 Adding debian:Trustwave_Global_Certification_Authority.pem
+#5 54.49 Adding debian:Certum_Trusted_Network_CA_2.pem
+#5 54.49 Adding debian:GDCA_TrustAUTH_R5_ROOT.pem
+#5 54.49 Adding debian:GTS_Root_R3.pem
+#5 54.49 Adding debian:certSIGN_ROOT_CA.pem
+#5 54.49 Adding debian:TunTrust_Root_CA.pem
+#5 54.50 Adding debian:Amazon_Root_CA_1.pem
+#5 54.50 Adding debian:Entrust.net_Premium_2048_Secure_Server_CA.pem
+#5 54.50 Adding debian:Certainly_Root_R1.pem
+#5 54.50 Adding debian:SecureTrust_CA.pem
+#5 54.50 Adding debian:IdenTrust_Commercial_Root_CA_1.pem
+#5 54.50 Adding debian:SSL.com_TLS_ECC_Root_CA_2022.pem
+#5 54.50 Adding debian:TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+#5 54.50 Adding debian:Telia_Root_CA_v2.pem
+#5 54.51 Adding debian:Go_Daddy_Root_Certificate_Authority_-_G2.pem
+#5 54.51 Adding debian:TWCA_Global_Root_CA.pem
+#5 54.51 Adding debian:SwissSign_Gold_CA_-_G2.pem
+#5 54.51 Adding debian:TrustAsia_Global_Root_CA_G4.pem
+#5 54.51 Adding debian:GlobalSign_Root_CA_-_R3.pem
+#5 54.51 Adding debian:COMODO_RSA_Certification_Authority.pem
+#5 54.54 done.
+#5 54.54 Processing triggers for libc-bin (2.35-0ubuntu3.10) ...
+#5 54.57 Processing triggers for ca-certificates (20240203~22.04.1) ...
+#5 54.58 Updating certificates in /etc/ssl/certs...
+#5 54.99 0 added, 0 removed; done.
+#5 54.99 Running hooks in /etc/ca-certificates/update.d...
+#5 54.99 
+#5 55.13 done.
+#5 55.13 done.
+#5 DONE 55.3s
+
+#6 [3/4] RUN tmpdir="$(mktemp -d)"  && wget -nv -O "${tmpdir}/kotlin.zip" "https://github.com/JetBrains/kotlin/releases/download/v1.9.25/kotlin-compiler-1.9.25.zip"  && mkdir -p /opt  && unzip -q "${tmpdir}/kotlin.zip" -d /opt  && mv /opt/kotlinc "/opt/kotlin-1.9.25"  && rm -rf "${tmpdir}"
+#6 20.51 2025-11-03 12:16:55 URL:https://release-assets.githubusercontent.com/github-production-release-asset/3432266/5c056057-5a1e-4763-9e7a-85b2718b929b?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-11-03T12%3A56%3A29Z&rscd=attachment%3B+filename%3Dkotlin-compiler-1.9.25.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-11-03T11%3A55%3A43Z&ske=2025-11-03T12%3A56%3A29Z&sks=b&skv=2018-11-09&sig=8NMHuJQdtUS6fBK6K9idKZxKWQjWRDT9l40CT7GJK7o%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc2MjE3Mzk5NiwibmJmIjoxNzYyMTcyMTk2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.ihfV9ey-atELp3_VVqOVgyvrNvdu0difa_nEaZcUUi4&response-content-disposition=attachment%3B%20filename%3Dkotlin-compiler-1.9.25.zip&response-content-type=application%2Foctet-stream [91056496/91056496] -> "/tmp/tmp.dVBigbvm7m/kotlin.zip" [1]
+#6 DONE 21.2s
+
+#7 [4/4] RUN printf 'fun main() = println("ok")' > /tmp/Problem.kt  && kotlinc /tmp/Problem.kt -include-runtime -d /tmp/problem.jar  && java -jar /tmp/problem.jar | grep -q '^ok$'  && rm -f /tmp/Problem.kt /tmp/problem.jar
+#7 DONE 3.5s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 0.5s done
+#8 writing image sha256:660cef5f309a12148421824a6e6e77b4ed0973fe3dbe821bc33f03ca00317c9a done
+#8 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1 done
+#8 DONE 0.5s
+
+#9 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1 with docker
+#9 pushing layer e28ba326d5a1
+#9 pushing layer 333ab834824d
+#9 pushing layer f07d2462935b
+#9 pushing layer bad6d7708832
+#9 pushing layer 86e9b58cec28
+#9 pushing layer a9895ee477e5
+#9 pushing layer ee9412008f1c
+#9 pushing layer 6e6ff92b1cc8
+#9 pushing layer 8810007f7e31
+#9 pushing layer 90a2bf02e851
+#9 pushing layer e28ba326d5a1 1.9s done
+#9 pushing layer 333ab834824d 6.05MB / 99.99MB 2.8s
+#9 pushing layer 333ab834824d 11.07MB / 99.99MB 4.5s
+#9 pushing layer f07d2462935b 11.61MB / 285.71MB 5.1s
+#9 pushing layer 333ab834824d 16.08MB / 99.99MB 7.1s
+#9 pushing layer f07d2462935b 26.62MB / 285.71MB 9.4s
+#9 pushing layer 333ab834824d 21.65MB / 99.99MB 11.5s
+#9 pushing layer f07d2462935b 40.97MB / 285.71MB 13.1s
+#9 pushing layer f07d2462935b 55.92MB / 285.71MB 16.9s
+#9 pushing layer 333ab834824d 27.22MB / 99.99MB 17.5s
+#9 pushing layer f07d2462935b 71.87MB / 285.71MB 20.7s
+#9 pushing layer 333ab834824d 32.79MB / 99.99MB 23.2s
+#9 pushing layer f07d2462935b 87.32MB / 285.71MB 24.1s
+#9 pushing layer f07d2462935b 106.20MB / 285.71MB 25.9s
+#9 pushing layer f07d2462935b 120.68MB / 285.71MB 27.5s
+#9 pushing layer 333ab834824d 38.92MB / 99.99MB 28.4s
+#9 pushing layer f07d2462935b 136.28MB / 285.71MB 29.0s
+#9 pushing layer f07d2462935b 154.10MB / 285.71MB 31.4s
+#9 pushing layer 333ab834824d 45.05MB / 99.99MB 32.7s
+#9 pushing layer f07d2462935b 173.04MB / 285.71MB 33.5s
+#9 pushing layer 333ab834824d 50.06MB / 99.99MB 34.9s
+#9 pushing layer f07d2462935b 191.43MB / 285.71MB 35.8s
+#9 pushing layer 333ab834824d 55.63MB / 99.99MB 37.3s
+#9 pushing layer f07d2462935b 209.81MB / 285.71MB 38.2s
+#9 pushing layer 333ab834824d 60.64MB / 99.99MB 39.1s
+#9 pushing layer f07d2462935b 226.52MB / 285.71MB 40.2s
+#9 pushing layer 333ab834824d 65.66MB / 99.99MB 41.6s
+#9 pushing layer f07d2462935b 242.65MB / 285.71MB 42.0s
+#9 pushing layer 333ab834824d 71.78MB / 99.99MB 42.8s
+#9 pushing layer f07d2462935b 259.88MB / 285.71MB 43.6s
+#9 pushing layer 333ab834824d 77.30MB / 99.99MB 43.9s
+#9 pushing layer 333ab834824d 82.84MB / 99.99MB 45.0s
+#9 pushing layer f07d2462935b 276.40MB / 285.71MB 45.1s
+#9 pushing layer 333ab834824d 89.48MB / 99.99MB 46.5s
+#9 pushing layer 333ab834824d 95.00MB / 99.99MB 47.2s
+#9 pushing layer 333ab834824d 100.10MB / 99.99MB 47.6s
+#9 pushing layer f07d2462935b 48.0s done
+#9 pushing layer 333ab834824d 48.6s done
+#9 pushing layer bad6d7708832 49.9s done
+#9 pushing layer 86e9b58cec28 49.9s done
+#9 pushing layer a9895ee477e5 49.9s done
+#9 pushing layer ee9412008f1c 49.9s done
+#9 pushing layer 6e6ff92b1cc8 49.9s done
+#9 pushing layer 8810007f7e31 49.9s done
+#9 pushing layer 90a2bf02e851 49.9s done
+#9 DONE 50.5s
++ [2025-11-03 21:17:53] deploy.sh:153: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:kotlin-v1
+++ [2025-11-03 21:17:53] deploy.sh:158: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=kotlin-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2025-11-03 21:17:54] deploy.sh:158: DIGEST=sha256:d29a22092be83cca036c308dd94d9a6c11eed30054419513fb07770555dfa90d
++ [2025-11-03 21:17:54] deploy.sh:160: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d29a22092be83cca036c308dd94d9a6c11eed30054419513fb07770555dfa90d
++ [2025-11-03 21:17:54] deploy.sh:161: aws lambda get-function --function-name eval-fastapi-v2-kotlin --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-03 21:17:54] deploy.sh:162: echo '[INFO] Function eval-fastapi-v2-kotlin not found. Creating with image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d29a22092be83cca036c308dd94d9a6c11eed30054419513fb07770555dfa90d'
+[INFO] Function eval-fastapi-v2-kotlin not found. Creating with image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d29a22092be83cca036c308dd94d9a6c11eed30054419513fb07770555dfa90d
++ [2025-11-03 21:17:54] deploy.sh:163: aws lambda create-function --function-name eval-fastapi-v2-kotlin --package-type Image --code ImageUri=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d29a22092be83cca036c308dd94d9a6c11eed30054419513fb07770555dfa90d --role arn:aws:iam::288761745376:role/lambda-eval-exec-role --architectures x86_64 --timeout 900 --memory-size 10240 --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-03 21:17:56] deploy.sh:173: echo 'Waiting for function creation to become active: eval-fastapi-v2-kotlin'
+Waiting for function creation to become active: eval-fastapi-v2-kotlin
++ [2025-11-03 21:17:56] deploy.sh:174: aws lambda wait function-active --function-name eval-fastapi-v2-kotlin --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-03 21:18:12] deploy.sh:187: echo 'Ensuring Function URL for: eval-fastapi-v2-kotlin'
+Ensuring Function URL for: eval-fastapi-v2-kotlin
++ [2025-11-03 21:18:12] deploy.sh:188: FUNC_URL=
+++ [2025-11-03 21:18:12] deploy.sh:189: aws lambda get-function-url-config --function-name eval-fastapi-v2-kotlin --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2025-11-03 21:18:13] deploy.sh:189: FUNC_URL=
++ [2025-11-03 21:18:13] deploy.sh:192: echo 'Creating Function URL for eval-fastapi-v2-kotlin (auth: NONE)'
+Creating Function URL for eval-fastapi-v2-kotlin (auth: NONE)
+++ [2025-11-03 21:18:13] deploy.sh:197: aws lambda create-function-url-config --function-name eval-fastapi-v2-kotlin --auth-type NONE --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2025-11-03 21:18:14] deploy.sh:197: FUNC_URL=https://7tdo2frwlsnzdedc77xpmkdcki0xdeca.lambda-url.ap-northeast-1.on.aws/
++ [2025-11-03 21:18:14] deploy.sh:199: aws lambda add-permission --function-name eval-fastapi-v2-kotlin --action lambda:InvokeFunctionUrl --statement-id FunctionURLAllowPublicAccess-kotlin --principal '*' --function-url-auth-type NONE --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-03 21:18:15] deploy.sh:208: URLS["$lang"]=https://7tdo2frwlsnzdedc77xpmkdcki0xdeca.lambda-url.ap-northeast-1.on.aws/
++ [2025-11-03 21:18:15] deploy.sh:209: echo 'Function URL (kotlin): https://7tdo2frwlsnzdedc77xpmkdcki0xdeca.lambda-url.ap-northeast-1.on.aws/'
+Function URL (kotlin): https://7tdo2frwlsnzdedc77xpmkdcki0xdeca.lambda-url.ap-northeast-1.on.aws/
++ [2025-11-03 21:18:15] deploy.sh:213: set +x
+\n================ Deployment Summary ================
+kotlin     https://7tdo2frwlsnzdedc77xpmkdcki0xdeca.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2025-11-03 21:18:15
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-03_21-15-33.log

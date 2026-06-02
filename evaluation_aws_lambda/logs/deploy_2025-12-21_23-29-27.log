@@ -1,0 +1,86 @@
++ [2025-12-21 23:29:27] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-21_23-29-27.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-12-21 23:29:27] deploy.sh:44: trap on_exit EXIT
++ [2025-12-21 23:29:27] deploy.sh:51: trap on_err ERR
++ [2025-12-21 23:29:27] deploy.sh:54: : ap-northeast-1
++ [2025-12-21 23:29:27] deploy.sh:55: : 288761745376_developer
++ [2025-12-21 23:29:27] deploy.sh:56: : multipl-e-api-lambda
++ [2025-12-21 23:29:27] deploy.sh:57: : v1
++ [2025-12-21 23:29:27] deploy.sh:58: : eval-fastapi-v2
++ [2025-12-21 23:29:27] deploy.sh:59: : x86_64
++ [2025-12-21 23:29:27] deploy.sh:60: : docker
++ [2025-12-21 23:29:27] deploy.sh:62: : 10240
++ [2025-12-21 23:29:27] deploy.sh:63: : 900
++ [2025-12-21 23:29:27] deploy.sh:65: : lambda-eval-exec-role
++ [2025-12-21 23:29:27] deploy.sh:95: [[ 1 -gt 0 ]]
++ [2025-12-21 23:29:27] deploy.sh:96: LANGS=("$@")
++ [2025-12-21 23:29:27] deploy.sh:108: expand_python_langs
++ [2025-12-21 23:29:27] deploy.sh:77: expanded=()
++ [2025-12-21 23:29:27] deploy.sh:77: local expanded
++ [2025-12-21 23:29:27] deploy.sh:78: seen=()
++ [2025-12-21 23:29:27] deploy.sh:78: declare -A seen
++ [2025-12-21 23:29:27] deploy.sh:79: for l in "${LANGS[@]}"
++ [2025-12-21 23:29:27] deploy.sh:80: variants=('go')
++ [2025-12-21 23:29:27] deploy.sh:80: local variants
++ [2025-12-21 23:29:27] deploy.sh:81: [[ go == \p\y\t\h\o\n ]]
++ [2025-12-21 23:29:27] deploy.sh:84: for v in "${variants[@]}"
++ [2025-12-21 23:29:27] deploy.sh:85: [[ -z '' ]]
++ [2025-12-21 23:29:27] deploy.sh:86: expanded+=("$v")
++ [2025-12-21 23:29:27] deploy.sh:87: seen[$v]=1
++ [2025-12-21 23:29:27] deploy.sh:91: LANGS=("${expanded[@]}")
++ [2025-12-21 23:29:27] deploy.sh:111: TMP_LANGS=()
++ [2025-12-21 23:29:27] deploy.sh:112: for l in "${LANGS[@]}"
+++ [2025-12-21 23:29:27] deploy.sh:113: lang_dockerfile_path go
+++ [2025-12-21 23:29:27] deploy.sh:69: case "$1" in
+++ [2025-12-21 23:29:27] deploy.sh:71: echo lang/go/Dockerfile
++ [2025-12-21 23:29:27] deploy.sh:113: DOCKERFILE_PATH=lang/go/Dockerfile
++ [2025-12-21 23:29:27] deploy.sh:114: [[ -f lang/go/Dockerfile ]]
++ [2025-12-21 23:29:27] deploy.sh:115: TMP_LANGS+=("$l")
++ [2025-12-21 23:29:27] deploy.sh:120: LANGS=("${TMP_LANGS[@]}")
+++ [2025-12-21 23:29:27] deploy.sh:122: date '+%Y-%m-%d %H:%M:%S'
++ [2025-12-21 23:29:27] deploy.sh:122: echo '[INFO] ===== Deployment started at 2025-12-21 23:29:27 ====='
+[INFO] ===== Deployment started at 2025-12-21 23:29:27 =====
++ [2025-12-21 23:29:27] deploy.sh:123: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-21_23-29-27.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-21_23-29-27.log
++ [2025-12-21 23:29:27] deploy.sh:124: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-12-21 23:29:27] deploy.sh:125: echo '[INFO] Detected languages: go'
+[INFO] Detected languages: go
++ [2025-12-21 23:29:27] deploy.sh:126: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-12-21 23:29:27] deploy.sh:127: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-12-21 23:29:28] deploy.sh:128: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-12-21 23:29:28] deploy.sh:129: xargs '-I{}' echo 'git-sha: {}'
++ [2025-12-21 23:29:28] deploy.sh:129: git rev-parse --short HEAD
+git-sha: 58f6d0b0
++ [2025-12-21 23:29:28] deploy.sh:132: export AWS_PAGER=
++ [2025-12-21 23:29:28] deploy.sh:132: AWS_PAGER=
++ [2025-12-21 23:29:28] deploy.sh:134: export AWS_PROFILE=288761745376_developer
++ [2025-12-21 23:29:28] deploy.sh:134: AWS_PROFILE=288761745376_developer
++ [2025-12-21 23:29:28] deploy.sh:135: ACCOUNT_ID_OUTPUT=
++ [2025-12-21 23:29:28] deploy.sh:136: ACCOUNT_ID=
+++ [2025-12-21 23:29:28] deploy.sh:140: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-21 23:29:29] deploy.sh:140: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-12-21 23:29:29] deploy.sh:149: ACCOUNT_ID=288761745376
++ [2025-12-21 23:29:29] deploy.sh:150: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-21 23:29:29] deploy.sh:153: [[ -z '' ]]
++ [2025-12-21 23:29:29] deploy.sh:154: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-12-21 23:29:29] deploy.sh:158: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-21 23:29:29] deploy.sh:158: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-21 23:29:29] deploy.sh:160: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-21 23:29:29] deploy.sh:161: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
++ [2025-12-21 23:29:29] deploy.sh:161: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
+Error response from daemon: Get "https://288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/v2/": dial tcp: lookup 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com on 10.255.255.254:53: no such host
+++ [2025-12-21 23:29:30] deploy.sh:161: on_err
+++ [2025-12-21 23:29:30] deploy.sh:47: local code=1
+++ [2025-12-21 23:29:30] deploy.sh:49: echo '[ERROR] Command failed (exit=1): $DOCKER_EXEC login --username AWS --password-stdin "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"'
+[ERROR] Command failed (exit=1): $DOCKER_EXEC login --username AWS --password-stdin "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
++ [2025-12-21 23:29:30] deploy.sh:1: on_exit
++ [2025-12-21 23:29:30] deploy.sh:40: local code=1
+++ [2025-12-21 23:29:30] deploy.sh:41: date '+%Y-%m-%d %H:%M:%S'
++ [2025-12-21 23:29:30] deploy.sh:41: echo '[INFO] Exiting with status: 1 at 2025-12-21 23:29:30'
+[INFO] Exiting with status: 1 at 2025-12-21 23:29:30
++ [2025-12-21 23:29:30] deploy.sh:42: echo '[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-21_23-29-27.log'
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-21_23-29-27.log

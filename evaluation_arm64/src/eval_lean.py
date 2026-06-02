@@ -1,29 +1,42 @@
 from pathlib import Path
-from safe_subprocess import run
 import subprocess
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+def add (x y : Nat) := x + y
+
+- tests:
+theorem t : add 2 3 = 5 := rfl
+"""
+
+
 def eval_script(path: Path):
-    # since lean is a theorem prover first and not a programming environment, 
-    # the return code is always 1. idk.
     try:
-        output = subprocess.run(["lean", str(path)], capture_output=True, timeout=5)
-        outmessage = str(output)
+        cp = subprocess.run(["lean", str(path)], capture_output=True, timeout=30)
+        stdout = "" if cp.stdout is None else cp.stdout.decode("utf-8", errors="ignore")
+        stderr = "" if cp.stderr is None else cp.stderr.decode("utf-8", errors="ignore")
 
-        if "error: tactic 'rfl' failed" in outmessage: # :skull:
-            status = "AssertionError"
-        elif outmessage == "":
+        # Lean can print toolchain warnings to stderr even when checking succeeds.
+        if cp.returncode == 0:
             status = "OK"
-        else:
+        elif "tactic 'rfl' failed" in stderr or "tactic 'rfl' failed" in stdout:
+            status = "AssertionError"
+        elif "error:" in stderr:
             status = "SyntaxError"
-        returncode = output.returncode
-
+        else:
+            status = "Exception"
+        return {
+            "status": status,
+            "exit_code": cp.returncode,
+            "stdout": stdout,
+            "stderr": stderr,
+        }
     except subprocess.TimeoutExpired as exc:
-        status = "Timeout"
-        output = exc
-        returncode = -1
-    return {
-        "status": status,
-        "exit_code": returncode,
-        "stdout": "" if output.stdout is None else output.stdout.decode("utf-8"),
-        "stderr": "" if output.stderr is None else output.stderr.decode("utf-8"),
-    }
+        return {
+            "status": "Timeout",
+            "exit_code": -1,
+            "stdout": "" if exc.stdout is None else exc.stdout.decode("utf-8", errors="ignore"),
+            "stderr": "" if exc.stderr is None else exc.stderr.decode("utf-8", errors="ignore"),
+        }

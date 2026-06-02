@@ -1,19 +1,13 @@
 from pathlib import Path
-from safe_subprocess import run
+from typing import List
 
-def eval_script(path: Path):
-    r = run(["python3", str(path)])
-    if r.timeout:
-        status = "Timeout"
-    elif r.exit_code == 0:
-        status = "OK"
-    elif "SyntaxError" in r.stderr: 
-        status = "SyntaxError"
-    else:
-        status = "Exception"
-    return { 
-        "status" : status, 
-        "exit_code": r.exit_code,
-        "stdout": r.stdout,
-        "stderr": r.stderr,
-    }
+from eval_python3 import eval_script as eval_script_python3
+
+# Compatibility wrapper that keeps the legacy import path but now delegates
+# to the dedicated Python 3 evaluator.
+def eval_script(
+    path: Path,
+    input_data: str | None = None,
+    expected_outputs: List[str] | None = None,
+):
+    return eval_script_python3(path=path, input_data=input_data, expected_outputs=expected_outputs)

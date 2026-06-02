@@ -2,6 +2,17 @@ import os
 import subprocess
 from pathlib import Path
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+add <- function(x, y) x + y
+
+- tests:
+stopifnot(add(2, 3) == 5)
+cat("OK\n")
+"""
+
 def eval_script(path: Path):
     try: 
         # Assumes exit-code 0 is all okay

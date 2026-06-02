@@ -1,0 +1,308 @@
++ [2025-11-04 11:37:00] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-04_11-37-00.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-11-04 11:37:00] deploy.sh:44: trap on_exit EXIT
++ [2025-11-04 11:37:00] deploy.sh:51: trap on_err ERR
++ [2025-11-04 11:37:00] deploy.sh:54: : ap-northeast-1
++ [2025-11-04 11:37:00] deploy.sh:55: : 288761745376_developer
++ [2025-11-04 11:37:00] deploy.sh:56: : multipl-e-api-lambda
++ [2025-11-04 11:37:00] deploy.sh:57: : v1
++ [2025-11-04 11:37:00] deploy.sh:58: : eval-fastapi-v2
++ [2025-11-04 11:37:00] deploy.sh:59: : x86_64
++ [2025-11-04 11:37:00] deploy.sh:60: : docker
++ [2025-11-04 11:37:00] deploy.sh:62: : 10240
++ [2025-11-04 11:37:00] deploy.sh:63: : 900
++ [2025-11-04 11:37:00] deploy.sh:65: : lambda-eval-exec-role
++ [2025-11-04 11:37:00] deploy.sh:68: [[ 1 -gt 0 ]]
++ [2025-11-04 11:37:00] deploy.sh:69: LANGS=("$@")
+++ [2025-11-04 11:37:00] deploy.sh:81: date '+%Y-%m-%d %H:%M:%S'
++ [2025-11-04 11:37:00] deploy.sh:81: echo '[INFO] ===== Deployment started at 2025-11-04 11:37:00 ====='
+[INFO] ===== Deployment started at 2025-11-04 11:37:00 =====
++ [2025-11-04 11:37:00] deploy.sh:82: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-04_11-37-00.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-04_11-37-00.log
++ [2025-11-04 11:37:00] deploy.sh:83: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-11-04 11:37:00] deploy.sh:84: echo '[INFO] Detected languages: javascript'
+[INFO] Detected languages: javascript
++ [2025-11-04 11:37:00] deploy.sh:85: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-11-04 11:37:00] deploy.sh:86: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-11-04 11:37:00] deploy.sh:87: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-11-04 11:37:00] deploy.sh:88: git rev-parse --short HEAD
++ [2025-11-04 11:37:00] deploy.sh:88: xargs '-I{}' echo 'git-sha: {}'
+git-sha: 58f6d0b0
++ [2025-11-04 11:37:00] deploy.sh:91: export AWS_PAGER=
++ [2025-11-04 11:37:00] deploy.sh:91: AWS_PAGER=
++ [2025-11-04 11:37:00] deploy.sh:93: export AWS_PROFILE=288761745376_developer
++ [2025-11-04 11:37:00] deploy.sh:93: AWS_PROFILE=288761745376_developer
++ [2025-11-04 11:37:00] deploy.sh:94: ACCOUNT_ID_OUTPUT=
++ [2025-11-04 11:37:00] deploy.sh:95: ACCOUNT_ID=
+++ [2025-11-04 11:37:00] deploy.sh:99: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-04 11:37:01] deploy.sh:99: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-11-04 11:37:01] deploy.sh:108: ACCOUNT_ID=288761745376
++ [2025-11-04 11:37:01] deploy.sh:109: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-11-04 11:37:01] deploy.sh:112: [[ -z '' ]]
++ [2025-11-04 11:37:01] deploy.sh:113: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-11-04 11:37:01] deploy.sh:117: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-11-04 11:37:01] deploy.sh:117: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-11-04 11:37:01] deploy.sh:119: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-11-04 11:37:01] deploy.sh:120: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
++ [2025-11-04 11:37:01] deploy.sh:120: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
+Login Succeeded
++ [2025-11-04 11:37:02] deploy.sh:123: BASE_TAG=base-v1
++ [2025-11-04 11:37:02] deploy.sh:124: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-11-04 11:37:02] deploy.sh:125: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-11-04 11:37:02] deploy.sh:126: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 25.61kB 0.0s done
+#5 DONE 0.0s
+
+#6 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#6 CACHED
+
+#7 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#7 CACHED
+
+#8 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#8 CACHED
+
+#9 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [6/7] WORKDIR /var/task
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers 0.0s done
+#12 writing image sha256:b3790c4f39810a6bb2321696c9825358821e7d962d88782cbd1c14a3bfd5459a done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.1s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer 418e79eadd93
+#13 pushing layer 86e9b58cec28 0.1s
+#13 pushing layer a9895ee477e5 0.1s
+#13 pushing layer ee9412008f1c
+#13 pushing layer 6e6ff92b1cc8 0.1s
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer 418e79eadd93 177.66kB / 128.98kB 0.2s
+#13 pushing layer 418e79eadd93 0.7s done
+#13 pushing layer 8810007f7e31 1.8s done
+#13 pushing layer 86e9b58cec28 1.8s done
+#13 pushing layer a9895ee477e5 1.8s done
+#13 pushing layer ee9412008f1c 1.8s done
+#13 pushing layer 6e6ff92b1cc8 1.8s done
+#13 pushing layer 90a2bf02e851 1.8s done
+#13 DONE 2.0s
++ [2025-11-04 11:37:06] deploy.sh:134: declare -A URLS
++ [2025-11-04 11:37:06] deploy.sh:136: for lang in "${LANGS[@]}"
++ [2025-11-04 11:37:06] deploy.sh:137: DOCKERFILE_PATH=lang/javascript/Dockerfile
++ [2025-11-04 11:37:06] deploy.sh:138: [[ -f lang/javascript/Dockerfile ]]
++ [2025-11-04 11:37:06] deploy.sh:140: IMAGE_TAG=javascript-v1
++ [2025-11-04 11:37:06] deploy.sh:141: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1
++ [2025-11-04 11:37:06] deploy.sh:142: FUNC_NAME=eval-fastapi-v2-javascript
++ [2025-11-04 11:37:06] deploy.sh:144: echo '\n=== Building javascript image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building javascript image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2025-11-04 11:37:06] deploy.sh:145: docker buildx build --platform linux/amd64 -f lang/javascript/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 600B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 DONE 0.0s
+
+#5 [2/3] RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -  && apt-get install -yqq --no-install-recommends nodejs  && rm -rf /var/lib/apt/lists/*
+#5 0.441 [38;5;79m2025-11-04 02:37:06 - Installing pre-requisites[0m
+#5 0.477 
+#5 0.477 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+#5 0.477 
+#5 0.880 Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+#5 1.225 Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+#5 1.774 Get:3 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [5963 kB]
+#5 2.515 Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+#5 2.824 Get:5 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+#5 3.132 Get:6 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+#5 4.807 Get:7 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+#5 4.907 Get:8 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+#5 4.915 Get:9 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+#5 4.929 Get:10 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [6161 kB]
+#5 5.235 Get:11 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [69.2 kB]
+#5 5.236 Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1594 kB]
+#5 5.336 Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [3855 kB]
+#5 5.525 Get:14 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [83.9 kB]
+#5 5.529 Get:15 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.2 kB]
+#5 17.25 Get:16 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3520 kB]
+#5 26.07 Get:17 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1289 kB]
+#5 29.88 Get:18 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [60.9 kB]
+#5 30.02 Fetched 43.0 MB in 30s (1457 kB/s)
+#5 30.02 Reading package lists...
+#5 30.91 Building dependency tree...
+#5 31.15 Reading state information...
+#5 31.19 49 packages can be upgraded. Run 'apt list --upgradable' to see them.
+#5 31.19 
+#5 31.19 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+#5 31.19 
+#5 31.22 Reading package lists...
+#5 32.26 Building dependency tree...
+#5 32.49 Reading state information...
+#5 32.74 ca-certificates is already the newest version (20240203~22.04.1).
+#5 32.74 gnupg is already the newest version (2.2.27-3ubuntu2.4).
+#5 32.74 The following additional packages will be installed:
+#5 32.74   libcurl4
+#5 32.77 The following NEW packages will be installed:
+#5 32.77   apt-transport-https
+#5 32.78 The following packages will be upgraded:
+#5 32.78   curl libcurl4
+#5 33.77 2 upgraded, 1 newly installed, 0 to remove and 47 not upgraded.
+#5 33.77 Need to get 486 kB of archives.
+#5 33.77 After this operation, 170 kB of additional disk space will be used.
+#5 33.77 Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 apt-transport-https all 2.4.14 [1510 B]
+#5 34.57 Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.21 [194 kB]
+#5 35.43 Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.21 [290 kB]
+#5 35.87 debconf: delaying package configuration, since apt-utils is not installed
+#5 35.90 Fetched 486 kB in 3s (167 kB/s)
+#5 35.93 Selecting previously unselected package apt-transport-https.
+#5 35.93 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 36.00 Preparing to unpack .../apt-transport-https_2.4.14_all.deb ...
+#5 36.00 Unpacking apt-transport-https (2.4.14) ...
+#5 36.03 Preparing to unpack .../curl_7.81.0-1ubuntu1.21_amd64.deb ...
+#5 36.04 Unpacking curl (7.81.0-1ubuntu1.21) over (7.81.0-1ubuntu1.20) ...
+#5 36.09 Preparing to unpack .../libcurl4_7.81.0-1ubuntu1.21_amd64.deb ...
+#5 36.11 Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.21) over (7.81.0-1ubuntu1.20) ...
+#5 36.15 Setting up apt-transport-https (2.4.14) ...
+#5 36.16 Setting up libcurl4:amd64 (7.81.0-1ubuntu1.21) ...
+#5 36.17 Setting up curl (7.81.0-1ubuntu1.21) ...
+#5 36.18 Processing triggers for libc-bin (2.35-0ubuntu3.10) ...
+#5 36.31 
+#5 36.31 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+#5 36.31 
+#5 36.44 Get:1 https://deb.nodesource.com/node_25.x nodistro InRelease [10.6 kB]
+#5 36.68 Get:2 https://deb.nodesource.com/node_25.x nodistro/main amd64 Packages [1092 B]
+#5 36.82 Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+#5 36.97 Hit:4 http://archive.ubuntu.com/ubuntu jammy InRelease
+#5 37.14 Hit:5 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+#5 37.32 Hit:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+#5 37.73 Fetched 141 kB in 1s (101 kB/s)
+#5 37.73 Reading package lists...
+#5 38.49 Building dependency tree...
+#5 38.67 Reading state information...
+#5 38.69 47 packages can be upgraded. Run 'apt list --upgradable' to see them.
+#5 38.69 [1;34m2025-11-04 02:37:45 - Repository configured successfully.[0m
+#5 38.69 [38;5;79m2025-11-04 02:37:45 - To install Node.js, run: apt install nodejs -y[0m
+#5 38.69 [38;5;79m2025-11-04 02:37:45 - You can use N|solid Runtime as a node.js alternative[0m
+#5 38.69 [1;32m2025-11-04 02:37:45 - To install N|solid Runtime, run: apt install nsolid -y 
+#5 38.69 [0m
+#5 41.19 debconf: delaying package configuration, since apt-utils is not installed
+#5 41.24 Selecting previously unselected package nodejs.
+#5 41.24 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14546 files and directories currently installed.)
+#5 41.24 Preparing to unpack .../nodejs_25.1.0-1nodesource1_amd64.deb ...
+#5 41.25 Unpacking nodejs (25.1.0-1nodesource1) ...
+#5 44.37 Setting up nodejs (25.1.0-1nodesource1) ...
+#5 DONE 44.6s
+
+#6 [3/3] RUN node -v  && printf 'console.log("ok")\n' > /tmp/p.js  && node /tmp/p.js | grep -q '^ok$'  && rm -f /tmp/p.js
+#6 0.308 v25.1.0
+#6 DONE 0.4s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 1.0s done
+#7 writing image sha256:3358d49d52c4e999daa5e999e8c711a793db2318430c1f859d8c7b45d57b8a09 done
+#7 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1 done
+#7 DONE 1.0s
+
+#8 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1 with docker
+#8 pushing layer 4c74555ad0cb
+#8 pushing layer c98f20db63c1
+#8 pushing layer 418e79eadd93 0.1s
+#8 pushing layer 86e9b58cec28 0.1s
+#8 pushing layer a9895ee477e5 0.1s
+#8 pushing layer ee9412008f1c 0.1s
+#8 pushing layer 6e6ff92b1cc8
+#8 pushing layer 8810007f7e31
+#8 pushing layer 90a2bf02e851
+#8 pushing layer c98f20db63c1 12.80MB / 198.33MB 0.6s
+#8 pushing layer 4c74555ad0cb 0.7s done
+#8 pushing layer c98f20db63c1 23.38MB / 198.33MB 1.0s
+#8 pushing layer c98f20db63c1 35.64MB / 198.33MB 1.4s
+#8 pushing layer c98f20db63c1 47.33MB / 198.33MB 1.7s
+#8 pushing layer c98f20db63c1 60.15MB / 198.33MB 2.1s
+#8 pushing layer c98f20db63c1 70.17MB / 198.33MB 2.4s
+#8 pushing layer c98f20db63c1 81.87MB / 198.33MB 2.8s
+#8 pushing layer c98f20db63c1 91.90MB / 198.33MB 3.1s
+#8 pushing layer c98f20db63c1 103.04MB / 198.33MB 3.4s
+#8 pushing layer c98f20db63c1 116.97MB / 198.33MB 3.9s
+#8 pushing layer c98f20db63c1 130.05MB / 198.33MB 4.2s
+#8 pushing layer c98f20db63c1 143.73MB / 198.33MB 4.5s
+#8 pushing layer c98f20db63c1 156.35MB / 198.33MB 4.8s
+#8 pushing layer c98f20db63c1 169.50MB / 198.33MB 5.1s
+#8 pushing layer c98f20db63c1 182.12MB / 198.33MB 5.4s
+#8 pushing layer c98f20db63c1 192.16MB / 198.33MB 5.8s
+#8 pushing layer c98f20db63c1 202.48MB / 198.33MB 6.1s
+#8 pushing layer c98f20db63c1 6.8s done
+#8 pushing layer 6e6ff92b1cc8 7.8s done
+#8 pushing layer 418e79eadd93 7.8s done
+#8 pushing layer 86e9b58cec28 7.8s done
+#8 pushing layer a9895ee477e5 7.8s done
+#8 pushing layer ee9412008f1c 7.8s done
+#8 pushing layer 8810007f7e31 7.8s done
+#8 pushing layer 90a2bf02e851 7.8s done
+#8 DONE 8.1s
++ [2025-11-04 11:38:01] deploy.sh:153: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:javascript-v1
+++ [2025-11-04 11:38:01] deploy.sh:158: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=javascript-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2025-11-04 11:38:01] deploy.sh:158: DIGEST=sha256:06ee00f8987decab280b64c0160e2df959c1c990ce3ee15203abab5c1a8519c3
++ [2025-11-04 11:38:01] deploy.sh:160: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:06ee00f8987decab280b64c0160e2df959c1c990ce3ee15203abab5c1a8519c3
++ [2025-11-04 11:38:01] deploy.sh:161: aws lambda get-function --function-name eval-fastapi-v2-javascript --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-04 11:38:02] deploy.sh:176: echo 'Updating Lambda function eval-fastapi-v2-javascript to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:06ee00f8987decab280b64c0160e2df959c1c990ce3ee15203abab5c1a8519c3'
+Updating Lambda function eval-fastapi-v2-javascript to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:06ee00f8987decab280b64c0160e2df959c1c990ce3ee15203abab5c1a8519c3
++ [2025-11-04 11:38:02] deploy.sh:177: aws lambda update-function-code --function-name eval-fastapi-v2-javascript --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:06ee00f8987decab280b64c0160e2df959c1c990ce3ee15203abab5c1a8519c3 --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-04 11:38:03] deploy.sh:182: echo 'Waiting for function update to complete: eval-fastapi-v2-javascript'
+Waiting for function update to complete: eval-fastapi-v2-javascript
++ [2025-11-04 11:38:03] deploy.sh:183: aws lambda wait function-updated --function-name eval-fastapi-v2-javascript --region ap-northeast-1 --profile 288761745376_developer
++ [2025-11-04 11:38:19] deploy.sh:187: echo 'Ensuring Function URL for: eval-fastapi-v2-javascript'
+Ensuring Function URL for: eval-fastapi-v2-javascript
++ [2025-11-04 11:38:19] deploy.sh:188: FUNC_URL=
+++ [2025-11-04 11:38:19] deploy.sh:189: aws lambda get-function-url-config --function-name eval-fastapi-v2-javascript --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2025-11-04 11:38:20] deploy.sh:189: FUNC_URL=https://sehpvhtkbnle3j2uvbihysikr40mbpkl.lambda-url.ap-northeast-1.on.aws/
++ [2025-11-04 11:38:20] deploy.sh:190: :
++ [2025-11-04 11:38:20] deploy.sh:208: URLS["$lang"]=https://sehpvhtkbnle3j2uvbihysikr40mbpkl.lambda-url.ap-northeast-1.on.aws/
++ [2025-11-04 11:38:20] deploy.sh:209: echo 'Function URL (javascript): https://sehpvhtkbnle3j2uvbihysikr40mbpkl.lambda-url.ap-northeast-1.on.aws/'
+Function URL (javascript): https://sehpvhtkbnle3j2uvbihysikr40mbpkl.lambda-url.ap-northeast-1.on.aws/
++ [2025-11-04 11:38:20] deploy.sh:213: set +x
+\n================ Deployment Summary ================
+javascript https://sehpvhtkbnle3j2uvbihysikr40mbpkl.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2025-11-04 11:38:20
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-11-04_11-37-00.log

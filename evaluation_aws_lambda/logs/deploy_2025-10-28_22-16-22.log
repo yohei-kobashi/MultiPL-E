@@ -1,0 +1,247 @@
++ [2025-10-28 22:16:22] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-10-28_22-16-22.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-10-28 22:16:22] deploy.sh:44: trap on_exit EXIT
++ [2025-10-28 22:16:22] deploy.sh:51: trap on_err ERR
++ [2025-10-28 22:16:22] deploy.sh:54: : ap-northeast-1
++ [2025-10-28 22:16:22] deploy.sh:55: : 288761745376_developer
++ [2025-10-28 22:16:22] deploy.sh:56: : multipl-e-api-lambda
++ [2025-10-28 22:16:22] deploy.sh:57: : v1
++ [2025-10-28 22:16:22] deploy.sh:58: : eval-fastapi-v2
++ [2025-10-28 22:16:22] deploy.sh:59: : x86_64
++ [2025-10-28 22:16:22] deploy.sh:60: : docker
++ [2025-10-28 22:16:22] deploy.sh:62: : 10240
++ [2025-10-28 22:16:22] deploy.sh:63: : 900
++ [2025-10-28 22:16:22] deploy.sh:65: : lambda-eval-exec-role
++ [2025-10-28 22:16:22] deploy.sh:68: [[ 1 -gt 0 ]]
++ [2025-10-28 22:16:22] deploy.sh:69: LANGS=("$@")
+++ [2025-10-28 22:16:22] deploy.sh:81: date '+%Y-%m-%d %H:%M:%S'
++ [2025-10-28 22:16:22] deploy.sh:81: echo '[INFO] ===== Deployment started at 2025-10-28 22:16:22 ====='
+[INFO] ===== Deployment started at 2025-10-28 22:16:22 =====
++ [2025-10-28 22:16:22] deploy.sh:82: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-10-28_22-16-22.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-10-28_22-16-22.log
++ [2025-10-28 22:16:22] deploy.sh:83: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-10-28 22:16:22] deploy.sh:84: echo '[INFO] Detected languages: go'
+[INFO] Detected languages: go
++ [2025-10-28 22:16:22] deploy.sh:85: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-10-28 22:16:22] deploy.sh:86: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-10-28 22:16:23] deploy.sh:87: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-10-28 22:16:23] deploy.sh:88: xargs '-I{}' echo 'git-sha: {}'
++ [2025-10-28 22:16:23] deploy.sh:88: git rev-parse --short HEAD
+git-sha: 58f6d0b0
++ [2025-10-28 22:16:23] deploy.sh:91: export AWS_PAGER=
++ [2025-10-28 22:16:23] deploy.sh:91: AWS_PAGER=
++ [2025-10-28 22:16:23] deploy.sh:93: export AWS_PROFILE=288761745376_developer
++ [2025-10-28 22:16:23] deploy.sh:93: AWS_PROFILE=288761745376_developer
++ [2025-10-28 22:16:23] deploy.sh:94: ACCOUNT_ID_OUTPUT=
++ [2025-10-28 22:16:23] deploy.sh:95: ACCOUNT_ID=
+++ [2025-10-28 22:16:23] deploy.sh:99: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-10-28 22:16:24] deploy.sh:99: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-10-28 22:16:24] deploy.sh:108: ACCOUNT_ID=288761745376
++ [2025-10-28 22:16:24] deploy.sh:109: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-10-28 22:16:24] deploy.sh:112: [[ -z '' ]]
++ [2025-10-28 22:16:24] deploy.sh:113: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-10-28 22:16:24] deploy.sh:117: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-10-28 22:16:24] deploy.sh:117: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-10-28 22:16:24] deploy.sh:119: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-10-28 22:16:24] deploy.sh:120: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
++ [2025-10-28 22:16:24] deploy.sh:120: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
+Login Succeeded
++ [2025-10-28 22:16:25] deploy.sh:123: BASE_TAG=base-v1
++ [2025-10-28 22:16:25] deploy.sh:124: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-10-28 22:16:25] deploy.sh:125: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-10-28 22:16:25] deploy.sh:126: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 6.84kB done
+#5 DONE 0.0s
+
+#6 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#7 CACHED
+
+#8 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#8 CACHED
+
+#9 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#9 CACHED
+
+#10 [6/7] WORKDIR /var/task
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers 0.0s done
+#12 writing image sha256:29e82dfc38528c1b34df616ecbf3bd8e97830f5b4e8b52706531247074d73997 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.0s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer bad6d7708832
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5
+#13 pushing layer ee9412008f1c 0.1s
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer bad6d7708832 151.55kB / 107.44kB 0.2s
+#13 pushing layer bad6d7708832 0.8s done
+#13 pushing layer 86e9b58cec28 1.9s done
+#13 pushing layer a9895ee477e5 1.9s done
+#13 pushing layer ee9412008f1c 1.9s done
+#13 pushing layer 6e6ff92b1cc8 1.9s done
+#13 pushing layer 8810007f7e31 1.9s done
+#13 pushing layer 90a2bf02e851 1.9s done
+#13 DONE 2.2s
++ [2025-10-28 22:16:29] deploy.sh:134: declare -A URLS
++ [2025-10-28 22:16:29] deploy.sh:136: for lang in "${LANGS[@]}"
++ [2025-10-28 22:16:29] deploy.sh:137: DOCKERFILE_PATH=lang/go/Dockerfile
++ [2025-10-28 22:16:29] deploy.sh:138: [[ -f lang/go/Dockerfile ]]
++ [2025-10-28 22:16:29] deploy.sh:140: IMAGE_TAG=go-v1
++ [2025-10-28 22:16:29] deploy.sh:141: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1
++ [2025-10-28 22:16:29] deploy.sh:142: FUNC_NAME=eval-fastapi-v2-go
++ [2025-10-28 22:16:29] deploy.sh:144: echo '\n=== Building go image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building go image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2025-10-28 22:16:29] deploy.sh:145: docker buildx build --platform linux/amd64 -f lang/go/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 775B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 DONE 0.0s
+
+#5 [2/4] RUN apt-get update -yqq  && apt-get install -yqq --no-install-recommends golang-go  && rm -rf /var/lib/apt/lists/*
+#5 45.11 debconf: delaying package configuration, since apt-utils is not installed
+#5 45.18 Selecting previously unselected package golang-1.18-src.
+#5 45.18 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 45.24 Preparing to unpack .../golang-1.18-src_1.18.1-1ubuntu1.2_all.deb ...
+#5 45.25 Unpacking golang-1.18-src (1.18.1-1ubuntu1.2) ...
+#5 46.87 Selecting previously unselected package golang-1.18-go.
+#5 46.87 Preparing to unpack .../golang-1.18-go_1.18.1-1ubuntu1.2_amd64.deb ...
+#5 46.88 Unpacking golang-1.18-go (1.18.1-1ubuntu1.2) ...
+#5 47.95 Selecting previously unselected package golang-src.
+#5 47.95 Preparing to unpack .../golang-src_2%3a1.18~0ubuntu2_all.deb ...
+#5 47.96 Unpacking golang-src (2:1.18~0ubuntu2) ...
+#5 47.99 Selecting previously unselected package golang-go:amd64.
+#5 47.99 Preparing to unpack .../golang-go_2%3a1.18~0ubuntu2_amd64.deb ...
+#5 48.00 Unpacking golang-go:amd64 (2:1.18~0ubuntu2) ...
+#5 48.03 Setting up golang-1.18-src (1.18.1-1ubuntu1.2) ...
+#5 48.04 Setting up golang-src (2:1.18~0ubuntu2) ...
+#5 48.05 Setting up golang-1.18-go (1.18.1-1ubuntu1.2) ...
+#5 48.06 Setting up golang-go:amd64 (2:1.18~0ubuntu2) ...
+#5 DONE 48.5s
+
+#6 [3/4] RUN mkdir -p /tmp/go-build /tmp/go
+#6 DONE 0.2s
+
+#7 [4/4] RUN go version  && printf 'package main\nimport "fmt"\nfunc main(){ fmt.Println("ok") }' > /tmp/p.go  && go run /tmp/p.go | grep -q '^ok$'  && rm -f /tmp/p.go
+#7 0.305 go version go1.18.1 linux/amd64
+#7 DONE 0.5s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 1.9s done
+#8 writing image sha256:875ce4d20f3e5add32422ddbf4e125ebc73032a332f8505c9f121670e20697d5 done
+#8 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1 done
+#8 DONE 1.9s
+
+#9 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1 with docker
+#9 pushing layer 48cf2adf8817
+#9 pushing layer 3cb5f7994280
+#9 pushing layer 8162c767ea41
+#9 pushing layer bad6d7708832
+#9 pushing layer 86e9b58cec28
+#9 pushing layer a9895ee477e5
+#9 pushing layer ee9412008f1c
+#9 pushing layer 6e6ff92b1cc8
+#9 pushing layer 8810007f7e31
+#9 pushing layer 90a2bf02e851
+#9 pushing layer 48cf2adf8817 145.92kB / 5.50kB 0.3s
+#9 pushing layer 48cf2adf8817 1.3s done
+#9 pushing layer 3cb5f7994280 1.3s done
+#9 pushing layer 8162c767ea41 25.86MB / 431.72MB 2.6s
+#9 pushing layer 8162c767ea41 51.38MB / 431.72MB 3.5s
+#9 pushing layer 8162c767ea41 75.81MB / 431.72MB 4.2s
+#9 pushing layer 8162c767ea41 99.52MB / 431.72MB 5.6s
+#9 pushing layer 8162c767ea41 122.00MB / 431.72MB 6.9s
+#9 pushing layer 8162c767ea41 146.58MB / 431.72MB 8.3s
+#9 pushing layer 8162c767ea41 171.10MB / 431.72MB 9.6s
+#9 pushing layer 8162c767ea41 193.54MB / 431.72MB 11.2s
+#9 pushing layer 8162c767ea41 216.54MB / 431.72MB 12.5s
+#9 pushing layer 8162c767ea41 240.18MB / 431.72MB 13.7s
+#9 pushing layer 8162c767ea41 262.16MB / 431.72MB 15.2s
+#9 pushing layer 8162c767ea41 286.05MB / 431.72MB 17.5s
+#9 pushing layer 8162c767ea41 309.90MB / 431.72MB 20.2s
+#9 pushing layer 8162c767ea41 338.12MB / 431.72MB 22.7s
+#9 pushing layer 8162c767ea41 360.17MB / 431.72MB 23.6s
+#9 pushing layer 8162c767ea41 384.71MB / 431.72MB 24.7s
+#9 pushing layer 8162c767ea41 408.65MB / 431.72MB 26.3s
+#9 pushing layer 8162c767ea41 435.10MB / 431.72MB 27.5s
+#9 pushing layer 8162c767ea41 28.9s done
+#9 pushing layer bad6d7708832 30.1s done
+#9 pushing layer 86e9b58cec28 30.1s done
+#9 pushing layer a9895ee477e5 30.1s done
+#9 pushing layer ee9412008f1c 30.1s done
+#9 pushing layer 6e6ff92b1cc8 30.1s done
+#9 pushing layer 8810007f7e31 30.1s done
+#9 pushing layer 90a2bf02e851 30.1s done
+#9 DONE 30.6s
++ [2025-10-28 22:17:52] deploy.sh:153: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:go-v1
+++ [2025-10-28 22:17:52] deploy.sh:158: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=go-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2025-10-28 22:17:52] deploy.sh:158: DIGEST=sha256:6cc953fbb1640762bd934ae9d48e40fd841eb9ea90ae6b0c3a47c9df1e8aa26b
++ [2025-10-28 22:17:52] deploy.sh:160: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:6cc953fbb1640762bd934ae9d48e40fd841eb9ea90ae6b0c3a47c9df1e8aa26b
++ [2025-10-28 22:17:52] deploy.sh:161: aws lambda get-function --function-name eval-fastapi-v2-go --region ap-northeast-1 --profile 288761745376_developer
++ [2025-10-28 22:17:53] deploy.sh:176: echo 'Updating Lambda function eval-fastapi-v2-go to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:6cc953fbb1640762bd934ae9d48e40fd841eb9ea90ae6b0c3a47c9df1e8aa26b'
+Updating Lambda function eval-fastapi-v2-go to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:6cc953fbb1640762bd934ae9d48e40fd841eb9ea90ae6b0c3a47c9df1e8aa26b
++ [2025-10-28 22:17:53] deploy.sh:177: aws lambda update-function-code --function-name eval-fastapi-v2-go --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:6cc953fbb1640762bd934ae9d48e40fd841eb9ea90ae6b0c3a47c9df1e8aa26b --region ap-northeast-1 --profile 288761745376_developer
++ [2025-10-28 22:17:54] deploy.sh:182: echo 'Waiting for function update to complete: eval-fastapi-v2-go'
+Waiting for function update to complete: eval-fastapi-v2-go
++ [2025-10-28 22:17:54] deploy.sh:183: aws lambda wait function-updated --function-name eval-fastapi-v2-go --region ap-northeast-1 --profile 288761745376_developer
++ [2025-10-28 22:18:10] deploy.sh:187: echo 'Ensuring Function URL for: eval-fastapi-v2-go'
+Ensuring Function URL for: eval-fastapi-v2-go
++ [2025-10-28 22:18:10] deploy.sh:188: FUNC_URL=
+++ [2025-10-28 22:18:10] deploy.sh:189: aws lambda get-function-url-config --function-name eval-fastapi-v2-go --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2025-10-28 22:18:11] deploy.sh:189: FUNC_URL=https://hgqaejogiftj2ait2oyiest3240gkkwa.lambda-url.ap-northeast-1.on.aws/
++ [2025-10-28 22:18:11] deploy.sh:190: :
++ [2025-10-28 22:18:11] deploy.sh:208: URLS["$lang"]=https://hgqaejogiftj2ait2oyiest3240gkkwa.lambda-url.ap-northeast-1.on.aws/
++ [2025-10-28 22:18:11] deploy.sh:209: echo 'Function URL (go): https://hgqaejogiftj2ait2oyiest3240gkkwa.lambda-url.ap-northeast-1.on.aws/'
+Function URL (go): https://hgqaejogiftj2ait2oyiest3240gkkwa.lambda-url.ap-northeast-1.on.aws/
++ [2025-10-28 22:18:11] deploy.sh:213: set +x
+\n================ Deployment Summary ================
+go         https://hgqaejogiftj2ait2oyiest3240gkkwa.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2025-10-28 22:18:11
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-10-28_22-16-22.log

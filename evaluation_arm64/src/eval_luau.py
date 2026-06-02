@@ -1,6 +1,19 @@
 from pathlib import Path
 from safe_subprocess import run
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+function add(x, y)
+  return x + y
+end
+
+- tests:
+assert(add(2, 3) == 5)
+print('OK')
+"""
+
 
 def eval_script(path: Path):
     r = run(["luau-analyze", str(path)])

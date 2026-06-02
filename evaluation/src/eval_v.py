@@ -6,12 +6,23 @@ import subprocess
 # 0: compilation goes through 
 # 1: some sort of error (nondescript)
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests) [Coq]:
+
+- completion:
+Definition add (x y : nat) := x + y.
+
+- tests:
+Example t : add 2 3 = 5.
+Proof. reflexivity. Qed.
+"""
+
 def eval_script(path: Path):
     cleanup_extensions = ['.vo', '.vok', '.vos']
 
     try:
         # sadly there seems to be no way to verify proofs in a coq file without compiling
-        output = subprocess.run(["coqc", "-noglob", str(path)], capture_output=True, timeout=5)
+        output = subprocess.run(["coqc", "-noglob", str(path)], capture_output=True, timeout=60)
         outmessage = str(output)
 
         if output.returncode == 0:

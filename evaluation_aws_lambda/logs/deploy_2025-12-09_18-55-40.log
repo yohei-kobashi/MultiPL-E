@@ -1,0 +1,238 @@
++ [2025-12-09 18:55:40] ./deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_18-55-40.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-12-09 18:55:40] ./deploy.sh:44: trap on_exit EXIT
++ [2025-12-09 18:55:40] ./deploy.sh:51: trap on_err ERR
++ [2025-12-09 18:55:40] ./deploy.sh:54: : ap-northeast-1
++ [2025-12-09 18:55:40] ./deploy.sh:55: : 288761745376_developer
++ [2025-12-09 18:55:40] ./deploy.sh:56: : multipl-e-api-lambda
++ [2025-12-09 18:55:40] ./deploy.sh:57: : v1
++ [2025-12-09 18:55:40] ./deploy.sh:58: : eval-fastapi-v2
++ [2025-12-09 18:55:40] ./deploy.sh:59: : x86_64
++ [2025-12-09 18:55:40] ./deploy.sh:60: : docker
++ [2025-12-09 18:55:40] ./deploy.sh:62: : 10240
++ [2025-12-09 18:55:40] ./deploy.sh:63: : 900
++ [2025-12-09 18:55:40] ./deploy.sh:65: : lambda-eval-exec-role
++ [2025-12-09 18:55:40] ./deploy.sh:68: [[ 1 -gt 0 ]]
++ [2025-12-09 18:55:40] ./deploy.sh:69: LANGS=("$@")
+++ [2025-12-09 18:55:40] ./deploy.sh:81: date '+%Y-%m-%d %H:%M:%S'
++ [2025-12-09 18:55:40] ./deploy.sh:81: echo '[INFO] ===== Deployment started at 2025-12-09 18:55:40 ====='
+[INFO] ===== Deployment started at 2025-12-09 18:55:40 =====
++ [2025-12-09 18:55:40] ./deploy.sh:82: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_18-55-40.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_18-55-40.log
++ [2025-12-09 18:55:40] ./deploy.sh:83: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-12-09 18:55:40] ./deploy.sh:84: echo '[INFO] Detected languages: rust'
+[INFO] Detected languages: rust
++ [2025-12-09 18:55:40] ./deploy.sh:85: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-12-09 18:55:40] ./deploy.sh:86: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-12-09 18:55:41] ./deploy.sh:87: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-12-09 18:55:41] ./deploy.sh:88: xargs '-I{}' echo 'git-sha: {}'
++ [2025-12-09 18:55:41] ./deploy.sh:88: git rev-parse --short HEAD
+git-sha: 58f6d0b0
++ [2025-12-09 18:55:41] ./deploy.sh:91: export AWS_PAGER=
++ [2025-12-09 18:55:41] ./deploy.sh:91: AWS_PAGER=
++ [2025-12-09 18:55:41] ./deploy.sh:93: export AWS_PROFILE=288761745376_developer
++ [2025-12-09 18:55:41] ./deploy.sh:93: AWS_PROFILE=288761745376_developer
++ [2025-12-09 18:55:41] ./deploy.sh:94: ACCOUNT_ID_OUTPUT=
++ [2025-12-09 18:55:41] ./deploy.sh:95: ACCOUNT_ID=
+++ [2025-12-09 18:55:41] ./deploy.sh:99: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 18:55:42] ./deploy.sh:99: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-12-09 18:55:42] ./deploy.sh:108: ACCOUNT_ID=288761745376
++ [2025-12-09 18:55:42] ./deploy.sh:109: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-09 18:55:42] ./deploy.sh:112: [[ -z '' ]]
++ [2025-12-09 18:55:42] ./deploy.sh:113: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-12-09 18:55:42] ./deploy.sh:117: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-09 18:55:42] ./deploy.sh:117: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-09 18:55:42] ./deploy.sh:119: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-09 18:55:42] ./deploy.sh:120: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
++ [2025-12-09 18:55:42] ./deploy.sh:120: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
+Login Succeeded
++ [2025-12-09 18:55:43] ./deploy.sh:123: BASE_TAG=base-v1
++ [2025-12-09 18:55:43] ./deploy.sh:124: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-12-09 18:55:43] ./deploy.sh:125: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-12-09 18:55:43] ./deploy.sh:126: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 7.45kB done
+#5 DONE 0.0s
+
+#6 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#7 CACHED
+
+#8 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#8 CACHED
+
+#9 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#9 CACHED
+
+#10 [6/7] WORKDIR /var/task
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 DONE 0.0s
+
+#12 exporting to image
+#12 exporting layers 0.0s done
+#12 writing image sha256:3e4fdf90f7b6169a55ee33f172d3494528bb26a449e0ea24f4d504d978ca19a3 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.1s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer f382f1a1ecf4
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5
+#13 pushing layer ee9412008f1c 0.1s
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer f382f1a1ecf4 216.06kB / 165.09kB 0.2s
+#13 pushing layer f382f1a1ecf4 0.9s done
+#13 pushing layer 86e9b58cec28 2.1s done
+#13 pushing layer a9895ee477e5 2.1s done
+#13 pushing layer ee9412008f1c 2.1s done
+#13 pushing layer 6e6ff92b1cc8 2.1s done
+#13 pushing layer 8810007f7e31 2.1s done
+#13 pushing layer 90a2bf02e851 2.1s done
+#13 DONE 2.4s
++ [2025-12-09 18:55:46] ./deploy.sh:134: declare -A URLS
++ [2025-12-09 18:55:46] ./deploy.sh:136: for lang in "${LANGS[@]}"
++ [2025-12-09 18:55:46] ./deploy.sh:137: DOCKERFILE_PATH=lang/rust/Dockerfile
++ [2025-12-09 18:55:46] ./deploy.sh:138: [[ -f lang/rust/Dockerfile ]]
++ [2025-12-09 18:55:46] ./deploy.sh:140: IMAGE_TAG=rust-v1
++ [2025-12-09 18:55:46] ./deploy.sh:141: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1
++ [2025-12-09 18:55:46] ./deploy.sh:142: FUNC_NAME=eval-fastapi-v2-rust
++ [2025-12-09 18:55:46] ./deploy.sh:144: echo '\n=== Building rust image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building rust image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2025-12-09 18:55:46] ./deploy.sh:145: docker buildx build --platform linux/amd64 -f lang/rust/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 628B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 DONE 0.0s
+
+#5 [2/3] RUN apt-get update -yqq  && apt-get install -yqq --no-install-recommends rustc  && rm -rf /var/lib/apt/lists/*
+#5 67.67 debconf: delaying package configuration, since apt-utils is not installed
+#5 67.75 Selecting previously unselected package libstd-rust-1.75:amd64.
+#5 67.75 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 67.81 Preparing to unpack .../libstd-rust-1.75_1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04_amd64.deb ...
+#5 67.82 Unpacking libstd-rust-1.75:amd64 (1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04) ...
+#5 68.48 Selecting previously unselected package libstd-rust-dev:amd64.
+#5 68.48 Preparing to unpack .../libstd-rust-dev_1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04_amd64.deb ...
+#5 68.48 Unpacking libstd-rust-dev:amd64 (1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04) ...
+#5 69.13 Selecting previously unselected package rustc.
+#5 69.13 Preparing to unpack .../rustc_1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04_amd64.deb ...
+#5 69.13 Unpacking rustc (1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04) ...
+#5 69.21 Setting up libstd-rust-1.75:amd64 (1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04) ...
+#5 69.23 Setting up libstd-rust-dev:amd64 (1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04) ...
+#5 69.24 Setting up rustc (1.75.0+dfsg0ubuntu1~bpo0-0ubuntu0.22.04) ...
+#5 69.25 Processing triggers for libc-bin (2.35-0ubuntu3.10) ...
+#5 DONE 69.5s
+
+#6 [3/3] RUN printf 'fn main(){ println!("ok"); }' > /tmp/p.rs  && rustc /tmp/p.rs -o /tmp/p  && /tmp/p | grep -q '^ok$'  && rm -f /tmp/p.rs /tmp/p  && rustc --version
+#6 0.519 rustc 1.75.0 (82e1608df 2023-12-21) (built from a source tarball)
+#6 DONE 0.5s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 0.7s done
+#7 writing image sha256:72d22e0002e9f7bbb90ea9642d08279f5f9cd8f5c1eb7e0515d7f47107f01a3a done
+#7 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1 done
+#7 DONE 0.7s
+
+#8 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1 with docker
+#8 pushing layer 122245a45190
+#8 pushing layer 0bd63045f397
+#8 pushing layer f382f1a1ecf4
+#8 pushing layer 86e9b58cec28
+#8 pushing layer a9895ee477e5 0.1s
+#8 pushing layer ee9412008f1c
+#8 pushing layer 6e6ff92b1cc8
+#8 pushing layer 8810007f7e31
+#8 pushing layer 90a2bf02e851
+#8 pushing layer 122245a45190 1.1s done
+#8 pushing layer 0bd63045f397 18.87MB / 369.91MB 2.5s
+#8 pushing layer 0bd63045f397 39.45MB / 369.91MB 4.8s
+#8 pushing layer 0bd63045f397 58.95MB / 369.91MB 6.7s
+#8 pushing layer 0bd63045f397 78.98MB / 369.91MB 8.1s
+#8 pushing layer 0bd63045f397 98.91MB / 369.91MB 9.9s
+#8 pushing layer 0bd63045f397 119.48MB / 369.91MB 11.7s
+#8 pushing layer 0bd63045f397 138.95MB / 369.91MB 13.4s
+#8 pushing layer 0bd63045f397 159.01MB / 369.91MB 14.7s
+#8 pushing layer 0bd63045f397 180.10MB / 369.91MB 16.7s
+#8 pushing layer 0bd63045f397 199.04MB / 369.91MB 18.1s
+#8 pushing layer 0bd63045f397 217.98MB / 369.91MB 20.7s
+#8 pushing layer 0bd63045f397 238.03MB / 369.91MB 24.1s
+#8 pushing layer 0bd63045f397 256.97MB / 369.91MB 25.9s
+#8 pushing layer 0bd63045f397 277.02MB / 369.91MB 27.8s
+#8 pushing layer 0bd63045f397 295.96MB / 369.91MB 30.3s
+#8 pushing layer 0bd63045f397 315.46MB / 369.91MB 31.3s
+#8 pushing layer 0bd63045f397 334.40MB / 369.91MB 32.2s
+#8 pushing layer 0bd63045f397 356.66MB / 369.91MB 33.9s
+#8 pushing layer 0bd63045f397 36.3s done
+#8 pushing layer f382f1a1ecf4 37.4s done
+#8 pushing layer 86e9b58cec28 37.4s done
+#8 pushing layer a9895ee477e5 37.4s done
+#8 pushing layer ee9412008f1c 37.4s done
+#8 pushing layer 6e6ff92b1cc8 37.4s done
+#8 pushing layer 8810007f7e31 37.4s done
+#8 pushing layer 90a2bf02e851 37.4s done
+#8 DONE 37.8s
++ [2025-12-09 18:57:36] ./deploy.sh:153: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:rust-v1
+++ [2025-12-09 18:57:36] ./deploy.sh:158: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=rust-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2025-12-09 18:57:37] ./deploy.sh:158: DIGEST=sha256:2d24f7b982ab759846b570750c7071fa1b2aceb442c4cd3c0c0e8c4b68901d10
++ [2025-12-09 18:57:37] ./deploy.sh:160: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:2d24f7b982ab759846b570750c7071fa1b2aceb442c4cd3c0c0e8c4b68901d10
++ [2025-12-09 18:57:37] ./deploy.sh:161: aws lambda get-function --function-name eval-fastapi-v2-rust --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 18:57:38] ./deploy.sh:176: echo 'Updating Lambda function eval-fastapi-v2-rust to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:2d24f7b982ab759846b570750c7071fa1b2aceb442c4cd3c0c0e8c4b68901d10'
+Updating Lambda function eval-fastapi-v2-rust to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:2d24f7b982ab759846b570750c7071fa1b2aceb442c4cd3c0c0e8c4b68901d10
++ [2025-12-09 18:57:38] ./deploy.sh:177: aws lambda update-function-code --function-name eval-fastapi-v2-rust --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:2d24f7b982ab759846b570750c7071fa1b2aceb442c4cd3c0c0e8c4b68901d10 --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 18:57:39] ./deploy.sh:182: echo 'Waiting for function update to complete: eval-fastapi-v2-rust'
+Waiting for function update to complete: eval-fastapi-v2-rust
++ [2025-12-09 18:57:39] ./deploy.sh:183: aws lambda wait function-updated --function-name eval-fastapi-v2-rust --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 18:57:56] ./deploy.sh:187: echo 'Ensuring Function URL for: eval-fastapi-v2-rust'
+Ensuring Function URL for: eval-fastapi-v2-rust
++ [2025-12-09 18:57:56] ./deploy.sh:188: FUNC_URL=
+++ [2025-12-09 18:57:56] ./deploy.sh:189: aws lambda get-function-url-config --function-name eval-fastapi-v2-rust --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2025-12-09 18:57:57] ./deploy.sh:189: FUNC_URL=https://sztj2p6h63v3hudnmisgeejakq0zmeda.lambda-url.ap-northeast-1.on.aws/
++ [2025-12-09 18:57:57] ./deploy.sh:190: :
++ [2025-12-09 18:57:57] ./deploy.sh:208: URLS["$lang"]=https://sztj2p6h63v3hudnmisgeejakq0zmeda.lambda-url.ap-northeast-1.on.aws/
++ [2025-12-09 18:57:57] ./deploy.sh:209: echo 'Function URL (rust): https://sztj2p6h63v3hudnmisgeejakq0zmeda.lambda-url.ap-northeast-1.on.aws/'
+Function URL (rust): https://sztj2p6h63v3hudnmisgeejakq0zmeda.lambda-url.ap-northeast-1.on.aws/
++ [2025-12-09 18:57:57] ./deploy.sh:213: set +x
+\n================ Deployment Summary ================
+rust       https://sztj2p6h63v3hudnmisgeejakq0zmeda.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2025-12-09 18:57:57
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_18-55-40.log

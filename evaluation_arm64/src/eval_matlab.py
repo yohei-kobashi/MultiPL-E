@@ -1,6 +1,19 @@
 from pathlib import Path
 from safe_subprocess import run
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+function r = add(x, y)
+  r = x + y;
+end
+
+- tests:
+assert(add(2,3) == 5);
+disp('OK')
+"""
+
 def eval_script(path): 
     # Matlab has the requirement that all functions must appear at the end 
     # of the file. So we first have to write the call to the test-function at the 

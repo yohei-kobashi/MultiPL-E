@@ -1,0 +1,455 @@
++ [2026-01-11 16:14:40] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-01-11_16-14-40.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2026-01-11 16:14:40] deploy.sh:44: trap on_exit EXIT
++ [2026-01-11 16:14:40] deploy.sh:51: trap on_err ERR
++ [2026-01-11 16:14:40] deploy.sh:54: : ap-northeast-1
++ [2026-01-11 16:14:40] deploy.sh:55: : 288761745376_developer
++ [2026-01-11 16:14:40] deploy.sh:56: : multipl-e-api-lambda
++ [2026-01-11 16:14:40] deploy.sh:57: : v1
++ [2026-01-11 16:14:40] deploy.sh:58: : eval-fastapi-v2
++ [2026-01-11 16:14:40] deploy.sh:59: : x86_64
++ [2026-01-11 16:14:40] deploy.sh:60: : docker
++ [2026-01-11 16:14:40] deploy.sh:62: : 10240
++ [2026-01-11 16:14:40] deploy.sh:63: : 900
++ [2026-01-11 16:14:40] deploy.sh:65: : lambda-eval-exec-role
++ [2026-01-11 16:14:40] deploy.sh:95: [[ 2 -gt 0 ]]
++ [2026-01-11 16:14:40] deploy.sh:96: LANGS=("$@")
++ [2026-01-11 16:14:40] deploy.sh:108: expand_python_langs
++ [2026-01-11 16:14:40] deploy.sh:77: expanded=()
++ [2026-01-11 16:14:40] deploy.sh:77: local expanded
++ [2026-01-11 16:14:40] deploy.sh:78: seen=()
++ [2026-01-11 16:14:40] deploy.sh:78: declare -A seen
++ [2026-01-11 16:14:40] deploy.sh:79: for l in "${LANGS[@]}"
++ [2026-01-11 16:14:40] deploy.sh:80: variants=('dlang')
++ [2026-01-11 16:14:40] deploy.sh:80: local variants
++ [2026-01-11 16:14:40] deploy.sh:81: [[ dlang == \p\y\t\h\o\n ]]
++ [2026-01-11 16:14:40] deploy.sh:84: for v in "${variants[@]}"
++ [2026-01-11 16:14:40] deploy.sh:85: [[ -z '' ]]
++ [2026-01-11 16:14:40] deploy.sh:86: expanded+=("$v")
++ [2026-01-11 16:14:40] deploy.sh:87: seen[$v]=1
++ [2026-01-11 16:14:40] deploy.sh:79: for l in "${LANGS[@]}"
++ [2026-01-11 16:14:40] deploy.sh:80: variants=('pl')
++ [2026-01-11 16:14:40] deploy.sh:80: local variants
++ [2026-01-11 16:14:40] deploy.sh:81: [[ pl == \p\y\t\h\o\n ]]
++ [2026-01-11 16:14:40] deploy.sh:84: for v in "${variants[@]}"
++ [2026-01-11 16:14:40] deploy.sh:85: [[ -z '' ]]
++ [2026-01-11 16:14:40] deploy.sh:86: expanded+=("$v")
++ [2026-01-11 16:14:40] deploy.sh:87: seen[$v]=1
++ [2026-01-11 16:14:40] deploy.sh:91: LANGS=("${expanded[@]}")
++ [2026-01-11 16:14:40] deploy.sh:111: TMP_LANGS=()
++ [2026-01-11 16:14:40] deploy.sh:112: for l in "${LANGS[@]}"
+++ [2026-01-11 16:14:40] deploy.sh:113: lang_dockerfile_path dlang
+++ [2026-01-11 16:14:40] deploy.sh:69: case "$1" in
+++ [2026-01-11 16:14:40] deploy.sh:71: echo lang/dlang/Dockerfile
++ [2026-01-11 16:14:40] deploy.sh:113: DOCKERFILE_PATH=lang/dlang/Dockerfile
++ [2026-01-11 16:14:40] deploy.sh:114: [[ -f lang/dlang/Dockerfile ]]
++ [2026-01-11 16:14:40] deploy.sh:115: TMP_LANGS+=("$l")
++ [2026-01-11 16:14:40] deploy.sh:112: for l in "${LANGS[@]}"
+++ [2026-01-11 16:14:40] deploy.sh:113: lang_dockerfile_path pl
+++ [2026-01-11 16:14:40] deploy.sh:69: case "$1" in
+++ [2026-01-11 16:14:40] deploy.sh:71: echo lang/pl/Dockerfile
++ [2026-01-11 16:14:40] deploy.sh:113: DOCKERFILE_PATH=lang/pl/Dockerfile
++ [2026-01-11 16:14:40] deploy.sh:114: [[ -f lang/pl/Dockerfile ]]
++ [2026-01-11 16:14:40] deploy.sh:115: TMP_LANGS+=("$l")
++ [2026-01-11 16:14:40] deploy.sh:120: LANGS=("${TMP_LANGS[@]}")
+++ [2026-01-11 16:14:40] deploy.sh:122: date '+%Y-%m-%d %H:%M:%S'
++ [2026-01-11 16:14:40] deploy.sh:122: echo '[INFO] ===== Deployment started at 2026-01-11 16:14:40 ====='
+[INFO] ===== Deployment started at 2026-01-11 16:14:40 =====
++ [2026-01-11 16:14:40] deploy.sh:123: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-01-11_16-14-40.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-01-11_16-14-40.log
++ [2026-01-11 16:14:40] deploy.sh:124: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2026-01-11 16:14:40] deploy.sh:125: echo '[INFO] Detected languages: dlang pl'
+[INFO] Detected languages: dlang pl
++ [2026-01-11 16:14:40] deploy.sh:126: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2026-01-11 16:14:40] deploy.sh:127: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2026-01-11 16:14:41] deploy.sh:128: docker --version
+Docker version 28.3.3, build 980b856
++ [2026-01-11 16:14:41] deploy.sh:129: xargs '-I{}' echo 'git-sha: {}'
++ [2026-01-11 16:14:41] deploy.sh:129: git rev-parse --short HEAD
+git-sha: 58f6d0b0
++ [2026-01-11 16:14:41] deploy.sh:132: export AWS_PAGER=
++ [2026-01-11 16:14:41] deploy.sh:132: AWS_PAGER=
++ [2026-01-11 16:14:41] deploy.sh:134: export AWS_PROFILE=288761745376_developer
++ [2026-01-11 16:14:41] deploy.sh:134: AWS_PROFILE=288761745376_developer
++ [2026-01-11 16:14:41] deploy.sh:135: ACCOUNT_ID_OUTPUT=
++ [2026-01-11 16:14:41] deploy.sh:136: ACCOUNT_ID=
+++ [2026-01-11 16:14:41] deploy.sh:140: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:14:42] deploy.sh:140: ACCOUNT_ID_OUTPUT=288761745376
++ [2026-01-11 16:14:42] deploy.sh:149: ACCOUNT_ID=288761745376
++ [2026-01-11 16:14:42] deploy.sh:150: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2026-01-11 16:14:42] deploy.sh:153: [[ -z '' ]]
++ [2026-01-11 16:14:42] deploy.sh:154: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2026-01-11 16:14:42] deploy.sh:158: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2026-01-11 16:14:42] deploy.sh:158: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2026-01-11 16:14:42] deploy.sh:160: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2026-01-11 16:14:42] deploy.sh:161: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:14:42] deploy.sh:161: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
+Login Succeeded
++ [2026-01-11 16:14:43] deploy.sh:164: BASE_TAG=base-v1
++ [2026-01-11 16:14:43] deploy.sh:165: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2026-01-11 16:14:43] deploy.sh:166: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2026-01-11 16:14:43] deploy.sh:167: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 61.56kB 0.0s done
+#5 DONE 0.0s
+
+#6 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#6 CACHED
+
+#7 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#8 CACHED
+
+#9 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#9 CACHED
+
+#10 [6/7] WORKDIR /var/task
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers 0.0s done
+#12 writing image sha256:86f305732d48b17f7d16fb4987f5e5ee99f6aa58d21dfaba56eb270762666a74 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.1s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer a8a3ec9219f8
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5
+#13 pushing layer ee9412008f1c 0.1s
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer a8a3ec9219f8 218.62kB / 166.44kB 0.2s
+#13 pushing layer a8a3ec9219f8 0.8s done
+#13 pushing layer 8810007f7e31 1.9s done
+#13 pushing layer 86e9b58cec28 1.9s done
+#13 pushing layer a9895ee477e5 1.9s done
+#13 pushing layer ee9412008f1c 1.9s done
+#13 pushing layer 6e6ff92b1cc8 1.9s done
+#13 pushing layer 90a2bf02e851 1.9s done
+#13 DONE 2.1s
++ [2026-01-11 16:14:47] deploy.sh:175: declare -A URLS
++ [2026-01-11 16:14:47] deploy.sh:177: for lang in "${LANGS[@]}"
+++ [2026-01-11 16:14:47] deploy.sh:178: lang_dockerfile_path dlang
+++ [2026-01-11 16:14:47] deploy.sh:69: case "$1" in
+++ [2026-01-11 16:14:47] deploy.sh:71: echo lang/dlang/Dockerfile
++ [2026-01-11 16:14:47] deploy.sh:178: DOCKERFILE_PATH=lang/dlang/Dockerfile
++ [2026-01-11 16:14:47] deploy.sh:179: [[ -f lang/dlang/Dockerfile ]]
++ [2026-01-11 16:14:47] deploy.sh:181: IMAGE_TAG=dlang-v1
++ [2026-01-11 16:14:47] deploy.sh:182: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1
++ [2026-01-11 16:14:47] deploy.sh:183: FUNC_NAME=eval-fastapi-v2-dlang
++ [2026-01-11 16:14:47] deploy.sh:185: echo '\n=== Building dlang image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building dlang image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2026-01-11 16:14:47] deploy.sh:186: docker buildx build --platform linux/amd64 -f lang/dlang/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.32kB done
+#1 WARN: UndefinedVar: Usage of undefined variable '$LD_LIBRARY_PATH' (line 16)
+#1 WARN: UndefinedVar: Usage of undefined variable '$LIBRARY_PATH' (line 17)
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 DONE 0.0s
+
+#5 [2/4] RUN mkdir -p /opt/dlang  && wget -qO /opt/dlang/install.sh https://dlang.org/install.sh  && bash /opt/dlang/install.sh install dmd-2.111.0 --path /opt/dlang
+#5 1.296 Downloading https://dlang.org/d-keyring.gpg
+#5 1.523 #=#=#                                                                         ##O#-#                                                                        ##O=#  #                                                                      #######################                                                   33.0%###############################################                           66.0%#######################################################################   99.0%######################################################################## 100.0%
+#5 2.406 Downloading https://dlang.org/install.sh
+#5 2.581 #=#=#                                                                         ##O#-#                                                                        ##O=#  #                                                                      ##############################                                            42.6%#############################################################             85.2%######################################################################## 100.0%
+#5 3.320 gpg: directory '/tmp/.gnupg' created
+#5 3.322 gpg: keybox '/tmp/.gnupg/pubring.kbx' created
+#5 3.324 gpg: /tmp/.gnupg/trustdb.gpg: trustdb created
+#5 4.063 The latest version of this script was installed as /opt/dlang/install.sh.
+#5 4.063 It can be used it to install further D compilers.
+#5 4.063 Run `/opt/dlang/install.sh --help` for usage information.
+#5 4.063 
+#5 4.069 Downloading and unpacking https://downloads.dlang.org/releases/2.x/2.111.0/dmd.2.111.0.linux.tar.xz
+#5 4.287 #=#=#                                                                                                                                                    0.0%                                                                           0.1%                                                                           0.3%                                                                           0.5%                                                                           1.0%#                                                                          1.9%##                                                                         3.5%####                                                                       5.6%####                                                                       6.5%#######                                                                   10.1%#########                                                                 13.0%###########                                                               15.8%############                                                              18.0%##############                                                            20.1%################                                                          23.2%##################                                                        25.4%###################                                                       27.6%#####################                                                     29.4%#######################                                                   32.4%########################                                                  34.7%#########################                                                 35.9%###########################                                               38.6%#############################                                             40.8%##############################                                            42.3%################################                                          45.4%##################################                                        48.0%####################################                                      50.3%#####################################                                     51.9%######################################                                    53.0%########################################                                  56.4%##########################################                                58.6%###########################################                               60.4%############################################                              62.4%##############################################                            64.4%###############################################                           66.6%#################################################                         68.6%##################################################                        70.0%####################################################                      73.2%######################################################                    75.0%#######################################################                   77.6%#########################################################                 80.3%###########################################################               82.7%############################################################              84.5%##############################################################            86.6%###############################################################           88.5%#################################################################         91.1%##################################################################        92.9%####################################################################      95.2%#####################################################################     96.1%#######################################################################   99.2%######################################################################## 100.0%
+#5 12.88 Using dub 1.40.0 shipped with dmd-2.111.0
+#5 12.88 
+#5 12.88 Run `source /opt/dlang/dmd-2.111.0/activate` in your shell to use dmd-2.111.0.
+#5 12.88 This will setup PATH, LIBRARY_PATH, LD_LIBRARY_PATH, DMD, DC, and PS1.
+#5 12.88 Run `deactivate` later on to restore your environment.
+#5 DONE 13.2s
+
+#6 [3/4] RUN dmd --version  && rdmd --help > /dev/null  && printf 'import std.stdio; void main(){ writeln("ok"); }' > /tmp/p.d  && rdmd /tmp/p.d | grep -q '^ok$'  && rm -f /tmp/p.d
+#6 0.244 DMD64 D Compiler v2.111.0
+#6 0.244 Copyright (C) 1999-2025 by The D Language Foundation, All Rights Reserved written by Walter Bright
+#6 DONE 0.9s
+
+#7 [4/4] RUN chmod -R a+rx /opt/dlang  && ln -sf /opt/dlang/dmd-2.111.0/linux/bin64/rdmd /usr/local/bin/rdmd  && ln -sf /opt/dlang/dmd-2.111.0/linux/bin64/dmd /usr/local/bin/dmd
+#7 DONE 8.0s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 2.7s done
+#8 writing image sha256:0ffe1e0fed3fe56f540293ff8b94a75e677ca2493e2b0e40539a6b358c1ac188 done
+#8 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1 done
+#8 DONE 2.7s
+
+#9 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1 with docker
+#9 pushing layer 641ac7d7540e
+#9 pushing layer d06285f86bce
+#9 pushing layer a17cbceeee91
+#9 pushing layer a8a3ec9219f8 0.1s
+#9 pushing layer 86e9b58cec28 0.1s
+#9 pushing layer a9895ee477e5
+#9 pushing layer ee9412008f1c 0.2s
+#9 pushing layer 6e6ff92b1cc8
+#9 pushing layer 8810007f7e31
+#9 pushing layer 90a2bf02e851
+#9 pushing layer d06285f86bce 854.02kB / 1.27MB 0.3s
+#9 pushing layer d06285f86bce 1.28MB / 1.27MB 0.3s
+#9 pushing layer 641ac7d7540e 17.22MB / 296.95MB 0.9s
+#9 pushing layer 641ac7d7540e 35.65MB / 296.95MB 1.3s
+#9 pushing layer d06285f86bce 1.6s done
+#9 pushing layer 641ac7d7540e 50.83MB / 296.95MB 1.8s
+#9 pushing layer a17cbceeee91 16.69MB / 296.95MB 1.7s
+#9 pushing layer 641ac7d7540e 67.11MB / 296.95MB 2.2s
+#9 pushing layer a17cbceeee91 31.87MB / 296.95MB 2.6s
+#9 pushing layer 641ac7d7540e 87.59MB / 296.95MB 2.8s
+#9 pushing layer 641ac7d7540e 103.85MB / 296.95MB 3.2s
+#9 pushing layer a17cbceeee91 48.13MB / 296.95MB 3.4s
+#9 pushing layer a17cbceeee91 67.11MB / 296.95MB 4.4s
+#9 pushing layer 641ac7d7540e 121.10MB / 296.95MB 4.7s
+#9 pushing layer a17cbceeee91 85.97MB / 296.95MB 5.5s
+#9 pushing layer 641ac7d7540e 140.55MB / 296.95MB 5.9s
+#9 pushing layer 641ac7d7540e 158.35MB / 296.95MB 6.4s
+#9 pushing layer a17cbceeee91 101.64MB / 296.95MB 6.3s
+#9 pushing layer 641ac7d7540e 184.51MB / 296.95MB 6.9s
+#9 pushing layer 641ac7d7540e 202.88MB / 296.95MB 7.6s
+#9 pushing layer 641ac7d7540e 218.47MB / 296.95MB 7.8s
+#9 pushing layer a17cbceeee91 117.21MB / 296.95MB 8.2s
+#9 pushing layer 641ac7d7540e 247.41MB / 296.95MB 8.4s
+#9 pushing layer 641ac7d7540e 262.76MB / 296.95MB 9.0s
+#9 pushing layer 641ac7d7540e 278.89MB / 296.95MB 9.9s
+#9 pushing layer a17cbceeee91 132.77MB / 296.95MB 10.1s
+#9 pushing layer 641ac7d7540e 295.52MB / 296.95MB 10.6s
+#9 pushing layer a17cbceeee91 151.67MB / 296.95MB 11.4s
+#9 pushing layer a17cbceeee91 170.61MB / 296.95MB 11.8s
+#9 pushing layer a17cbceeee91 188.97MB / 296.95MB 12.1s
+#9 pushing layer 641ac7d7540e 12.3s done
+#9 pushing layer a17cbceeee91 207.33MB / 296.95MB 12.4s
+#9 pushing layer a17cbceeee91 222.37MB / 296.95MB 12.6s
+#9 pushing layer a17cbceeee91 246.33MB / 296.95MB 12.9s
+#9 pushing layer a17cbceeee91 261.67MB / 296.95MB 13.4s
+#9 pushing layer a17cbceeee91 279.41MB / 296.95MB 13.9s
+#9 pushing layer a17cbceeee91 294.45MB / 296.95MB 14.4s
+#9 pushing layer a17cbceeee91 15.2s done
+#9 pushing layer a8a3ec9219f8 16.2s done
+#9 pushing layer 86e9b58cec28 16.2s done
+#9 pushing layer a9895ee477e5 16.2s done
+#9 pushing layer ee9412008f1c 16.2s done
+#9 pushing layer 6e6ff92b1cc8 16.2s done
+#9 pushing layer 8810007f7e31 16.2s done
+#9 pushing layer 90a2bf02e851 16.2s done
+#9 DONE 16.6s
+
+ [33m2 warnings found (use docker --debug to expand):
+[0m - UndefinedVar: Usage of undefined variable '$LD_LIBRARY_PATH' (line 16)
+ - UndefinedVar: Usage of undefined variable '$LIBRARY_PATH' (line 17)
++ [2026-01-11 16:15:29] deploy.sh:194: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:dlang-v1
+++ [2026-01-11 16:15:29] deploy.sh:199: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=dlang-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2026-01-11 16:15:30] deploy.sh:199: DIGEST=sha256:835a775fe3ca4e8eb3693943c839ee92dc9d36e17717fb7046bf46abdb3d3f3a
++ [2026-01-11 16:15:30] deploy.sh:201: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:835a775fe3ca4e8eb3693943c839ee92dc9d36e17717fb7046bf46abdb3d3f3a
++ [2026-01-11 16:15:30] deploy.sh:202: aws lambda get-function --function-name eval-fastapi-v2-dlang --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:15:31] deploy.sh:217: echo 'Updating Lambda function eval-fastapi-v2-dlang to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:835a775fe3ca4e8eb3693943c839ee92dc9d36e17717fb7046bf46abdb3d3f3a'
+Updating Lambda function eval-fastapi-v2-dlang to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:835a775fe3ca4e8eb3693943c839ee92dc9d36e17717fb7046bf46abdb3d3f3a
++ [2026-01-11 16:15:31] deploy.sh:218: aws lambda update-function-code --function-name eval-fastapi-v2-dlang --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:835a775fe3ca4e8eb3693943c839ee92dc9d36e17717fb7046bf46abdb3d3f3a --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:15:32] deploy.sh:223: echo 'Waiting for function update to complete: eval-fastapi-v2-dlang'
+Waiting for function update to complete: eval-fastapi-v2-dlang
++ [2026-01-11 16:15:32] deploy.sh:224: aws lambda wait function-updated --function-name eval-fastapi-v2-dlang --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:15:50] deploy.sh:228: echo 'Setting timeout to 900s for eval-fastapi-v2-dlang'
+Setting timeout to 900s for eval-fastapi-v2-dlang
++ [2026-01-11 16:15:50] deploy.sh:229: aws lambda update-function-configuration --function-name eval-fastapi-v2-dlang --timeout 900 --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:15:51] deploy.sh:234: echo 'Waiting for configuration update to complete: eval-fastapi-v2-dlang'
+Waiting for configuration update to complete: eval-fastapi-v2-dlang
++ [2026-01-11 16:15:51] deploy.sh:235: aws lambda wait function-updated --function-name eval-fastapi-v2-dlang --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:15:57] deploy.sh:238: echo 'Ensuring Function URL for: eval-fastapi-v2-dlang'
+Ensuring Function URL for: eval-fastapi-v2-dlang
++ [2026-01-11 16:15:57] deploy.sh:239: FUNC_URL=
+++ [2026-01-11 16:15:57] deploy.sh:240: aws lambda get-function-url-config --function-name eval-fastapi-v2-dlang --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2026-01-11 16:15:58] deploy.sh:240: FUNC_URL=https://e4rx7dem3yztmtx2cn3hj4qpwa0rssju.lambda-url.ap-northeast-1.on.aws/
++ [2026-01-11 16:15:58] deploy.sh:241: :
++ [2026-01-11 16:15:58] deploy.sh:259: URLS["$lang"]=https://e4rx7dem3yztmtx2cn3hj4qpwa0rssju.lambda-url.ap-northeast-1.on.aws/
++ [2026-01-11 16:15:58] deploy.sh:260: echo 'Function URL (dlang): https://e4rx7dem3yztmtx2cn3hj4qpwa0rssju.lambda-url.ap-northeast-1.on.aws/'
+Function URL (dlang): https://e4rx7dem3yztmtx2cn3hj4qpwa0rssju.lambda-url.ap-northeast-1.on.aws/
++ [2026-01-11 16:15:58] deploy.sh:177: for lang in "${LANGS[@]}"
+++ [2026-01-11 16:15:58] deploy.sh:178: lang_dockerfile_path pl
+++ [2026-01-11 16:15:58] deploy.sh:69: case "$1" in
+++ [2026-01-11 16:15:58] deploy.sh:71: echo lang/pl/Dockerfile
++ [2026-01-11 16:15:58] deploy.sh:178: DOCKERFILE_PATH=lang/pl/Dockerfile
++ [2026-01-11 16:15:58] deploy.sh:179: [[ -f lang/pl/Dockerfile ]]
++ [2026-01-11 16:15:58] deploy.sh:181: IMAGE_TAG=pl-v1
++ [2026-01-11 16:15:58] deploy.sh:182: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1
++ [2026-01-11 16:15:58] deploy.sh:183: FUNC_NAME=eval-fastapi-v2-pl
++ [2026-01-11 16:15:58] deploy.sh:185: echo '\n=== Building pl image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building pl image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2026-01-11 16:15:58] deploy.sh:186: docker buildx build --platform linux/amd64 -f lang/pl/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 949B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 CACHED
+
+#5 [2/3] RUN set -eux;     sed -i -E 's#http://[^ ]*archive.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list;     sed -i -E 's#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list || true;     apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 update -yqq &&     apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 install -yqq --no-install-recommends         ca-certificates gnupg perl libtest-deep-perl &&     rm -rf /var/lib/apt/lists/*
+#5 0.196 + sed -i -E s#http://[^ ]*archive.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g /etc/apt/sources.list
+#5 0.200 + sed -i -E s#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g /etc/apt/sources.list
+#5 0.201 + apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 update -yqq
+#5 15.01 + apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 install -yqq --no-install-recommends ca-certificates gnupg perl libtest-deep-perl
+#5 19.92 debconf: delaying package configuration, since apt-utils is not installed
+#5 19.98 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 20.04 Preparing to unpack .../00-gpg-wks-client_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 20.05 Unpacking gpg-wks-client (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 20.10 Preparing to unpack .../01-dirmngr_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 20.13 Unpacking dirmngr (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 20.20 Preparing to unpack .../02-gpg-wks-server_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 20.21 Unpacking gpg-wks-server (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 20.24 Preparing to unpack .../03-gnupg-utils_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 20.25 Unpacking gnupg-utils (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 20.31 Preparing to unpack .../04-gpg-agent_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 20.32 Unpacking gpg-agent (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.29 Preparing to unpack .../05-gpg_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 22.30 Unpacking gpg (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.34 Preparing to unpack .../06-gpgconf_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 22.35 Unpacking gpgconf (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.39 Preparing to unpack .../07-gnupg-l10n_2.2.27-3ubuntu2.5_all.deb ...
+#5 22.40 Unpacking gnupg-l10n (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.50 Preparing to unpack .../08-gnupg_2.2.27-3ubuntu2.5_all.deb ...
+#5 22.51 Unpacking gnupg (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.56 Preparing to unpack .../09-gpgsm_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 22.56 Unpacking gpgsm (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.60 Preparing to unpack .../10-gpgv_2.2.27-3ubuntu2.5_amd64.deb ...
+#5 22.61 Unpacking gpgv (2.2.27-3ubuntu2.5) over (2.2.27-3ubuntu2.4) ...
+#5 22.66 Setting up gpgv (2.2.27-3ubuntu2.5) ...
+#5 22.68 Selecting previously unselected package libtest-deep-perl.
+#5 22.68 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 22.69 Preparing to unpack .../libtest-deep-perl_1.130-1_all.deb ...
+#5 22.69 Unpacking libtest-deep-perl (1.130-1) ...
+#5 22.73 Setting up libtest-deep-perl (1.130-1) ...
+#5 22.74 Setting up gnupg-l10n (2.2.27-3ubuntu2.5) ...
+#5 22.75 Setting up gpgconf (2.2.27-3ubuntu2.5) ...
+#5 22.76 Setting up gpg (2.2.27-3ubuntu2.5) ...
+#5 22.77 Setting up gnupg-utils (2.2.27-3ubuntu2.5) ...
+#5 22.78 Setting up gpg-agent (2.2.27-3ubuntu2.5) ...
+#5 23.11 Setting up gpgsm (2.2.27-3ubuntu2.5) ...
+#5 23.12 Setting up dirmngr (2.2.27-3ubuntu2.5) ...
+#5 23.23 Setting up gpg-wks-server (2.2.27-3ubuntu2.5) ...
+#5 23.24 Setting up gpg-wks-client (2.2.27-3ubuntu2.5) ...
+#5 23.26 Setting up gnupg (2.2.27-3ubuntu2.5) ...
+#5 23.28 + rm -rf /var/lib/apt/lists/auxfiles /var/lib/apt/lists/lock /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-backports_InRelease /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-backports_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-backports_universe_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-security_InRelease /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-security_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-security_multiverse_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-security_restricted_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-security_universe_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-updates_InRelease /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-updates_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-updates_multiverse_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-updates_restricted_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy-updates_universe_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy_InRelease /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy_main_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy_multiverse_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy_restricted_binary-amd64_Packages.lz4 /var/lib/apt/lists/mirrors.ubuntu.com_mirrors.txt_dists_jammy_universe_binary-amd64_Packages.lz4 /var/lib/apt/lists/partial
+#5 DONE 23.3s
+
+#6 [3/3] RUN perl -e 'print "ok\n"' | grep -q '^ok$'
+#6 DONE 0.3s
+
+#7 exporting to image
+#7 exporting layers 0.1s done
+#7 writing image sha256:f975c8636baebab4dd0880b27d6a662a6f9f58350389bb503e8df70caa4f8639 done
+#7 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1 done
+#7 DONE 0.1s
+
+#8 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1 with docker
+#8 pushing layer 5f70bf18a086
+#8 pushing layer 69dded5c785e
+#8 pushing layer a8a3ec9219f8 0.1s
+#8 pushing layer 86e9b58cec28 0.1s
+#8 pushing layer a9895ee477e5 0.1s
+#8 pushing layer ee9412008f1c
+#8 pushing layer 6e6ff92b1cc8
+#8 pushing layer 8810007f7e31
+#8 pushing layer 90a2bf02e851 0.2s
+#8 pushing layer 69dded5c785e 1.30MB / 6.12MB 0.3s
+#8 pushing layer 69dded5c785e 2.63MB / 6.12MB 0.4s
+#8 pushing layer 69dded5c785e 3.70MB / 6.12MB 0.6s
+#8 pushing layer 69dded5c785e 5.53MB / 6.12MB 0.7s
+#8 pushing layer 69dded5c785e 6.30MB / 6.12MB 0.7s
+#8 pushing layer 69dded5c785e 1.3s done
+#8 pushing layer 90a2bf02e851 2.3s done
+#8 pushing layer 5f70bf18a086 2.3s done
+#8 pushing layer a8a3ec9219f8 2.3s done
+#8 pushing layer 86e9b58cec28 2.3s done
+#8 pushing layer a9895ee477e5 2.3s done
+#8 pushing layer ee9412008f1c 2.3s done
+#8 pushing layer 6e6ff92b1cc8 2.3s done
+#8 pushing layer 8810007f7e31 2.3s done
+#8 DONE 2.6s
++ [2026-01-11 16:16:25] deploy.sh:194: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:pl-v1
+++ [2026-01-11 16:16:25] deploy.sh:199: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=pl-v1 --region ap-northeast-1 --profile 288761745376_developer --query 'imageDetails[0].imageDigest' --output text
++ [2026-01-11 16:16:25] deploy.sh:199: DIGEST=sha256:d7c386df37a0d3fd8aeb20ea13f1843b91585adc6fac439a65851c7fdff9670f
++ [2026-01-11 16:16:25] deploy.sh:201: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d7c386df37a0d3fd8aeb20ea13f1843b91585adc6fac439a65851c7fdff9670f
++ [2026-01-11 16:16:25] deploy.sh:202: aws lambda get-function --function-name eval-fastapi-v2-pl --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:16:26] deploy.sh:217: echo 'Updating Lambda function eval-fastapi-v2-pl to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d7c386df37a0d3fd8aeb20ea13f1843b91585adc6fac439a65851c7fdff9670f'
+Updating Lambda function eval-fastapi-v2-pl to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d7c386df37a0d3fd8aeb20ea13f1843b91585adc6fac439a65851c7fdff9670f
++ [2026-01-11 16:16:26] deploy.sh:218: aws lambda update-function-code --function-name eval-fastapi-v2-pl --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:d7c386df37a0d3fd8aeb20ea13f1843b91585adc6fac439a65851c7fdff9670f --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:16:27] deploy.sh:223: echo 'Waiting for function update to complete: eval-fastapi-v2-pl'
+Waiting for function update to complete: eval-fastapi-v2-pl
++ [2026-01-11 16:16:27] deploy.sh:224: aws lambda wait function-updated --function-name eval-fastapi-v2-pl --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:16:38] deploy.sh:228: echo 'Setting timeout to 900s for eval-fastapi-v2-pl'
+Setting timeout to 900s for eval-fastapi-v2-pl
++ [2026-01-11 16:16:38] deploy.sh:229: aws lambda update-function-configuration --function-name eval-fastapi-v2-pl --timeout 900 --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:16:39] deploy.sh:234: echo 'Waiting for configuration update to complete: eval-fastapi-v2-pl'
+Waiting for configuration update to complete: eval-fastapi-v2-pl
++ [2026-01-11 16:16:39] deploy.sh:235: aws lambda wait function-updated --function-name eval-fastapi-v2-pl --region ap-northeast-1 --profile 288761745376_developer
++ [2026-01-11 16:16:45] deploy.sh:238: echo 'Ensuring Function URL for: eval-fastapi-v2-pl'
+Ensuring Function URL for: eval-fastapi-v2-pl
++ [2026-01-11 16:16:45] deploy.sh:239: FUNC_URL=
+++ [2026-01-11 16:16:45] deploy.sh:240: aws lambda get-function-url-config --function-name eval-fastapi-v2-pl --region ap-northeast-1 --profile 288761745376_developer --query FunctionUrl --output text
++ [2026-01-11 16:16:46] deploy.sh:240: FUNC_URL=https://axmdnn5try54i6qook5hyf3y7e0qseor.lambda-url.ap-northeast-1.on.aws/
++ [2026-01-11 16:16:46] deploy.sh:241: :
++ [2026-01-11 16:16:46] deploy.sh:259: URLS["$lang"]=https://axmdnn5try54i6qook5hyf3y7e0qseor.lambda-url.ap-northeast-1.on.aws/
++ [2026-01-11 16:16:46] deploy.sh:260: echo 'Function URL (pl): https://axmdnn5try54i6qook5hyf3y7e0qseor.lambda-url.ap-northeast-1.on.aws/'
+Function URL (pl): https://axmdnn5try54i6qook5hyf3y7e0qseor.lambda-url.ap-northeast-1.on.aws/
++ [2026-01-11 16:16:46] deploy.sh:264: set +x
+\n================ Deployment Summary ================
+pl         https://axmdnn5try54i6qook5hyf3y7e0qseor.lambda-url.ap-northeast-1.on.aws/
+dlang      https://e4rx7dem3yztmtx2cn3hj4qpwa0rssju.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2026-01-11 16:16:46
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-01-11_16-14-40.log

@@ -6,11 +6,28 @@ from generic_eval import main
 LANG_NAME = "Ada"
 LANG_EXT = ".adb"
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+with Ada.Text_IO; use Ada.Text_IO;
+procedure Main is
+  function Add(X, Y : Integer) return Integer is (X + Y);
+begin
+  null;
+end Main;
+
+- tests:
+-- Add calls/assertions can be placed in Main; e.g.,
+-- Put_Line(Integer'Image(Add(2,3)));
+"""
+
 
 def eval_script(path: Path):
     working_dir: Path = path.parent / (path.stem + "_tmp")
     working_dir.mkdir()
-    chop_result = run(["gnatchop", "-w", path, working_dir])
+    # Run gnatchop in a writable directory to avoid temp-file errors on read-only CWD
+    chop_result = run(["gnatchop", "-w", path, working_dir], cwd=str(working_dir))
     if chop_result.exit_code != 0:
         return {
             "status": "SyntaxError (gnatchop)",
@@ -29,7 +46,7 @@ def eval_script(path: Path):
             "-g",
             "-j0",
             "-gnata",
-            "-gnat2022",
+#            "-gnat2022",
             "-gnateE",
             "-bargs",
             "-Es",

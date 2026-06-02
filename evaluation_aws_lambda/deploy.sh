@@ -64,6 +64,33 @@ trap on_err ERR
 # If ROLE_ARN is not provided, ROLE_NAME will be used to build it
 : "${ROLE_NAME:=lambda-eval-exec-role}"
 
+# Map language key to Dockerfile path (python2/python3 share lang/python).
+lang_dockerfile_path() {
+  case "$1" in
+    python2|python3) echo "lang/python/Dockerfile" ;;
+    *) echo "lang/$1/Dockerfile" ;;
+  esac
+}
+
+# Expand legacy "python" into explicit python2/python3 entries (deduped).
+expand_python_langs() {
+  local expanded=()
+  declare -A seen=()
+  for l in "${LANGS[@]}"; do
+    local variants=("$l")
+    if [[ "$l" == "python" ]]; then
+      variants=("python2" "python3")
+    fi
+    for v in "${variants[@]}"; do
+      if [[ -z "${seen[$v]:-}" ]]; then
+        expanded+=("$v")
+        seen[$v]=1
+      fi
+    done
+  done
+  LANGS=("${expanded[@]}")
+}
+
 # The set of languages to deploy. Default: all subdirs in lang/ that contain a Dockerfile.
 if [[ $# -gt 0 ]]; then
   LANGS=("$@")
@@ -73,10 +100,24 @@ else
   LANGS=("${LANGS[@]}")
   TMP_LANGS=()
   for l in "${LANGS[@]}"; do
-    [[ -f "lang/$l/Dockerfile" ]] && TMP_LANGS+=("$l")
+    [[ -f "$(lang_dockerfile_path "$l")" ]] && TMP_LANGS+=("$l")
   done
   LANGS=("${TMP_LANGS[@]}")
 fi
+
+expand_python_langs
+
+# Final Dockerfile existence check after expansion (e.g., python2/python3 -> lang/python/Dockerfile)
+TMP_LANGS=()
+for l in "${LANGS[@]}"; do
+  DOCKERFILE_PATH="$(lang_dockerfile_path "$l")"
+  if [[ -f "$DOCKERFILE_PATH" ]]; then
+    TMP_LANGS+=("$l")
+  else
+    echo "Skip $l: no Dockerfile at $DOCKERFILE_PATH"
+  fi
+done
+LANGS=("${TMP_LANGS[@]}")
 
 echo "[INFO] ===== Deployment started at $(date +"%Y-%m-%d %H:%M:%S") ====="
 echo "[INFO] Log file: $LOG_FILE"
@@ -134,7 +175,7 @@ $DOCKER_EXEC buildx build \
 declare -A URLS
 
 for lang in "${LANGS[@]}"; do
-  DOCKERFILE_PATH="lang/${lang}/Dockerfile"
+  DOCKERFILE_PATH="$(lang_dockerfile_path "$lang")"
   [[ -f "$DOCKERFILE_PATH" ]] || { echo "Skip $lang: no Dockerfile"; continue; }
 
   IMAGE_TAG="${lang}-${TAG}"
@@ -182,6 +223,16 @@ for lang in "${LANGS[@]}"; do
     echo "Waiting for function update to complete: $FUNC_NAME"
     aws lambda wait function-updated --function-name "$FUNC_NAME" --region "$AWS_REGION" --profile "$PROFILE"
   fi
+
+  # Ensure timeout is kept at the configured value on every deploy
+  echo "Setting timeout to ${FUNCTION_TIMEOUT_SEC}s for ${FUNC_NAME}"
+  aws lambda update-function-configuration \
+    --function-name "$FUNC_NAME" \
+    --timeout "$FUNCTION_TIMEOUT_SEC" \
+    --region "$AWS_REGION" --profile "$PROFILE" >/dev/null
+
+  echo "Waiting for configuration update to complete: $FUNC_NAME"
+  aws lambda wait function-updated --function-name "$FUNC_NAME" --region "$AWS_REGION" --profile "$PROFILE"
 
   # Ensure Function URL exists (public, no auth). If missing, create and open permissions.
   echo "Ensuring Function URL for: $FUNC_NAME"

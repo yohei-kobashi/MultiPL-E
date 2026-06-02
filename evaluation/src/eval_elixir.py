@@ -4,11 +4,23 @@ import subprocess
 from pathlib import Path
 from generic_eval import main as gmain
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- completion:
+defmodule M do
+  def add(x, y), do: x + y
+end
+
+- tests:
+IO.puts(M.add(2, 3))
+"""
+
 
 def eval_script(path: Path):
     try:
         # Assumes exit-code 0 is all okay
-        output = subprocess.run(["elixir", str(path)], capture_output=True, timeout=30, stdin=subprocess.DEVNULL)
+        output = subprocess.run(["elixir", str(path)], capture_output=True, timeout=5)
 
         if output.returncode == 0:
             status = "OK"

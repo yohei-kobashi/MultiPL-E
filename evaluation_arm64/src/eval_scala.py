@@ -5,6 +5,25 @@ from safe_subprocess import run
 LANG_NAME = "Scala"
 LANG_EXT = ".scala"
 
+"""
+Examples for MultiPL-E composition (prompt + completion + tests):
+
+- prompt (header):
+object Problem {
+  def add(x: Long, y: Long): Long = {
+
+- completion (body fragment):
+    x + y
+
+- tests (close method/object and provide main):
+  }
+  def main(args: Array[String]) = {
+    assert(add(2L, 3L) == 5L)
+    println("OK")
+  }
+}
+"""
+
 def eval_script(path: Path):
     with tempfile.TemporaryDirectory() as outdir:
         # Each Scala file contains the class with same name `JAVA_CLASS_NAME`

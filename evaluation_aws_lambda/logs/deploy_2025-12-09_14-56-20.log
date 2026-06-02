@@ -1,0 +1,215 @@
++ [2025-12-09 14:56:20] ./deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_14-56-20.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2025-12-09 14:56:20] ./deploy.sh:44: trap on_exit EXIT
++ [2025-12-09 14:56:20] ./deploy.sh:51: trap on_err ERR
++ [2025-12-09 14:56:20] ./deploy.sh:54: : ap-northeast-1
++ [2025-12-09 14:56:20] ./deploy.sh:55: : 288761745376_developer
++ [2025-12-09 14:56:20] ./deploy.sh:56: : multipl-e-api-lambda
++ [2025-12-09 14:56:20] ./deploy.sh:57: : v1
++ [2025-12-09 14:56:20] ./deploy.sh:58: : eval-fastapi-v2
++ [2025-12-09 14:56:20] ./deploy.sh:59: : x86_64
++ [2025-12-09 14:56:20] ./deploy.sh:60: : docker
++ [2025-12-09 14:56:20] ./deploy.sh:62: : 10240
++ [2025-12-09 14:56:20] ./deploy.sh:63: : 900
++ [2025-12-09 14:56:20] ./deploy.sh:65: : lambda-eval-exec-role
++ [2025-12-09 14:56:20] ./deploy.sh:68: [[ 1 -gt 0 ]]
++ [2025-12-09 14:56:20] ./deploy.sh:69: LANGS=("$@")
+++ [2025-12-09 14:56:20] ./deploy.sh:81: date '+%Y-%m-%d %H:%M:%S'
++ [2025-12-09 14:56:20] ./deploy.sh:81: echo '[INFO] ===== Deployment started at 2025-12-09 14:56:20 ====='
+[INFO] ===== Deployment started at 2025-12-09 14:56:20 =====
++ [2025-12-09 14:56:20] ./deploy.sh:82: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_14-56-20.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_14-56-20.log
++ [2025-12-09 14:56:20] ./deploy.sh:83: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=288761745376_developer REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2025-12-09 14:56:20] ./deploy.sh:84: echo '[INFO] Detected languages: php'
+[INFO] Detected languages: php
++ [2025-12-09 14:56:20] ./deploy.sh:85: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2025-12-09 14:56:20] ./deploy.sh:86: aws --version
+aws-cli/2.28.9 Python/3.13.4 Linux/6.6.87.2-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2025-12-09 14:56:20] ./deploy.sh:87: docker --version
+Docker version 28.3.3, build 980b856
++ [2025-12-09 14:56:21] ./deploy.sh:88: git rev-parse --short HEAD
++ [2025-12-09 14:56:21] ./deploy.sh:88: xargs '-I{}' echo 'git-sha: {}'
+git-sha: 58f6d0b0
++ [2025-12-09 14:56:21] ./deploy.sh:91: export AWS_PAGER=
++ [2025-12-09 14:56:21] ./deploy.sh:91: AWS_PAGER=
++ [2025-12-09 14:56:21] ./deploy.sh:93: export AWS_PROFILE=288761745376_developer
++ [2025-12-09 14:56:21] ./deploy.sh:93: AWS_PROFILE=288761745376_developer
++ [2025-12-09 14:56:21] ./deploy.sh:94: ACCOUNT_ID_OUTPUT=
++ [2025-12-09 14:56:21] ./deploy.sh:95: ACCOUNT_ID=
+++ [2025-12-09 14:56:21] ./deploy.sh:99: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 14:56:22] ./deploy.sh:99: ACCOUNT_ID_OUTPUT=288761745376
++ [2025-12-09 14:56:22] ./deploy.sh:108: ACCOUNT_ID=288761745376
++ [2025-12-09 14:56:22] ./deploy.sh:109: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-09 14:56:22] ./deploy.sh:112: [[ -z '' ]]
++ [2025-12-09 14:56:22] ./deploy.sh:113: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2025-12-09 14:56:22] ./deploy.sh:117: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-09 14:56:22] ./deploy.sh:117: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2025-12-09 14:56:22] ./deploy.sh:119: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2025-12-09 14:56:22] ./deploy.sh:120: aws ecr get-login-password --region ap-northeast-1 --profile 288761745376_developer
++ [2025-12-09 14:56:22] ./deploy.sh:120: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
+Login Succeeded
++ [2025-12-09 14:56:24] ./deploy.sh:123: BASE_TAG=base-v1
++ [2025-12-09 14:56:24] ./deploy.sh:124: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-12-09 14:56:24] ./deploy.sh:125: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2025-12-09 14:56:24] ./deploy.sh:126: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.81kB done
+#5 DONE 0.0s
+
+#6 [6/7] WORKDIR /var/task
+#6 CACHED
+
+#7 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#7 CACHED
+
+#8 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#8 CACHED
+
+#9 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 writing image sha256:add7f4b43e02b39dc1e28a7bd4649b29ce4246ed20847a548143e2cf82880879 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.0s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer eda933218ad9
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5
+#13 pushing layer ee9412008f1c
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer ee9412008f1c 0.9s done
+#13 pushing layer eda933218ad9 0.9s done
+#13 pushing layer 86e9b58cec28 0.9s done
+#13 pushing layer a9895ee477e5 0.9s done
+#13 pushing layer 6e6ff92b1cc8 0.9s done
+#13 pushing layer 8810007f7e31 0.9s done
+#13 pushing layer 90a2bf02e851 0.9s done
+#13 DONE 1.3s
++ [2025-12-09 14:56:26] ./deploy.sh:134: declare -A URLS
++ [2025-12-09 14:56:26] ./deploy.sh:136: for lang in "${LANGS[@]}"
++ [2025-12-09 14:56:26] ./deploy.sh:137: DOCKERFILE_PATH=lang/php/Dockerfile
++ [2025-12-09 14:56:26] ./deploy.sh:138: [[ -f lang/php/Dockerfile ]]
++ [2025-12-09 14:56:26] ./deploy.sh:140: IMAGE_TAG=php-v1
++ [2025-12-09 14:56:26] ./deploy.sh:141: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1
++ [2025-12-09 14:56:26] ./deploy.sh:142: FUNC_NAME=eval-fastapi-v2-php
++ [2025-12-09 14:56:26] ./deploy.sh:144: echo '\n=== Building php image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building php image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2025-12-09 14:56:26] ./deploy.sh:145: docker buildx build --platform linux/amd64 -f lang/php/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:php-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.38kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 CACHED
+
+#5 [2/3] RUN apt-get update -yqq  && apt-get install -yqq --no-install-recommends       lsb-release       ca-certificates       apt-transport-https       wget       gnupg  && echo "deb https://packages.sury.org/php $(lsb_release -sc) main"       > /etc/apt/sources.list.d/php.list  && wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -  && apt-get update -yqq  && apt-get purge -yqq 'php*' || true  && apt-get install -yqq --no-install-recommends php7.4-cli  && ln -sf /usr/bin/php7.4 /usr/bin/php  && rm -rf /var/lib/apt/lists/*
+#5 22.49 debconf: delaying package configuration, since apt-utils is not installed
+#5 22.55 Selecting previously unselected package distro-info-data.
+#5 22.55 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14542 files and directories currently installed.)
+#5 22.62 Preparing to unpack .../distro-info-data_0.52ubuntu0.11_all.deb ...
+#5 22.62 Unpacking distro-info-data (0.52ubuntu0.11) ...
+#5 22.66 Selecting previously unselected package lsb-release.
+#5 22.66 Preparing to unpack .../lsb-release_11.1.0ubuntu4_all.deb ...
+#5 22.66 Unpacking lsb-release (11.1.0ubuntu4) ...
+#5 22.69 Selecting previously unselected package apt-transport-https.
+#5 22.69 Preparing to unpack .../apt-transport-https_2.4.14_all.deb ...
+#5 22.69 Unpacking apt-transport-https (2.4.14) ...
+#5 22.72 Setting up apt-transport-https (2.4.14) ...
+#5 22.74 Setting up distro-info-data (0.52ubuntu0.11) ...
+#5 22.75 Setting up lsb-release (11.1.0ubuntu4) ...
+#5 22.88 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+#5 23.04 OK
+#5 24.86 E: Failed to fetch https://packages.sury.org/php/dists/jammy/InRelease  418  I'm a teapot [IP: 151.101.67.52 443]
+#5 24.86 E: The repository 'https://packages.sury.org/php jammy InRelease' is not signed.
+#5 25.85 E: Unable to locate package php7.4-cli
+#5 25.85 E: Couldn't find any package by glob 'php7.4-cli'
+#5 25.85 E: Couldn't find any package by regex 'php7.4-cli'
+#5 ERROR: process "/bin/sh -c apt-get update -yqq  && apt-get install -yqq --no-install-recommends       lsb-release       ca-certificates       apt-transport-https       wget       gnupg  && echo \"deb https://packages.sury.org/php $(lsb_release -sc) main\"       > /etc/apt/sources.list.d/php.list  && wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -  && apt-get update -yqq  && apt-get purge -yqq 'php*' || true  && apt-get install -yqq --no-install-recommends php7.4-cli  && ln -sf /usr/bin/php7.4 /usr/bin/php  && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+------
+ > [2/3] RUN apt-get update -yqq  && apt-get install -yqq --no-install-recommends       lsb-release       ca-certificates       apt-transport-https       wget       gnupg  && echo "deb https://packages.sury.org/php $(lsb_release -sc) main"       > /etc/apt/sources.list.d/php.list  && wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -  && apt-get update -yqq  && apt-get purge -yqq 'php*' || true  && apt-get install -yqq --no-install-recommends php7.4-cli  && ln -sf /usr/bin/php7.4 /usr/bin/php  && rm -rf /var/lib/apt/lists/*:
+22.72 Setting up apt-transport-https (2.4.14) ...
+22.74 Setting up distro-info-data (0.52ubuntu0.11) ...
+22.75 Setting up lsb-release (11.1.0ubuntu4) ...
+22.88 Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+23.04 OK
+24.86 E: Failed to fetch https://packages.sury.org/php/dists/jammy/InRelease  418  I'm a teapot [IP: 151.101.67.52 443]
+24.86 E: The repository 'https://packages.sury.org/php jammy InRelease' is not signed.
+25.85 E: Unable to locate package php7.4-cli
+25.85 E: Couldn't find any package by glob 'php7.4-cli'
+25.85 E: Couldn't find any package by regex 'php7.4-cli'
+------
+Dockerfile:12
+--------------------
+  11 |     
+  12 | >>> RUN apt-get update -yqq \
+  13 | >>>  && apt-get install -yqq --no-install-recommends \
+  14 | >>>       lsb-release \
+  15 | >>>       ca-certificates \
+  16 | >>>       apt-transport-https \
+  17 | >>>       wget \
+  18 | >>>       gnupg \
+  19 | >>>  # Add the sury PHP repository for older PHP versions
+  20 | >>>  && echo "deb https://packages.sury.org/php $(lsb_release -sc) main" \
+  21 | >>>       > /etc/apt/sources.list.d/php.list \
+  22 | >>>  && wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add - \
+  23 | >>>  && apt-get update -yqq \
+  24 | >>>  # Remove any existing PHP packages (including PHP 8)
+  25 | >>>  && apt-get purge -yqq 'php*' || true \
+  26 | >>>  # Install PHP 7.4 CLI specifically
+  27 | >>>  && apt-get install -yqq --no-install-recommends php7.4-cli \
+  28 | >>>  # Force /usr/bin/php to point to php7.4 explicitly
+  29 | >>>  && ln -sf /usr/bin/php7.4 /usr/bin/php \
+  30 | >>>  && rm -rf /var/lib/apt/lists/*
+  31 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c apt-get update -yqq  && apt-get install -yqq --no-install-recommends       lsb-release       ca-certificates       apt-transport-https       wget       gnupg  && echo \"deb https://packages.sury.org/php $(lsb_release -sc) main\"       > /etc/apt/sources.list.d/php.list  && wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -  && apt-get update -yqq  && apt-get purge -yqq 'php*' || true  && apt-get install -yqq --no-install-recommends php7.4-cli  && ln -sf /usr/bin/php7.4 /usr/bin/php  && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+++ [2025-12-09 14:56:53] ./deploy.sh:145: on_err
+++ [2025-12-09 14:56:53] ./deploy.sh:47: local code=1
+++ [2025-12-09 14:56:53] ./deploy.sh:49: echo '[ERROR] Command failed (exit=1): $DOCKER_EXEC buildx build --platform linux/amd64 -f "$DOCKERFILE_PATH" --build-arg BASE_IMAGE="$BASE_IMAGE_URI" -t "$IMAGE_URI" --push .'
+[ERROR] Command failed (exit=1): $DOCKER_EXEC buildx build --platform linux/amd64 -f "$DOCKERFILE_PATH" --build-arg BASE_IMAGE="$BASE_IMAGE_URI" -t "$IMAGE_URI" --push .
++ [2025-12-09 14:56:53] ./deploy.sh:1: on_exit
++ [2025-12-09 14:56:53] ./deploy.sh:40: local code=1
+++ [2025-12-09 14:56:53] ./deploy.sh:41: date '+%Y-%m-%d %H:%M:%S'
++ [2025-12-09 14:56:53] ./deploy.sh:41: echo '[INFO] Exiting with status: 1 at 2025-12-09 14:56:53'
+[INFO] Exiting with status: 1 at 2025-12-09 14:56:53
++ [2025-12-09 14:56:53] ./deploy.sh:42: echo '[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_14-56-20.log'
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2025-12-09_14-56-20.log
