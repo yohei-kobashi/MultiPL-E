@@ -12,14 +12,18 @@ RUN curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-ini
 
 ENV PATH="${ELAN_HOME}/bin:${PATH}"
 
-# Ensure the installed toolchain is runnable by the Lambda user
+# Ensure the installed toolchain is runnable by the Lambda user. Link the real
+# toolchain binaries instead of elan shims, because elan writes update-check
+# state under ELAN_HOME and Lambda's image filesystem is read-only at runtime.
 RUN chmod -R a+rx ${ELAN_HOME} \
- && ln -sf ${ELAN_HOME}/bin/lean /usr/local/bin/lean \
- && ln -sf ${ELAN_HOME}/bin/lake /usr/local/bin/lake
+ && ${ELAN_HOME}/bin/lean --version \
+ && ${ELAN_HOME}/bin/lake --version \
+ && ln -sf "$(${ELAN_HOME}/bin/elan which lean)" /usr/local/bin/lean \
+ && ln -sf "$(${ELAN_HOME}/bin/elan which lake)" /usr/local/bin/lake
 
 # Sanity check
-RUN lean --version \
- && lake --version \
+RUN /usr/local/bin/lean --version \
+ && /usr/local/bin/lake --version \
  && elan --version
 
 # Base image already sets the Lambda entrypoint and copies /var/task.

@@ -40,12 +40,26 @@ def load_lang_urls(path: Path) -> Dict[str, str]:
     return obj.get("urls", {})
 
 
-def program_for(lang: str) -> str:
-    # Normalize python aliases to reuse the same program definitions.
+def canonical_program_lang(lang: str) -> str:
     if lang == "python3":
-        lang = "python"
-    elif lang == "python2":
-        lang = "python2_legacy"
+        return "python"
+    if lang == "python2":
+        return "python2_legacy"
+    return {
+        "adb": "ada",
+        "d": "dlang",
+        "jl": "julia",
+        "js": "javascript",
+        "kt": "kotlin",
+        "ml": "ocaml",
+        "rb": "ruby",
+        "rkt": "racket",
+        "rs": "rust",
+    }.get(lang, lang)
+
+
+def program_for(lang: str) -> str:
+    lang = canonical_program_lang(lang)
     # Entire programs that should compile/run and print or pass trivially.
     # For most languages we just print "OK".
     m: Dict[str, str] = {
@@ -102,12 +116,6 @@ def program_for(lang: str) -> str:
         "go_test.go": 'package main\nimport "testing"\nfunc TestOK(t *testing.T) {}\n',
     }
 
-    # Fallbacks for near-synonyms
-    if lang == "js":
-        return m["javascript"]
-    if lang == "kt":
-        return m["kotlin"]
-
     code = m.get(lang)
     if code is None:
         # As a conservative default, try a generic print program in common syntaxes.
@@ -117,10 +125,7 @@ def program_for(lang: str) -> str:
 
 
 def tests_for(lang: str) -> str | None:
-    if lang == "python3":
-        lang = "python"
-    elif lang == "python2":
-        lang = "python2_legacy"
+    lang = canonical_program_lang(lang)
     # Additional code appended as `tests` to validate concatenation behavior.
     # Only defined for languages where simply appending another print is valid.
     m: Dict[str, str] = {
@@ -213,6 +218,45 @@ def test_one(
         }
 
 
+def warmup_one(
+    lang: str,
+    base_url: str,
+    timeout: float = 90.0,
+    eval_timeout: float = 90.0,
+) -> dict:
+    """Invoke the evaluator once before recording smoke-test results."""
+    url = urljoin(base_url if base_url.endswith("/") else base_url + "/", "evaluate")
+    payload = make_payload(lang)
+    payload["name"] = f"warmup_{lang}"
+    payload["eval_timeout"] = eval_timeout
+    try:
+        resp = requests.post(url, json=payload, timeout=timeout)
+        result_status = None
+        try:
+            data = resp.json()
+            if isinstance(data, dict):
+                result_status = (data.get("results") or [{}])[0].get("status")
+        except Exception:
+            pass
+        return {
+            "language": lang,
+            "url": base_url,
+            "http_status": resp.status_code,
+            "ok": resp.status_code == 200,
+            "result_status": result_status,
+            "stderr": None,
+        }
+    except requests.RequestException as e:
+        return {
+            "language": lang,
+            "url": base_url,
+            "http_status": None,
+            "ok": False,
+            "result_status": None,
+            "stderr": str(e),
+        }
+
+
 def test_one_io(
     lang: str,
     base_url: str,
@@ -279,10 +323,7 @@ def test_one_io(
 
 
 def triad_for(lang: str) -> Optional[Tuple[str, str, str]]:
-    if lang == "python3":
-        lang = "python"
-    elif lang == "python2":
-        lang = "python2_legacy"
+    lang = canonical_program_lang(lang)
     # Returns (prompt, completion_fragment, tests) for structured languages.
     m: Dict[str, Tuple[str, str, str]] = {
         "python": (
@@ -449,17 +490,11 @@ def triad_for(lang: str) -> Optional[Tuple[str, str, str]]:
             "}\n\nfunc TestAdd(t *testing.T) {\n    if add(2, 3) != 5 {\n        t.Fatal(\"fail\")\n    }\n}\n",
         ),
     }
-    triad = m.get(lang)
-    if triad is None and lang == "kt":
-        triad = m.get("kotlin")
-    return triad
+    return m.get(lang)
 
 
 def io_case_for(lang: str) -> Optional[Tuple[str, str, List[str], List[str]]]:
-    if lang == "python3":
-        lang = "python"
-    elif lang == "python2":
-        lang = "python2_legacy"
+    lang = canonical_program_lang(lang)
     # Returns (source_code, input_data, expected_ok, expected_bad) for IO evaluators.
     m: Dict[str, Tuple[str, str, List[str], List[str]]] = {
         "c": (
@@ -627,10 +662,7 @@ def io_case_for(lang: str) -> Optional[Tuple[str, str, List[str], List[str]]]:
             ["perl-echo__mismatch__"],
         ),
     }
-    case = m.get(lang)
-    if case is None and lang == "kt":
-        case = m.get("kotlin")
-    return case
+    return m.get(lang)
 
 
 def run_python3_suite(base_url: str) -> list[dict]:
@@ -677,6 +709,9 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description="Smoke-test deployed Lambda evaluators")
     ap.add_argument("languages", nargs="*", help="Subset of languages to test (default: all in lang2url.json)")
     ap.add_argument("--urls", default="lang2url.json", help="Path to JSON file mapping languages to URLs")
+    ap.add_argument("--no-warmup", action="store_true", help="Skip the initial warmup evaluate request per target")
+    ap.add_argument("--warmup-timeout", type=float, default=90.0, help="Client timeout for each warmup request")
+    ap.add_argument("--warmup-eval-timeout", type=float, default=90.0, help="Server-side eval_timeout sent with warmup requests")
     args = ap.parse_args(argv)
 
     lang2url = load_lang_urls(Path(args.urls))
@@ -713,6 +748,20 @@ def main(argv: list[str]) -> int:
                 "stderr": "No URL in mapping",
             })
             continue
+        if not args.no_warmup:
+            warmup = warmup_one(
+                lang,
+                url,
+                timeout=args.warmup_timeout,
+                eval_timeout=args.warmup_eval_timeout,
+            )
+            if not warmup.get("ok"):
+                print(
+                    f"[warmup] {lang}: http={warmup.get('http_status')} "
+                    f"result={warmup.get('result_status')} "
+                    f"error={str(warmup.get('stderr') or '')[:300]}",
+                    file=sys.stderr,
+                )
         if lang == "python3":
             results.extend(run_python3_suite(url))
             continue

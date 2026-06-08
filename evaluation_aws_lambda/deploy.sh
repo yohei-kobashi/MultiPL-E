@@ -52,7 +52,7 @@ trap on_err ERR
 
 # --------------------------- Config (override as needed) ---------------------------
 : "${AWS_REGION:=ap-northeast-1}"
-: "${PROFILE:=288761745376_developer}"
+: "${PROFILE:=${AWS_PROFILE:-multipl-e-api-lambda-2026}}"
 : "${REPO:=multipl-e-api-lambda}"            # Single ECR repo; images are tagged per-language
 : "${TAG:=v1}"                               # Version tag suffix used for all languages
 : "${FUNCTION_PREFIX:=eval-fastapi-v2}"      # Lambda function name prefix; function is ${FUNCTION_PREFIX}-${lang}
@@ -139,8 +139,8 @@ if ! ACCOUNT_ID_OUTPUT=$(aws sts get-caller-identity \
   --query Account --output text \
   --region "$AWS_REGION" --profile "$PROFILE" 2>&1); then
   if echo "$ACCOUNT_ID_OUTPUT" | grep -qi 'sso'; then
-    echo "[ERROR] AWS SSO token appears expired or missing for profile '$PROFILE'." >&2
-    echo "        Please run: aws sso login --profile '$PROFILE'" >&2
+    echo "[ERROR] AWS login token appears expired or missing for profile '$PROFILE'." >&2
+    echo "        Please run: aws login --profile '$PROFILE'" >&2
   else
     echo "[ERROR] Failed to get AWS account ID: $ACCOUNT_ID_OUTPUT" >&2
   fi

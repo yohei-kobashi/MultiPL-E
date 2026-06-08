@@ -1,0 +1,80 @@
++ [2026-06-08 15:10:02] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_15-10-02.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2026-06-08 15:10:02] deploy.sh:44: trap on_exit EXIT
++ [2026-06-08 15:10:02] deploy.sh:51: trap on_err ERR
++ [2026-06-08 15:10:02] deploy.sh:54: : ap-northeast-1
++ [2026-06-08 15:10:02] deploy.sh:55: : multipl-e-api-lambda-2026
++ [2026-06-08 15:10:02] deploy.sh:56: : multipl-e-api-lambda
++ [2026-06-08 15:10:03] deploy.sh:57: : v1
++ [2026-06-08 15:10:03] deploy.sh:58: : eval-fastapi-v2
++ [2026-06-08 15:10:03] deploy.sh:59: : x86_64
++ [2026-06-08 15:10:03] deploy.sh:60: : docker
++ [2026-06-08 15:10:03] deploy.sh:62: : 10240
++ [2026-06-08 15:10:03] deploy.sh:63: : 900
++ [2026-06-08 15:10:03] deploy.sh:65: : lambda-eval-exec-role
++ [2026-06-08 15:10:03] deploy.sh:95: [[ 1 -gt 0 ]]
++ [2026-06-08 15:10:03] deploy.sh:96: LANGS=("$@")
++ [2026-06-08 15:10:03] deploy.sh:108: expand_python_langs
++ [2026-06-08 15:10:03] deploy.sh:77: expanded=()
++ [2026-06-08 15:10:03] deploy.sh:77: local expanded
++ [2026-06-08 15:10:03] deploy.sh:78: seen=()
++ [2026-06-08 15:10:03] deploy.sh:78: declare -A seen
++ [2026-06-08 15:10:03] deploy.sh:79: for l in "${LANGS[@]}"
++ [2026-06-08 15:10:03] deploy.sh:80: variants=('clj')
++ [2026-06-08 15:10:03] deploy.sh:80: local variants
++ [2026-06-08 15:10:03] deploy.sh:81: [[ clj == \p\y\t\h\o\n ]]
++ [2026-06-08 15:10:03] deploy.sh:84: for v in "${variants[@]}"
++ [2026-06-08 15:10:03] deploy.sh:85: [[ -z '' ]]
++ [2026-06-08 15:10:03] deploy.sh:86: expanded+=("$v")
++ [2026-06-08 15:10:03] deploy.sh:87: seen[$v]=1
++ [2026-06-08 15:10:03] deploy.sh:91: LANGS=("${expanded[@]}")
++ [2026-06-08 15:10:03] deploy.sh:111: TMP_LANGS=()
++ [2026-06-08 15:10:03] deploy.sh:112: for l in "${LANGS[@]}"
+++ [2026-06-08 15:10:03] deploy.sh:113: lang_dockerfile_path clj
+++ [2026-06-08 15:10:03] deploy.sh:69: case "$1" in
+++ [2026-06-08 15:10:03] deploy.sh:71: echo lang/clj/Dockerfile
++ [2026-06-08 15:10:03] deploy.sh:113: DOCKERFILE_PATH=lang/clj/Dockerfile
++ [2026-06-08 15:10:03] deploy.sh:114: [[ -f lang/clj/Dockerfile ]]
++ [2026-06-08 15:10:03] deploy.sh:115: TMP_LANGS+=("$l")
++ [2026-06-08 15:10:03] deploy.sh:120: LANGS=("${TMP_LANGS[@]}")
+++ [2026-06-08 15:10:03] deploy.sh:122: date '+%Y-%m-%d %H:%M:%S'
++ [2026-06-08 15:10:03] deploy.sh:122: echo '[INFO] ===== Deployment started at 2026-06-08 15:10:03 ====='
+[INFO] ===== Deployment started at 2026-06-08 15:10:03 =====
++ [2026-06-08 15:10:03] deploy.sh:123: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_15-10-02.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_15-10-02.log
++ [2026-06-08 15:10:03] deploy.sh:124: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=multipl-e-api-lambda-2026 REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=multipl-e-api-lambda-2026 REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2026-06-08 15:10:03] deploy.sh:125: echo '[INFO] Detected languages: clj'
+[INFO] Detected languages: clj
++ [2026-06-08 15:10:03] deploy.sh:126: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2026-06-08 15:10:03] deploy.sh:127: aws --version
+aws-cli/2.34.63 Python/3.14.5 Linux/6.6.114.1-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2026-06-08 15:10:03] deploy.sh:128: docker --version
+Docker version 28.3.3, build 980b856
++ [2026-06-08 15:10:03] deploy.sh:129: xargs '-I{}' echo 'git-sha: {}'
++ [2026-06-08 15:10:03] deploy.sh:129: git rev-parse --short HEAD
+git-sha: 0af5c142
++ [2026-06-08 15:10:03] deploy.sh:132: export AWS_PAGER=
++ [2026-06-08 15:10:03] deploy.sh:132: AWS_PAGER=
++ [2026-06-08 15:10:03] deploy.sh:134: export AWS_PROFILE=multipl-e-api-lambda-2026
++ [2026-06-08 15:10:03] deploy.sh:134: AWS_PROFILE=multipl-e-api-lambda-2026
++ [2026-06-08 15:10:03] deploy.sh:135: ACCOUNT_ID_OUTPUT=
++ [2026-06-08 15:10:03] deploy.sh:136: ACCOUNT_ID=
+++ [2026-06-08 15:10:03] deploy.sh:140: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 15:10:04] deploy.sh:140: ACCOUNT_ID_OUTPUT='
+aws: [ERROR]: Your session has expired. Please reauthenticate using '\''aws login'\''.'
++ [2026-06-08 15:10:04] deploy.sh:141: grep -qi sso
++ [2026-06-08 15:10:04] deploy.sh:141: echo '
+aws: [ERROR]: Your session has expired. Please reauthenticate using '\''aws login'\''.'
++ [2026-06-08 15:10:04] deploy.sh:145: echo '[ERROR] Failed to get AWS account ID: 
+aws: [ERROR]: Your session has expired. Please reauthenticate using '\''aws login'\''.'
+[ERROR] Failed to get AWS account ID: 
+aws: [ERROR]: Your session has expired. Please reauthenticate using 'aws login'.
++ [2026-06-08 15:10:04] deploy.sh:147: exit 1
++ [2026-06-08 15:10:04] deploy.sh:1: on_exit
++ [2026-06-08 15:10:04] deploy.sh:40: local code=1
+++ [2026-06-08 15:10:04] deploy.sh:41: date '+%Y-%m-%d %H:%M:%S'
++ [2026-06-08 15:10:04] deploy.sh:41: echo '[INFO] Exiting with status: 1 at 2026-06-08 15:10:04'
+[INFO] Exiting with status: 1 at 2026-06-08 15:10:04
++ [2026-06-08 15:10:04] deploy.sh:42: echo '[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_15-10-02.log'
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_15-10-02.log

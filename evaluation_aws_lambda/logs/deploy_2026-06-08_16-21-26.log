@@ -1,0 +1,289 @@
++ [2026-06-08 16:21:26] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-21-26.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2026-06-08 16:21:26] deploy.sh:44: trap on_exit EXIT
++ [2026-06-08 16:21:26] deploy.sh:51: trap on_err ERR
++ [2026-06-08 16:21:26] deploy.sh:54: : ap-northeast-1
++ [2026-06-08 16:21:26] deploy.sh:55: : multipl-e-api-lambda-2026
++ [2026-06-08 16:21:26] deploy.sh:56: : multipl-e-api-lambda
++ [2026-06-08 16:21:26] deploy.sh:57: : v1
++ [2026-06-08 16:21:26] deploy.sh:58: : eval-fastapi-v2
++ [2026-06-08 16:21:26] deploy.sh:59: : x86_64
++ [2026-06-08 16:21:26] deploy.sh:60: : docker
++ [2026-06-08 16:21:26] deploy.sh:62: : 10240
++ [2026-06-08 16:21:26] deploy.sh:63: : 900
++ [2026-06-08 16:21:26] deploy.sh:65: : lambda-eval-exec-role
++ [2026-06-08 16:21:26] deploy.sh:95: [[ 1 -gt 0 ]]
++ [2026-06-08 16:21:26] deploy.sh:96: LANGS=("$@")
++ [2026-06-08 16:21:26] deploy.sh:108: expand_python_langs
++ [2026-06-08 16:21:26] deploy.sh:77: expanded=()
++ [2026-06-08 16:21:26] deploy.sh:77: local expanded
++ [2026-06-08 16:21:26] deploy.sh:78: seen=()
++ [2026-06-08 16:21:26] deploy.sh:78: declare -A seen
++ [2026-06-08 16:21:26] deploy.sh:79: for l in "${LANGS[@]}"
++ [2026-06-08 16:21:26] deploy.sh:80: variants=('lean')
++ [2026-06-08 16:21:26] deploy.sh:80: local variants
++ [2026-06-08 16:21:26] deploy.sh:81: [[ lean == \p\y\t\h\o\n ]]
++ [2026-06-08 16:21:26] deploy.sh:84: for v in "${variants[@]}"
++ [2026-06-08 16:21:26] deploy.sh:85: [[ -z '' ]]
++ [2026-06-08 16:21:26] deploy.sh:86: expanded+=("$v")
++ [2026-06-08 16:21:26] deploy.sh:87: seen[$v]=1
++ [2026-06-08 16:21:26] deploy.sh:91: LANGS=("${expanded[@]}")
++ [2026-06-08 16:21:26] deploy.sh:111: TMP_LANGS=()
++ [2026-06-08 16:21:26] deploy.sh:112: for l in "${LANGS[@]}"
+++ [2026-06-08 16:21:26] deploy.sh:113: lang_dockerfile_path lean
+++ [2026-06-08 16:21:26] deploy.sh:69: case "$1" in
+++ [2026-06-08 16:21:26] deploy.sh:71: echo lang/lean/Dockerfile
++ [2026-06-08 16:21:26] deploy.sh:113: DOCKERFILE_PATH=lang/lean/Dockerfile
++ [2026-06-08 16:21:26] deploy.sh:114: [[ -f lang/lean/Dockerfile ]]
++ [2026-06-08 16:21:26] deploy.sh:115: TMP_LANGS+=("$l")
++ [2026-06-08 16:21:26] deploy.sh:120: LANGS=("${TMP_LANGS[@]}")
+++ [2026-06-08 16:21:26] deploy.sh:122: date '+%Y-%m-%d %H:%M:%S'
++ [2026-06-08 16:21:26] deploy.sh:122: echo '[INFO] ===== Deployment started at 2026-06-08 16:21:26 ====='
+[INFO] ===== Deployment started at 2026-06-08 16:21:26 =====
++ [2026-06-08 16:21:26] deploy.sh:123: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-21-26.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-21-26.log
++ [2026-06-08 16:21:26] deploy.sh:124: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=multipl-e-api-lambda-2026 REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=multipl-e-api-lambda-2026 REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2026-06-08 16:21:26] deploy.sh:125: echo '[INFO] Detected languages: lean'
+[INFO] Detected languages: lean
++ [2026-06-08 16:21:26] deploy.sh:126: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2026-06-08 16:21:26] deploy.sh:127: aws --version
+aws-cli/2.34.63 Python/3.14.5 Linux/6.6.114.1-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2026-06-08 16:21:28] deploy.sh:128: docker --version
+Docker version 28.3.3, build 980b856
++ [2026-06-08 16:21:28] deploy.sh:129: git rev-parse --short HEAD
++ [2026-06-08 16:21:28] deploy.sh:129: xargs '-I{}' echo 'git-sha: {}'
+git-sha: 0af5c142
++ [2026-06-08 16:21:28] deploy.sh:132: export AWS_PAGER=
++ [2026-06-08 16:21:28] deploy.sh:132: AWS_PAGER=
++ [2026-06-08 16:21:28] deploy.sh:134: export AWS_PROFILE=multipl-e-api-lambda-2026
++ [2026-06-08 16:21:28] deploy.sh:134: AWS_PROFILE=multipl-e-api-lambda-2026
++ [2026-06-08 16:21:28] deploy.sh:135: ACCOUNT_ID_OUTPUT=
++ [2026-06-08 16:21:28] deploy.sh:136: ACCOUNT_ID=
+++ [2026-06-08 16:21:28] deploy.sh:140: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:21:29] deploy.sh:140: ACCOUNT_ID_OUTPUT=288761745376
++ [2026-06-08 16:21:29] deploy.sh:149: ACCOUNT_ID=288761745376
++ [2026-06-08 16:21:29] deploy.sh:150: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2026-06-08 16:21:29] deploy.sh:153: [[ -z '' ]]
++ [2026-06-08 16:21:29] deploy.sh:154: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2026-06-08 16:21:29] deploy.sh:158: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2026-06-08 16:21:29] deploy.sh:158: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2026-06-08 16:21:29] deploy.sh:160: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2026-06-08 16:21:29] deploy.sh:161: aws ecr get-login-password --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:21:29] deploy.sh:161: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
+Login Succeeded
++ [2026-06-08 16:21:31] deploy.sh:164: BASE_TAG=base-v1
++ [2026-06-08 16:21:31] deploy.sh:165: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2026-06-08 16:21:31] deploy.sh:166: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2026-06-08 16:21:31] deploy.sh:167: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.93kB done
+#5 DONE 0.0s
+
+#6 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#7 CACHED
+
+#8 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#8 CACHED
+
+#9 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#9 CACHED
+
+#10 [6/7] WORKDIR /var/task
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 writing image sha256:86f305732d48b17f7d16fb4987f5e5ee99f6aa58d21dfaba56eb270762666a74 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.0s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer a8a3ec9219f8
+#13 pushing layer 86e9b58cec28 0.1s
+#13 pushing layer a9895ee477e5 0.1s
+#13 pushing layer ee9412008f1c
+#13 pushing layer 6e6ff92b1cc8 0.1s
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer 8810007f7e31 0.3s done
+#13 pushing layer a8a3ec9219f8 0.3s done
+#13 pushing layer 86e9b58cec28 0.3s done
+#13 pushing layer a9895ee477e5 0.3s done
+#13 pushing layer ee9412008f1c 0.3s done
+#13 pushing layer 6e6ff92b1cc8 0.3s done
+#13 pushing layer 90a2bf02e851 0.3s done
+#13 DONE 0.6s
++ [2026-06-08 16:21:33] deploy.sh:175: declare -A URLS
++ [2026-06-08 16:21:33] deploy.sh:177: for lang in "${LANGS[@]}"
+++ [2026-06-08 16:21:33] deploy.sh:178: lang_dockerfile_path lean
+++ [2026-06-08 16:21:33] deploy.sh:69: case "$1" in
+++ [2026-06-08 16:21:33] deploy.sh:71: echo lang/lean/Dockerfile
++ [2026-06-08 16:21:33] deploy.sh:178: DOCKERFILE_PATH=lang/lean/Dockerfile
++ [2026-06-08 16:21:33] deploy.sh:179: [[ -f lang/lean/Dockerfile ]]
++ [2026-06-08 16:21:33] deploy.sh:181: IMAGE_TAG=lean-v1
++ [2026-06-08 16:21:33] deploy.sh:182: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1
++ [2026-06-08 16:21:33] deploy.sh:183: FUNC_NAME=eval-fastapi-v2-lean
++ [2026-06-08 16:21:33] deploy.sh:185: echo '\n=== Building lean image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building lean image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2026-06-08 16:21:33] deploy.sh:186: docker buildx build --platform linux/amd64 -f lang/lean/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.17kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 DONE 0.0s
+
+#5 [2/4] RUN curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh  && env HOME=/opt bash /tmp/elan-init.sh -y --default-toolchain stable  && rm -f /tmp/elan-init.sh
+#5 CACHED
+
+#6 [3/4] RUN chmod -R a+rx /opt/elan  && /opt/elan/bin/lean --version  && /opt/elan/bin/lake --version  && ln -sf "$(/opt/elan/bin/elan which lean)" /usr/local/bin/lean  && ln -sf "$(/opt/elan/bin/elan which lake)" /usr/local/bin/lake
+#6 0.550 warning: could not canonicalize path: '/opt/elan/toolchains'
+#6 0.552 warning: could not canonicalize path: '/opt/elan/toolchains'
+#6 0.559 warning: could not canonicalize path: '/opt/elan/toolchains'
+#6 12.28 info: downloading https://releases.lean-lang.org/lean4/v4.30.0/lean-4.30.0-linux.tar.zst
+#6 44.38 info: installing /opt/elan/toolchains/leanprover--lean4---v4.30.0
+#6 56.09 Lean (version 4.30.0, x86_64-unknown-linux-gnu, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)
+#6 56.81 Lake version 5.0.0-src+d024af0 (Lean version 4.30.0)
+#6 DONE 59.8s
+
+#7 [4/4] RUN /usr/local/bin/lean --version  && /usr/local/bin/lake --version  && elan --version
+#7 0.499 Lean (version 4.30.0, x86_64-unknown-linux-gnu, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)
+#7 2.356 Lake version 5.0.0-src+d024af0 (Lean version 4.30.0)
+#7 2.366 elan 4.2.2 (35628cce1 2026-05-28)
+#7 DONE 2.4s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 13.1s done
+#8 writing image sha256:11f944a33b9a9a32a87b5bb461b1d54f46a37247f2b2ea16348c94ad8a8d6c03 done
+#8 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 done
+#8 DONE 13.1s
+
+#9 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 with docker
+#9 pushing layer 5f70bf18a086
+#9 pushing layer f6acf0460190
+#9 pushing layer 84f95dc5261a
+#9 pushing layer a8a3ec9219f8 0.1s
+#9 pushing layer 86e9b58cec28 0.1s
+#9 pushing layer a9895ee477e5 0.1s
+#9 pushing layer ee9412008f1c
+#9 pushing layer 6e6ff92b1cc8
+#9 pushing layer 8810007f7e31
+#9 pushing layer 90a2bf02e851
+#9 pushing layer 84f95dc5261a 3.57MB / 13.20MB 0.4s
+#9 pushing layer 84f95dc5261a 4.89MB / 13.20MB 0.5s
+#9 pushing layer 84f95dc5261a 6.85MB / 13.20MB 0.6s
+#9 pushing layer 84f95dc5261a 8.65MB / 13.20MB 0.7s
+#9 pushing layer 84f95dc5261a 10.62MB / 13.20MB 0.8s
+#9 pushing layer 84f95dc5261a 11.93MB / 13.20MB 0.9s
+#9 pushing layer 84f95dc5261a 13.21MB / 13.20MB 0.9s
+#9 pushing layer 84f95dc5261a 1.4s done
+#9 pushing layer f6acf0460190 90.71MB / 2.84GB 5.0s
+#9 pushing layer f6acf0460190 185.54MB / 2.84GB 10.1s
+#9 pushing layer f6acf0460190 255.33MB / 2.84GB 15.2s
+#9 pushing layer f6acf0460190 324.65MB / 2.84GB 20.3s
+#9 pushing layer f6acf0460190 439.92MB / 2.84GB 25.4s
+#9 pushing layer f6acf0460190 575.42MB / 2.84GB 30.4s
+#9 pushing layer f6acf0460190 692.19MB / 2.84GB 35.4s
+#9 pushing layer f6acf0460190 791.93MB / 2.84GB 40.5s
+#9 pushing layer f6acf0460190 887.87MB / 2.84GB 45.5s
+#9 pushing layer f6acf0460190 980.57MB / 2.84GB 50.6s
+#9 pushing layer f6acf0460190 1.04GB / 2.84GB 55.6s
+#9 pushing layer f6acf0460190 1.10GB / 2.84GB 60.7s
+#9 pushing layer f6acf0460190 1.16GB / 2.84GB 65.7s
+#9 pushing layer f6acf0460190 1.23GB / 2.84GB 70.8s
+#9 pushing layer f6acf0460190 1.28GB / 2.84GB 75.8s
+#9 pushing layer f6acf0460190 1.34GB / 2.84GB 80.8s
+#9 pushing layer f6acf0460190 1.43GB / 2.84GB 85.8s
+#9 pushing layer f6acf0460190 1.51GB / 2.84GB 90.9s
+#9 pushing layer f6acf0460190 1.58GB / 2.84GB 96.0s
+#9 pushing layer f6acf0460190 1.65GB / 2.84GB 101.0s
+#9 pushing layer f6acf0460190 1.73GB / 2.84GB 106.0s
+#9 pushing layer f6acf0460190 1.82GB / 2.84GB 111.1s
+#9 pushing layer f6acf0460190 1.89GB / 2.84GB 116.2s
+#9 pushing layer f6acf0460190 1.98GB / 2.84GB 121.2s
+#9 pushing layer f6acf0460190 2.07GB / 2.84GB 126.3s
+#9 pushing layer f6acf0460190 2.15GB / 2.84GB 131.5s
+#9 pushing layer f6acf0460190 2.30GB / 2.84GB 136.4s
+#9 pushing layer f6acf0460190 2.42GB / 2.84GB 141.4s
+#9 pushing layer f6acf0460190 2.54GB / 2.84GB 146.5s
+#9 pushing layer f6acf0460190 2.63GB / 2.84GB 151.6s
+#9 pushing layer f6acf0460190 2.72GB / 2.84GB 156.6s
+#9 pushing layer f6acf0460190 2.85GB / 2.84GB 161.7s
+#9 pushing layer f6acf0460190 162.3s done
+#9 pushing layer 8810007f7e31 163.1s done
+#9 pushing layer 5f70bf18a086 163.1s done
+#9 pushing layer a8a3ec9219f8 163.1s done
+#9 pushing layer 86e9b58cec28 163.1s done
+#9 pushing layer a9895ee477e5 163.1s done
+#9 pushing layer ee9412008f1c 163.1s done
+#9 pushing layer 6e6ff92b1cc8 163.1s done
+#9 pushing layer 90a2bf02e851 163.1s done
+#9 DONE 163.5s
++ [2026-06-08 16:25:41] deploy.sh:194: echo 'Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1'
+Resolving image digest for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1
+++ [2026-06-08 16:25:41] deploy.sh:199: aws ecr describe-images --repository-name multipl-e-api-lambda --image-ids imageTag=lean-v1 --region ap-northeast-1 --profile multipl-e-api-lambda-2026 --query 'imageDetails[0].imageDigest' --output text
++ [2026-06-08 16:25:42] deploy.sh:199: DIGEST=sha256:99be536e1f994032dbb38f491db302c5d4cffeaaf7a7beeb124cfaab2c882d5f
++ [2026-06-08 16:25:42] deploy.sh:201: IMAGE_URI_WITH_DIGEST=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:99be536e1f994032dbb38f491db302c5d4cffeaaf7a7beeb124cfaab2c882d5f
++ [2026-06-08 16:25:42] deploy.sh:202: aws lambda get-function --function-name eval-fastapi-v2-lean --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:25:43] deploy.sh:217: echo 'Updating Lambda function eval-fastapi-v2-lean to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:99be536e1f994032dbb38f491db302c5d4cffeaaf7a7beeb124cfaab2c882d5f'
+Updating Lambda function eval-fastapi-v2-lean to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:99be536e1f994032dbb38f491db302c5d4cffeaaf7a7beeb124cfaab2c882d5f
++ [2026-06-08 16:25:43] deploy.sh:218: aws lambda update-function-code --function-name eval-fastapi-v2-lean --image-uri 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda@sha256:99be536e1f994032dbb38f491db302c5d4cffeaaf7a7beeb124cfaab2c882d5f --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:25:45] deploy.sh:223: echo 'Waiting for function update to complete: eval-fastapi-v2-lean'
+Waiting for function update to complete: eval-fastapi-v2-lean
++ [2026-06-08 16:25:45] deploy.sh:224: aws lambda wait function-updated --function-name eval-fastapi-v2-lean --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:26:40] deploy.sh:228: echo 'Setting timeout to 900s for eval-fastapi-v2-lean'
+Setting timeout to 900s for eval-fastapi-v2-lean
++ [2026-06-08 16:26:40] deploy.sh:229: aws lambda update-function-configuration --function-name eval-fastapi-v2-lean --timeout 900 --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:26:42] deploy.sh:234: echo 'Waiting for configuration update to complete: eval-fastapi-v2-lean'
+Waiting for configuration update to complete: eval-fastapi-v2-lean
++ [2026-06-08 16:26:42] deploy.sh:235: aws lambda wait function-updated --function-name eval-fastapi-v2-lean --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:26:48] deploy.sh:238: echo 'Ensuring Function URL for: eval-fastapi-v2-lean'
+Ensuring Function URL for: eval-fastapi-v2-lean
++ [2026-06-08 16:26:48] deploy.sh:239: FUNC_URL=
+++ [2026-06-08 16:26:48] deploy.sh:240: aws lambda get-function-url-config --function-name eval-fastapi-v2-lean --region ap-northeast-1 --profile multipl-e-api-lambda-2026 --query FunctionUrl --output text
++ [2026-06-08 16:26:49] deploy.sh:240: FUNC_URL=https://b7l4pgdzlvp4ifdve645wpgwyq0pipop.lambda-url.ap-northeast-1.on.aws/
++ [2026-06-08 16:26:49] deploy.sh:241: :
++ [2026-06-08 16:26:49] deploy.sh:259: URLS["$lang"]=https://b7l4pgdzlvp4ifdve645wpgwyq0pipop.lambda-url.ap-northeast-1.on.aws/
++ [2026-06-08 16:26:49] deploy.sh:260: echo 'Function URL (lean): https://b7l4pgdzlvp4ifdve645wpgwyq0pipop.lambda-url.ap-northeast-1.on.aws/'
+Function URL (lean): https://b7l4pgdzlvp4ifdve645wpgwyq0pipop.lambda-url.ap-northeast-1.on.aws/
++ [2026-06-08 16:26:49] deploy.sh:264: set +x
+\n================ Deployment Summary ================
+lean       https://b7l4pgdzlvp4ifdve645wpgwyq0pipop.lambda-url.ap-northeast-1.on.aws/
+==================================================\n
+[INFO] Exiting with status: 0 at 2026-06-08 16:26:49
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-21-26.log

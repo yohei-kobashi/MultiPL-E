@@ -1,7 +1,8 @@
-aws configure sso
 export AWS_REGION=ap-northeast-1
-export AWS_PROFILE=288761745376_developer
-export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+export PROFILE=multipl-e-api-lambda-2026
+aws login --profile "$PROFILE"
+export AWS_PROFILE="$PROFILE"
+export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text --region "$AWS_REGION" --profile "$PROFILE")
 export REPO=multipl-e-api-lambda
 export TAG=v1
 export IMAGE="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO:$TAG"
@@ -10,7 +11,6 @@ export ROLE_NAME=lambda-eval-exec-role
 export FUNCTION_NAME=eval-fastapi-v2
 export ARCHITECTURE=x86_64
 export FUNC_URL=$(aws lambda get-function-url-config --function-name "$FUNCTION_NAME" --region "$AWS_REGION" --profile "$PROFILE" --query FunctionUrl --output text)
-export PROFILE=288761745376_developer
 aws ecr get-login-password --region "$AWS_REGION" --profile "$PROFILE"   | docker login --username AWS --password-stdin "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
 # docker buildx build --platform linux/amd64 -t "$IMAGE" --progress=plain --push .
 # DIGEST=$(aws ecr describe-images \

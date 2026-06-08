@@ -1,0 +1,204 @@
++ [2026-06-08 16:18:21] deploy.sh:37: ln -sfn /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-18-21.log /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/latest.log
++ [2026-06-08 16:18:21] deploy.sh:44: trap on_exit EXIT
++ [2026-06-08 16:18:21] deploy.sh:51: trap on_err ERR
++ [2026-06-08 16:18:21] deploy.sh:54: : ap-northeast-1
++ [2026-06-08 16:18:21] deploy.sh:55: : multipl-e-api-lambda-2026
++ [2026-06-08 16:18:21] deploy.sh:56: : multipl-e-api-lambda
++ [2026-06-08 16:18:21] deploy.sh:57: : v1
++ [2026-06-08 16:18:21] deploy.sh:58: : eval-fastapi-v2
++ [2026-06-08 16:18:21] deploy.sh:59: : x86_64
++ [2026-06-08 16:18:21] deploy.sh:60: : docker
++ [2026-06-08 16:18:21] deploy.sh:62: : 10240
++ [2026-06-08 16:18:21] deploy.sh:63: : 900
++ [2026-06-08 16:18:21] deploy.sh:65: : lambda-eval-exec-role
++ [2026-06-08 16:18:21] deploy.sh:95: [[ 1 -gt 0 ]]
++ [2026-06-08 16:18:21] deploy.sh:96: LANGS=("$@")
++ [2026-06-08 16:18:21] deploy.sh:108: expand_python_langs
++ [2026-06-08 16:18:21] deploy.sh:77: expanded=()
++ [2026-06-08 16:18:21] deploy.sh:77: local expanded
++ [2026-06-08 16:18:21] deploy.sh:78: seen=()
++ [2026-06-08 16:18:21] deploy.sh:78: declare -A seen
++ [2026-06-08 16:18:21] deploy.sh:79: for l in "${LANGS[@]}"
++ [2026-06-08 16:18:21] deploy.sh:80: variants=('lean')
++ [2026-06-08 16:18:21] deploy.sh:80: local variants
++ [2026-06-08 16:18:21] deploy.sh:81: [[ lean == \p\y\t\h\o\n ]]
++ [2026-06-08 16:18:21] deploy.sh:84: for v in "${variants[@]}"
++ [2026-06-08 16:18:21] deploy.sh:85: [[ -z '' ]]
++ [2026-06-08 16:18:21] deploy.sh:86: expanded+=("$v")
++ [2026-06-08 16:18:21] deploy.sh:87: seen[$v]=1
++ [2026-06-08 16:18:21] deploy.sh:91: LANGS=("${expanded[@]}")
++ [2026-06-08 16:18:21] deploy.sh:111: TMP_LANGS=()
++ [2026-06-08 16:18:21] deploy.sh:112: for l in "${LANGS[@]}"
+++ [2026-06-08 16:18:21] deploy.sh:113: lang_dockerfile_path lean
+++ [2026-06-08 16:18:21] deploy.sh:69: case "$1" in
+++ [2026-06-08 16:18:21] deploy.sh:71: echo lang/lean/Dockerfile
++ [2026-06-08 16:18:21] deploy.sh:113: DOCKERFILE_PATH=lang/lean/Dockerfile
++ [2026-06-08 16:18:21] deploy.sh:114: [[ -f lang/lean/Dockerfile ]]
++ [2026-06-08 16:18:21] deploy.sh:115: TMP_LANGS+=("$l")
++ [2026-06-08 16:18:21] deploy.sh:120: LANGS=("${TMP_LANGS[@]}")
+++ [2026-06-08 16:18:21] deploy.sh:122: date '+%Y-%m-%d %H:%M:%S'
++ [2026-06-08 16:18:21] deploy.sh:122: echo '[INFO] ===== Deployment started at 2026-06-08 16:18:21 ====='
+[INFO] ===== Deployment started at 2026-06-08 16:18:21 =====
++ [2026-06-08 16:18:21] deploy.sh:123: echo '[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-18-21.log'
+[INFO] Log file: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-18-21.log
++ [2026-06-08 16:18:21] deploy.sh:124: echo '[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=multipl-e-api-lambda-2026 REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker'
+[INFO] Config: AWS_REGION=ap-northeast-1 PROFILE=multipl-e-api-lambda-2026 REPO=multipl-e-api-lambda TAG=v1 FUNCTION_PREFIX=eval-fastapi-v2 ARCHITECTURE=x86_64 DOCKER_EXEC=docker
++ [2026-06-08 16:18:21] deploy.sh:125: echo '[INFO] Detected languages: lean'
+[INFO] Detected languages: lean
++ [2026-06-08 16:18:21] deploy.sh:126: echo '[INFO] Versions:'
+[INFO] Versions:
++ [2026-06-08 16:18:21] deploy.sh:127: aws --version
+aws-cli/2.34.63 Python/3.14.5 Linux/6.6.114.1-microsoft-standard-WSL2 exe/x86_64.ubuntu.22
++ [2026-06-08 16:18:22] deploy.sh:128: docker --version
+Docker version 28.3.3, build 980b856
++ [2026-06-08 16:18:22] deploy.sh:129: xargs '-I{}' echo 'git-sha: {}'
++ [2026-06-08 16:18:22] deploy.sh:129: git rev-parse --short HEAD
+git-sha: 0af5c142
++ [2026-06-08 16:18:22] deploy.sh:132: export AWS_PAGER=
++ [2026-06-08 16:18:22] deploy.sh:132: AWS_PAGER=
++ [2026-06-08 16:18:22] deploy.sh:134: export AWS_PROFILE=multipl-e-api-lambda-2026
++ [2026-06-08 16:18:22] deploy.sh:134: AWS_PROFILE=multipl-e-api-lambda-2026
++ [2026-06-08 16:18:22] deploy.sh:135: ACCOUNT_ID_OUTPUT=
++ [2026-06-08 16:18:22] deploy.sh:136: ACCOUNT_ID=
+++ [2026-06-08 16:18:22] deploy.sh:140: aws sts get-caller-identity --query Account --output text --region ap-northeast-1 --profile multipl-e-api-lambda-2026
++ [2026-06-08 16:18:23] deploy.sh:140: ACCOUNT_ID_OUTPUT=288761745376
++ [2026-06-08 16:18:23] deploy.sh:149: ACCOUNT_ID=288761745376
++ [2026-06-08 16:18:23] deploy.sh:150: ECR_BASE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2026-06-08 16:18:23] deploy.sh:153: [[ -z '' ]]
++ [2026-06-08 16:18:23] deploy.sh:154: ROLE_ARN=arn:aws:iam::288761745376:role/lambda-eval-exec-role
++ [2026-06-08 16:18:23] deploy.sh:158: export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2026-06-08 16:18:23] deploy.sh:158: DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/libexec/docker/cli-plugins
++ [2026-06-08 16:18:23] deploy.sh:160: echo 'Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda'
+Logging in to ECR: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda
++ [2026-06-08 16:18:23] deploy.sh:161: docker login --username AWS --password-stdin 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com
++ [2026-06-08 16:18:23] deploy.sh:161: aws ecr get-login-password --region ap-northeast-1 --profile multipl-e-api-lambda-2026
+Login Succeeded
++ [2026-06-08 16:18:24] deploy.sh:164: BASE_TAG=base-v1
++ [2026-06-08 16:18:24] deploy.sh:165: BASE_IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2026-06-08 16:18:24] deploy.sh:166: echo 'Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1'
+Building and pushing base image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
++ [2026-06-08 16:18:24] deploy.sh:167: docker buildx build --platform linux/amd64 -f Dockerfile -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.32kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/ubuntu:22.04
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.93kB 0.0s done
+#5 DONE 0.0s
+
+#6 [3/7] RUN localedef -i en_US -f UTF-8 en_US.UTF-8 || true
+#6 CACHED
+
+#7 [6/7] WORKDIR /var/task
+#7 CACHED
+
+#8 [2/7] RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends     build-essential     curl wget ca-certificates gnupg git unzip xz-utils jq pkg-config     bubblewrap     libgmp10 libodbc1 libssl3 zlib1g libsctp1     python3 python3-pip python3-venv python3-tqdm     locales  && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [4/7] RUN python3 -m pip install --no-cache-dir       numpy       fastapi       "uvicorn[standard]"       awslambdaric       mangum
+#9 CACHED
+
+#10 [5/7] RUN mkdir -p /tmp && chmod 1777 /tmp
+#10 CACHED
+
+#11 [7/7] COPY src/ /var/task/
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 writing image sha256:86f305732d48b17f7d16fb4987f5e5ee99f6aa58d21dfaba56eb270762666a74 done
+#12 naming to 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 done
+#12 DONE 0.0s
+
+#13 pushing 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 with docker
+#13 pushing layer a8a3ec9219f8
+#13 pushing layer 86e9b58cec28
+#13 pushing layer a9895ee477e5 0.1s
+#13 pushing layer ee9412008f1c
+#13 pushing layer 6e6ff92b1cc8
+#13 pushing layer 8810007f7e31
+#13 pushing layer 90a2bf02e851
+#13 pushing layer 86e9b58cec28 0.3s done
+#13 pushing layer a8a3ec9219f8 0.3s done
+#13 pushing layer a9895ee477e5 0.3s done
+#13 pushing layer ee9412008f1c 0.3s done
+#13 pushing layer 6e6ff92b1cc8 0.3s done
+#13 pushing layer 8810007f7e31 0.3s done
+#13 pushing layer 90a2bf02e851 0.3s done
+#13 DONE 0.6s
++ [2026-06-08 16:18:27] deploy.sh:175: declare -A URLS
++ [2026-06-08 16:18:27] deploy.sh:177: for lang in "${LANGS[@]}"
+++ [2026-06-08 16:18:27] deploy.sh:178: lang_dockerfile_path lean
+++ [2026-06-08 16:18:27] deploy.sh:69: case "$1" in
+++ [2026-06-08 16:18:27] deploy.sh:71: echo lang/lean/Dockerfile
++ [2026-06-08 16:18:27] deploy.sh:178: DOCKERFILE_PATH=lang/lean/Dockerfile
++ [2026-06-08 16:18:27] deploy.sh:179: [[ -f lang/lean/Dockerfile ]]
++ [2026-06-08 16:18:27] deploy.sh:181: IMAGE_TAG=lean-v1
++ [2026-06-08 16:18:27] deploy.sh:182: IMAGE_URI=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1
++ [2026-06-08 16:18:27] deploy.sh:183: FUNC_NAME=eval-fastapi-v2-lean
++ [2026-06-08 16:18:27] deploy.sh:185: echo '\n=== Building lean image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ==='
+\n=== Building lean image: 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 (FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1) ===
++ [2026-06-08 16:18:27] deploy.sh:186: docker buildx build --platform linux/amd64 -f lang/lean/Dockerfile --build-arg BASE_IMAGE=288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1 -t 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:lean-v1 --push .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.16kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM 288761745376.dkr.ecr.ap-northeast-1.amazonaws.com/multipl-e-api-lambda:base-v1
+#4 CACHED
+
+#5 [2/4] RUN curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh  && env HOME=/opt bash /tmp/elan-init.sh -y --default-toolchain stable  && rm -f /tmp/elan-init.sh
+#5 0.709 info: downloading installer
+#5 22.35 warning: $HOME differs from euid-obtained home directory: you may be using sudo
+#5 22.57 info: default toolchain set to 'stable'
+#5 DONE 22.7s
+
+#6 [3/4] RUN chmod -R a+rx /opt/elan  && ln -sf "$(find /opt/elan/toolchains -path '*/bin/lean' -type f | head -n 1)" /usr/local/bin/lean  && ln -sf "$(find /opt/elan/toolchains -path '*/bin/lake' -type f | head -n 1)" /usr/local/bin/lake
+#6 0.668 find: ‘/opt/elan/toolchains’: No such file or directory
+#6 0.670 ln: failed to create symbolic link '/usr/local/bin/lean' -> '': No such file or directory
+#6 ERROR: process "/bin/sh -c chmod -R a+rx ${ELAN_HOME}  && ln -sf \"$(find ${ELAN_HOME}/toolchains -path '*/bin/lean' -type f | head -n 1)\" /usr/local/bin/lean  && ln -sf \"$(find ${ELAN_HOME}/toolchains -path '*/bin/lake' -type f | head -n 1)\" /usr/local/bin/lake" did not complete successfully: exit code: 1
+------
+ > [3/4] RUN chmod -R a+rx /opt/elan  && ln -sf "$(find /opt/elan/toolchains -path '*/bin/lean' -type f | head -n 1)" /usr/local/bin/lean  && ln -sf "$(find /opt/elan/toolchains -path '*/bin/lake' -type f | head -n 1)" /usr/local/bin/lake:
+0.668 find: ‘/opt/elan/toolchains’: No such file or directory
+0.670 ln: failed to create symbolic link '/usr/local/bin/lean' -> '': No such file or directory
+------
+Dockerfile:18
+--------------------
+  17 |     # state under ELAN_HOME and Lambda's image filesystem is read-only at runtime.
+  18 | >>> RUN chmod -R a+rx ${ELAN_HOME} \
+  19 | >>>  && ln -sf "$(find ${ELAN_HOME}/toolchains -path '*/bin/lean' -type f | head -n 1)" /usr/local/bin/lean \
+  20 | >>>  && ln -sf "$(find ${ELAN_HOME}/toolchains -path '*/bin/lake' -type f | head -n 1)" /usr/local/bin/lake
+  21 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c chmod -R a+rx ${ELAN_HOME}  && ln -sf \"$(find ${ELAN_HOME}/toolchains -path '*/bin/lean' -type f | head -n 1)\" /usr/local/bin/lean  && ln -sf \"$(find ${ELAN_HOME}/toolchains -path '*/bin/lake' -type f | head -n 1)\" /usr/local/bin/lake" did not complete successfully: exit code: 1
+++ [2026-06-08 16:18:51] deploy.sh:186: on_err
+++ [2026-06-08 16:18:51] deploy.sh:47: local code=1
+++ [2026-06-08 16:18:51] deploy.sh:49: echo '[ERROR] Command failed (exit=1): $DOCKER_EXEC buildx build --platform linux/amd64 -f "$DOCKERFILE_PATH" --build-arg BASE_IMAGE="$BASE_IMAGE_URI" -t "$IMAGE_URI" --push .'
+[ERROR] Command failed (exit=1): $DOCKER_EXEC buildx build --platform linux/amd64 -f "$DOCKERFILE_PATH" --build-arg BASE_IMAGE="$BASE_IMAGE_URI" -t "$IMAGE_URI" --push .
++ [2026-06-08 16:18:51] deploy.sh:1: on_exit
++ [2026-06-08 16:18:51] deploy.sh:40: local code=1
+++ [2026-06-08 16:18:51] deploy.sh:41: date '+%Y-%m-%d %H:%M:%S'
++ [2026-06-08 16:18:51] deploy.sh:41: echo '[INFO] Exiting with status: 1 at 2026-06-08 16:18:51'
+[INFO] Exiting with status: 1 at 2026-06-08 16:18:51
++ [2026-06-08 16:18:51] deploy.sh:42: echo '[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-18-21.log'
+[INFO] Full log: /home/kobashi/MultiPL-E/evaluation_aws_lambda/logs/deploy_2026-06-08_16-18-21.log
